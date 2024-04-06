@@ -1,0 +1,70 @@
+#// 1. What goal will your website be designed to achieve?
+            The goal of my website is to provide a welcoming interface for users to explore and 
+        track rocket ship launches. Space enthusiasts will be able find upcoming launches, 
+        past missions, relevant details, and compile all of their favorite data into an 
+        easily accessible list.
+
+#// 2. What kind of users will visit your site? In other words, what is the demographic of
+#// your users?
+            The main demographic of this site will be space enthusiasts--or, more specifically, 
+        space enthusiasts who want to have every launch and all relevant data, at their 
+        finger tips.
+            However, the sky is *not* the limit, when it comes to space exploration; this website's 
+        demographic is no different. Any internet user looking for information about rocket
+        launches will be thrilled to use this site. 
+
+#// 3. What data do you plan on using? You may have not picked your actual API yet,
+#// which is fine, just outline what kind of data you would like it to contain.
+            I will be using The SpaceDev's Launch Library 2.0 API. The Launch Library contains an
+        astronomical amount of data, reaching far beyond just rocket launches, but the
+        immediate target is to focus on the launch-specific data.
+
+
+#// 4. In brief, outline your approach to creating your project (knowing that you may not
+#// know everything in advance and that these details might change later). Answer
+#// questions like the ones below, but feel free to add more information:
+
+    #// a. What does your database schema look like?
+            The database will, initially, be two tables: "users" and "launches". The 
+        relationships will be one (user) to many (launches), with the "users" table storing 
+        the foreign key of the launches they have favorited.
+
+    #// b. What kinds of issues might you run into with your API?
+            I will be using the API's free developer key with unlimited rate limits, but it 
+        provides "stale and limited data", which leaves the potential for the production
+        usage of the site to far eclipse the scope of the development process. Which could
+        cause many unforseen problems to arise after app development is finished.
+            There is also the potential for the API be intolerably slow with its response 
+        times. It was taking as long as 10 seconds to provide a response during my initial 
+        testing using Insomnia. A delay in response like that could lead this site to a 
+        failure to launch.
+
+
+    #// c. Is there any sensitive information you need to secure?
+            While this site will not be needing information as sensitive as the 
+        launch codes, there is the possibility that, in a theoretical production setting,
+        this API will need key authentication to access much higher rate limits.
+
+
+    #// d. What functionality will your app include?
+            The functionality of this app will include: creating an account, searching 
+        launches and related information, creating lists of launches to have compiled for 
+        later. This lists could be things like "Favorite Launches" or "Upcoming Starlink 
+        Launches."
+
+
+    #// e. What will the user flow look like?
+            The user flow will start on the homepage with information and graphics from
+        the Launch Library API, as well as, options to "login" or "create account". Once 
+        a user logs in, or makes an account, they will be redirected to their profile.
+        There they will be able to use a search bar to find info about launches and then
+        add those launches to their profile in lists.
+
+
+    #// f. What features make your site more than CRUD? Do you have any stretch
+    #// goals?
+            The CRUD elements of my site are: Creating a user, Reading the API 
+            request/result data, Updating user information, and Deleting a user. The
+            feature allowing users to make lists of favorite launches goes beyond CRUD.
+            Additionally, I would like to have graphics or other media displayed 
+            correlating to each launch, when possible. 
