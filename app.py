@@ -3,12 +3,12 @@ import os
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
 
-from models import connect_db
+from models import db, connect_db
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///warbler')
+    os.environ.get('DATABASE_URL', 'postgresql:///launch_tracker')
 )
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True

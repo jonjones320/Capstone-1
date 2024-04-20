@@ -141,7 +141,37 @@ class Collection(db.Model):
 
 
 
+class Favorite(db.Model):
+    """Favorite collections"""
+
+    __tablename__ = 'favorites'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+    
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='CASCADE'),
+        nullable=False,
+    )
+
+    launch_id = db.Column(
+        db.Integer,
+        db.ForeignKey('launches.id', ondelete='CASCADE'),
+        nullable=False,
+    )
+
+
+
 def connect_db(app):
-    """Connect this database to provided Flask app."""
+    """Connect this database to provided Flask app.
+        Sets the context for the app.    
+    """
+
     db.app = app
     db.init_app(app)
+    app_ctx = app.app_context()
+    app_ctx.push()
+    db.create_all()
