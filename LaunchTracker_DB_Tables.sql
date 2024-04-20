@@ -16,13 +16,13 @@ CREATE TABLE "Launch" (
      )
 );
 
-CREATE TABLE "List" (
-    "ListID" int   NOT NULL,
+CREATE TABLE "Collection" (
+    "CollectionID" int   NOT NULL,
     "LaunchID" int   NOT NULL,
     "CreatedBy" string   NOT NULL,
     "CreatedDate" dateTime  DEFAULT getutcdate() NOT NULL,
-    CONSTRAINT "pk_List" PRIMARY KEY (
-        "ListID"
+    CONSTRAINT "pk_Collection" PRIMARY KEY (
+        "CollectionID"
      )
 );
 
@@ -40,20 +40,20 @@ CREATE TABLE "User" (
 
 CREATE TABLE "Favorite" (
     "UserID" int   NOT NULL,
-    "ListID" int   NOT NULL
+    "CollectionID" int   NOT NULL
 );
 
-ALTER TABLE "List" ADD CONSTRAINT "fk_List_LaunchID" FOREIGN KEY("LaunchID")
+ALTER TABLE "Collection" ADD CONSTRAINT "fk_Collection_LaunchID" FOREIGN KEY("LaunchID")
 REFERENCES "Launch" ("LaunchID");
 
-ALTER TABLE "List" ADD CONSTRAINT "fk_List_CreatedBy" FOREIGN KEY("CreatedBy")
+ALTER TABLE "Collection" ADD CONSTRAINT "fk_Collection_CreatedBy" FOREIGN KEY("CreatedBy")
 REFERENCES "User" ("UserID");
 
 ALTER TABLE "Favorite" ADD CONSTRAINT "fk_Favorite_UserID" FOREIGN KEY("UserID")
 REFERENCES "User" ("UserID");
 
-ALTER TABLE "Favorite" ADD CONSTRAINT "fk_Favorite_ListID" FOREIGN KEY("ListID")
-REFERENCES "List" ("ListID");
+ALTER TABLE "Favorite" ADD CONSTRAINT "fk_Favorite_CollectionID" FOREIGN KEY("CollectionID")
+REFERENCES "Collection" ("CollectionID");
 
 CREATE INDEX "idx_Launch_Name"
 ON "Launch" ("Name");
