@@ -104,6 +104,7 @@ class Launch(db.Model):
         return f"<Launch #{self.id}: {self.name}, on {self.date}, at {self.location}, {self.pad}>"
 
 
+
 class Collection(db.Model):
     """A collection of launches"""
 
