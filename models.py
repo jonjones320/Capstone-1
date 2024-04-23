@@ -3,13 +3,14 @@
 from datetime import datetime
 
 from flask_bcrypt import Bcrypt
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """User details"""
 
     __tablename__ = 'users'
@@ -18,57 +19,57 @@ class User(db.Model):
         db.Integer,
         primary_key=True,
     )
-
     username = db.Column(
         db.Text,
         nullable=False,
         unique=True,
     )
-
     email = db.Column(
         db.Text,
         nullable=False,
         unique=True,
     )
-
     bio = db.Column(
         db.Text,
         nullable=True
     )
-    
     image_url = db.Column(
         db.Text,
         default="/static/images/default-pic.png",
     )
-
     header_image_url = db.Column(
         db.Text,
         default="/static/images/warbler-hero.jpg"
     )
-
     location = db.Column(
         db.Text,
         nullable=True
     )
-
+    created_on = db.Column(
+        db.DateTime, 
+        nullable=False
+    )
     password = db.Column(
         db.Text,
         nullable=False,
     )
 
+    def __init__(self, email, username, password):
+        self.email = email
+        self.username = username
+        self.password = bcrypt.generate_password_hash(password) 
+        self.created_on = datetime.now()
+    def __repr__(self):
+        return f"<User #{self.id}: {self.username}, {self.email}>"
 
     collections = db.relationship(
         "User",
         secondary="collections"
     )
-
     favorites = db.relationship(
         "User",
         secondary="favorites"
     )
-
-    def __repr__(self):
-        return f"<User #{self.id}: {self.username}, {self.email}>"
 
 
 
