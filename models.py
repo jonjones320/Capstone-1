@@ -45,6 +45,21 @@ class User(UserMixin, db.Model):
         default="/static/images/default-header.jpg"
         )
 
+
+    @classmethod
+    def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
+        """Edits and updates user profile."""
+
+        user.username=username,
+        user.email=email,
+        user.image_url=image_url,
+        user.header_image_url=header_image_url,
+        user.bio=bio,
+        user.location=location
+
+        db.session.commit()
+
+
     user = db.relationship('User', backref='collections')
 
     def __init__(self, email, username, password, bio, location, img_url, header_img_url):

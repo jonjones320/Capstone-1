@@ -23,10 +23,14 @@ class RegisterUserForm(FlaskForm):
             'Image URL')
     header_image_url = StringField( 
             'Header Image URL')
+    bio = StringField(
+            "Bio")
+    location = StringField(
+            "Location")
     password = PasswordField(
-            'Password', validators=[DataRequired, Length(min=6)])
+            'Password', validators=[DataRequired(), Length(min=6)])
     confirmPassword = PasswordField(
-            'Confirm Password', validators=[DataRequired, EqualTo("password", message="Passwords do not match.")])
+            'Confirm Password', validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")])
 
     # VS Code provided validation. Checks the form entries vs. the validators:
     def validate(self, extra_validators: Mapping[str, Sequence[Any]] | None = None) -> bool:
@@ -37,16 +41,30 @@ class RegisterUserForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login user form"""
 
-    username = StringField('Username', validators=[DataRequired])
-    email = EmailField('Email', validators=[Email])
-    password = StringField('Password', validators=[DataRequired])
+    username = StringField('Username', validators=[DataRequired()])
+    email = EmailField('Email', validators=[Email()])
+    password = StringField('Password', validators=[DataRequired()])
 
 
 
 class LaunchListForm(FlaskForm):
     """Form for making a list of launches"""
 
-    name = StringField('Name', validators=[DataRequired])
+    name = StringField('Name', validators=[DataRequired()])
     launch = StringField('Launch')
 
+class ProfileForm(FlaskForm):
+    """Form for creating and editing a user profile"""
 
+    username = StringField(
+            'Username', validators=[DataRequired()])
+    image_url = StringField( 
+            'Image URL')
+    header_image_url = StringField( 
+            'Header Image URL')
+    bio = StringField(
+            "Bio")
+    location = StringField(
+            "Location")
+    password = PasswordField(
+            'Password', validators=[DataRequired()])
