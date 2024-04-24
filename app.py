@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import bcrypt, check_password_hash
 
-from models import db, connect_db, User, Launch, Collection, Favorite
+from models import db, connect_db, User, Launch, Collection, Launch_Collection
 from forms import LoginForm, RegisterUserForm
 
 app = Flask(__name__)
@@ -57,8 +57,9 @@ def register():
         user = User(
             username=form.username.data,
             email=form.email.data, 
-            image_url=form.image_url.data,
-            password=form.password.data
+            password=form.password.data,
+            img_url=form.img_url.data,
+            header_img_url=form.header_img_url.data
             )
         db.session.add(user)
         db.session.commit()
