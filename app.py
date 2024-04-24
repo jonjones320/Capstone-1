@@ -7,7 +7,7 @@ from flask_bcrypt import bcrypt, check_password_hash
 from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection
-from forms import LoginForm, RegisterUserForm, ProfileForm
+from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
 
 app = Flask(__name__)
 
@@ -172,6 +172,7 @@ def profile():
 
 
 @app.route('/users/delete', methods=["POST"])
+@login_required
 def delete_user():
     """Delete user."""
 
@@ -179,10 +180,70 @@ def delete_user():
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    logout_user(current_user)
+    logout_user()
 
     db.session.delete(current_user)
     db.session.commit()
 
     return redirect("/signup")
 
+#################################### Collection Paths ####################################
+
+@app.route('/collections/new', methods=["GET", "POST"])
+@login_required
+def collections_add():
+    """Create a new collection"""
+
+    if not current_user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    form = CollectionForm()
+
+    if form.validate_on_submit():
+        description = Collection(description=form.description.data)
+        current_user.append(description)
+        db.session.commit()
+
+        return redirect(f"/users/{current_user.id}")
+
+    return render_template('messages/new.html', form=form)
+
+
+@app.route('/collections/<int:collection_id>', methods=["GET", "POST"])
+def collection_show(collection_id):
+    """Show or edit a collection."""
+
+    collection = Collection.query.get(collection_id)
+    return render_template('collections/show.html', collection=collection)
+
+
+@app.route('/messages/<int:user_id>/liked')
+def favorite_collection_show(user_id):
+    """Show a users favorite collection."""
+
+    user_id = current_user.id
+    fave_collection = []
+    fave_collection_id = [favorite.collection_id for favorite in Collection.query.filter_by(user_id=user_id).all()]
+
+    for collection_id in fave_collection_id:
+        new_collection = Collection.query.get(collection_id)
+        fave_collection.append(new_collection)
+
+    return render_template('messages/liked.html', fave_collection=fave_collection)
+
+
+@app.route('/collections/<int:collections_id>/delete', methods=["POST"])
+@login_required
+def collections_destroy(collection_id):
+    """Delete a collection."""
+
+    if not current_user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    collection = Collection.query.get(collection_id)
+    db.session.delete(collection)
+    db.session.commit()
+
+    return redirect(f"/users/{current_user.id}")
