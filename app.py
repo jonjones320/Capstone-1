@@ -248,3 +248,31 @@ def collections_destroy(collection_id):
     db.session.commit()
 
     return redirect(f"/users/{current_user.id}")
+
+
+
+#################################### Homepage ##########################################
+
+@app.route('/')
+def homepage():
+    """Show homepage:
+        If a user is not logged in, they will not see user collections.
+        If a user is logged in, they get the 100 most recent collections
+    """
+
+    if current_user.is_authenticated:
+        user = User.query.get_or_404(current_user.id)
+        collections = []
+
+        for collection in user.collections:
+                collection = (Collection
+                            .query
+                            .filter_by(user.id)
+                            .order_by(Collection.createdDate.desc())
+                            .limit(100)
+                            .first())
+                collections.append(collection)
+
+        return render_template('home.html', collections=collections)
+    else:
+        return render_template('home-anon.html')
