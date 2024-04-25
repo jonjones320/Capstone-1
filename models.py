@@ -1,12 +1,12 @@
-"""SQLAlchemy models for Warbler."""
-
-from datetime import datetime
+"""SQLAlchemy models for the Launch Tracker."""
 
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 bcrypt = Bcrypt()
+
 db = SQLAlchemy()
 
 
@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
         db.Text, nullable=True)
 
     created_on = db.Column(
-        db.DateTime, nullable=False)
+        db.DateTime, nullable=True)
 
     img_url = db.Column(
         db.Text,
@@ -43,6 +43,9 @@ class User(UserMixin, db.Model):
     header_img_url = db.Column(
         db.Text,
         default="/static/images/spaceX_launch_streak_201603.avif")
+    
+    active = db.Column(
+        db.Boolean, nullable=False, default=True)
 
 
     @classmethod

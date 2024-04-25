@@ -32,8 +32,8 @@ class RegisterUserForm(ModelForm):
     #         "Bio")
     # location = StringField(
     #         "Location")
-    # password = PasswordField(
-    #         'Password', validators=[DataRequired(), Length(min=6)])
+        password = PasswordField(
+            'Password', validators=[DataRequired(), Length(min=6)])
     # confirmPassword = PasswordField(
     #         'Confirm Password', validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")])
 

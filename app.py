@@ -4,12 +4,14 @@ from flask import Flask, render_template, redirect, session, flash, url_for, req
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import bcrypt, check_password_hash
+from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
 
-from models import db, connect_db, User, Launch, Collection, Launch_Collection
+from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
 
 app = Flask(__name__)
+migrate = Migrate(app, db)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgresql:///launch_tracker'))
