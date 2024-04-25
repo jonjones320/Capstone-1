@@ -190,7 +190,7 @@ def delete_user():
 
     return redirect("/signup")
 
-#################################### Collection Paths ####################################
+#################################### Collection Routes ####################################
 
 @app.route('/collections/new', methods=["GET", "POST"])
 @login_required
