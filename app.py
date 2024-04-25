@@ -75,7 +75,7 @@ def register():
         flash("Account created succesfully. Welcome!")
 
         return redirect(url_for('home'))
-    else: return render_template('/user/register.html')
+    else: return render_template('/user/register.html', form=form)
     
 @app.route('/logout')
 @login_required
@@ -120,7 +120,7 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('user/show.html', user=user, collections=collections)
+    return render_template('user/collections.html', user=user, collections=collections)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
