@@ -53,7 +53,7 @@ def login():
         flash("Invalid credentials.", 'danger')
         return redirect(url_for('login'), form=form)
     
-    return render_template('login.html', form=form)
+    return render_template('/user/login.html', form=form)
 
 
 @app.route('/register', methods=["GET","POST"])
@@ -75,6 +75,7 @@ def register():
         flash("Account created succesfully. Welcome!")
 
         return redirect(url_for('home'))
+    else: return render_template('/user/register.html')
     
 @app.route('/logout')
 @login_required
@@ -102,7 +103,7 @@ def list_users():
     else:
         users = User.query.filter(User.username.like(f"%{search}%")).all()
 
-    return render_template('users/index.html', users=users)
+    return render_template('user/index.html', users=users)
 
 
 @app.route('/users/<int:user_id>')
@@ -119,7 +120,7 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('users/show.html', user=user, collections=collections)
+    return render_template('user/show.html', user=user, collections=collections)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
@@ -162,13 +163,13 @@ def profile():
                 return redirect(f'{user_id}')
             else:
                 flash("Incorrect password", "danger")
-                return render_template('users/edit.html', form=form)
+                return render_template('user/edit.html', form=form)
 
         except IntegrityError:
             flash("Username already taken", 'danger')
             return render_template('users/edit.html', form=form)
     else:
-        return render_template('users/edit.html', form=form)
+        return render_template('user/edit.html', form=form)
 
 
 @app.route('/users/delete', methods=["POST"])
@@ -207,7 +208,7 @@ def collections_add():
 
         return redirect(f"/users/{current_user.id}")
 
-    return render_template('messages/new.html', form=form)
+    return render_template('collection/new.html', form=form)
 
 
 @app.route('/collections/<int:collection_id>', methods=["GET", "POST"])

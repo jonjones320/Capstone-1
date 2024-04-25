@@ -38,12 +38,11 @@ class User(UserMixin, db.Model):
 
     img_url = db.Column(
         db.Text,
-        default="/static/images/default_img.jpg",
-        )
+        default="/static/images/default_img.avif")
+    
     header_img_url = db.Column(
         db.Text,
-        default="/static/images/spaceX_launch_streak_20160307.jpg"
-        )
+        default="/static/images/spaceX_launch_streak_201603.avif")
 
 
     @classmethod
