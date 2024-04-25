@@ -1,0 +1,26 @@
+{% extends 'users/profile.html' %}
+{% block user_details %}
+  <div class="col-sm-6">
+    <ul class="list-group" id="messages">
+
+      {% for collection in collections %}
+
+        <li class="list-group-item">
+          <a href="/collection/{{ collection.id }}" class="message-link">
+
+          <a href="/user/{{ user.id }}">
+            <img src="{{ user.img_url }}" alt="user image" class="timeline-image">
+          </a>
+
+          <div class="message-area">
+            <a href="/user/{{ user.id }}">@{{ user.username }}</a>
+            <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
+            <p>{{ collection.description }}</p>
+          </div>
+        </li>
+
+      {% endfor %}
+
+    </ul>
+  </div>
+{% endblock %}
