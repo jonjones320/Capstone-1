@@ -59,9 +59,6 @@ class User(UserMixin, db.Model):
 
         db.session.commit()
 
-
-    user = db.relationship('User', backref='collections')
-
     def __init__(self, email, username, password, bio, location, img_url, header_img_url):
         self.email = email
         self.username = username
@@ -144,6 +141,8 @@ class Collection(db.Model):
         db.ForeignKey('users.id', ondelete='CASCADE'),
         nullable=False,
     )
+
+    user = db.relationship('User', backref='collections')
 
     launches = db.relationship(
         "Launch",
