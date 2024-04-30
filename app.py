@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, session, flash, url_for, request
+from flask import Flask, render_template, redirect, session, flash, url_for, request, jsonify
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import bcrypt, check_password_hash
@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
+from helpers import previous_launches, all_launches
 
 app = Flask(__name__)
 migrate = Migrate(app, db)
@@ -16,7 +17,7 @@ migrate = Migrate(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgresql:///launch_tracker'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "It's a secret")
 login_manager = LoginManager()
@@ -32,10 +33,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    
-    if User.get(user_id):
-        return User.get(user_id)
-    else: return None
+    return User.get(user_id)
 
 
 #################################  Register/login/logout routes ############################################# 
@@ -45,9 +43,8 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.is_authenticated(form.username.data,
-                                     form.password.data)
-        if user:
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.is_authenticated:
             login_user(user)
             flash(f"Hello, {user.username}!", "success")
             return redirect("/")
@@ -67,6 +64,8 @@ def register():
             username=form.username.data,
             email=form.email.data, 
             password=form.password.data,
+            bio=form.bio.data,
+            location=form.location.data,
             img_url=form.img_url.data,
             header_img_url=form.header_img_url.data
             )
@@ -76,12 +75,14 @@ def register():
         login_user(user)
         flash("Account created succesfully. Welcome!")
 
-        return redirect(url_for('home'))
+        return redirect(url_for('/'))
     else: return render_template('/user/register.html', form=form)
     
 @app.route('/logout')
-@login_required
+# @login_required
 def logout():
+    # user = User.is_authenticated(current_user.username,
+    #                                  current_user.password)
     logout_user()
     flash("You have been logged out.", "success")
     return redirect(url_for("login"))
@@ -251,6 +252,21 @@ def collections_destroy(collection_id):
 
     return redirect(f"/users/{current_user.id}")
 
+#################################### Homepage ##########################################
+
+@app.route('/launches')
+def show_launches():
+    """Displays all launches"""
+    search = request.args.get('q')
+
+    launches = all_launches()
+
+    if search:
+        launches = all_launches().filter(launches['name'].like(f"%{search}%")).all()
+    else:
+        launches = launches
+    return render_template('launch/index.html', launches=launches)
+
 
 
 #################################### Homepage ##########################################
@@ -277,4 +293,4 @@ def homepage():
 
         return render_template('home.html', collections=collections)
     else:
-        return render_template('home-anon.html')
+        return render_template('home-anon.html', current_user=current_user)

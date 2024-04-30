@@ -34,7 +34,10 @@ class User(UserMixin, db.Model):
         db.Text, nullable=True)
 
     created_on = db.Column(
-        db.DateTime, nullable=True)
+        db.DateTime,
+        nullable=False,
+        default=datetime.now()
+    )
 
     img_url = db.Column(
         db.Text,
@@ -67,7 +70,6 @@ class User(UserMixin, db.Model):
         self.password = bcrypt.generate_password_hash(password)
         self.bio = bio 
         self.location = location 
-        self.created_on = datetime.now()
         self.img_url = img_url
         self.header_img_url = header_img_url
 

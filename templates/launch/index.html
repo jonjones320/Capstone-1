@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if launches|length == 0 %}
+    <h3>Sorry, no launches found</h3>
+  {% else %}
+    <div class="row justify-content-end">
+      <div class="col-sm-9">
+        <div class="row">
+
+          {% for launch in launches %}
+
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card user-card">
+                <div class="card-inner">
+                  <div class="image-wrapper">
+
+                  </div>
+                  <div class="card-contents">
+                    <a href="/launch/{{ launch.id }}" class="card-link">
+
+                      <p>{{ launch.name }}</p>
+                    </a>
+
+
+                  </div>
+                  <p class="card-description">{{ launch.description }}</p>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+{% endblock %}

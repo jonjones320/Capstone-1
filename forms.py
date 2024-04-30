@@ -16,30 +16,29 @@ class ModelForm(BaseModelForm):
 
 
 ########### Forms from Database Models #############
-class RegisterUserForm(ModelForm):
-    """Form for creating users."""
-    class Meta:
-        model = User
-    # username = StringField(
-    #         'Username', validators=[DataRequired()])
-    # email = EmailField(
-    #         'E-mail', validators=[DataRequired(), Email()])
-    # image_url = StringField( 
-    #         'Image URL')
-    # header_image_url = StringField( 
-    #         'Header Image URL')
-    # bio = StringField(
-    #         "Bio")
-    # location = StringField(
-    #         "Location")
+class RegisterUserForm(FlaskForm):
+        """Form for creating users."""
+
+        username = StringField(
+            'Username', validators=[DataRequired()])
+        email = EmailField(
+            'E-mail', validators=[DataRequired(), Email()])
+        img_url = StringField( 
+            'Image URL')
+        header_img_url = StringField( 
+            'Header Image URL')
+        bio = StringField(
+            "Bio")
+        location = StringField(
+            "Location")
         password = PasswordField(
             'Password', validators=[DataRequired(), Length(min=6)])
-    # confirmPassword = PasswordField(
-    #         'Confirm Password', validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")])
+        confirmPassword = PasswordField(
+            'Confirm Password', validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")])
 
     # VS Code provided validation. Checks the form entries vs. the validators:
-    def validate(self, extra_validators: Mapping[str, Sequence[Any]] | None = None) -> bool:
-        return super().validate(extra_validators)
+        def validate(self, extra_validators: Mapping[str, Sequence[Any]] | None = None) -> bool:
+                return super().validate(extra_validators)
 
 
 class CollectionForm(ModelForm):

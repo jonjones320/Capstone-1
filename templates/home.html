@@ -30,12 +30,12 @@
       <ul class="list-group" id="collections">
         {% for collection in collections %}
           <li class="list-group-item">
-            <a href="/collections/{{ collection.id }}" class="collection-link">
-            <a href="/users/{{ collection.user.id }}">
+            <a href="/collection/{{ collection.id }}" class="collection-link">
+            <a href="/collection/{{ collection.user.id }}">
               <img src="{{ collection.user.image_url }}" alt="" class="home-feed-image">
             </a>
             <div class="collection-area">
-              <a href="/users/{{ collection.user.id }}">@{{ collection.user.username }}</a>
+              <a href="/collection/{{ collection.user.id }}">@{{ collection.user.username }}</a>
               <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
               <p>{{ collection.description }}</p>
             </div>
