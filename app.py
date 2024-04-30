@@ -33,7 +33,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.get_id()
 
 
 #################################  Register/login/logout routes ############################################# 
@@ -113,7 +113,6 @@ def list_users():
 def view_user(user_id):
     """View a user's profile."""
 
-    user = User.query.get_or_404(user_id)
 
     # retrieving a user's collections, sorted by when it was made
     collections = (Collection
@@ -123,7 +122,7 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('user/collections.html', user=user, collections=collections)
+    return render_template('user/collections.html', user=current_user, collections=collections)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
@@ -134,7 +133,6 @@ def profile():
     form = ProfileForm()
     
     user_id = current_user.id
-    user = User.query.get_or_404(user_id)
 
 # validates the edit form
     if form.validate_on_submit():
@@ -147,19 +145,19 @@ def profile():
 # uses @classmethod 'edit_profile' to update profile
 # or uses previous user data
                 User.edit_profile(
-                    user,
+                    current_user,
                     username=form.username.data 
-                        or user.username,
+                        or current_user.username,
                     email=form.email.data 
-                        or user.email,
+                        or current_user.email,
                     image_url=form.image_url.data 
-                        or User.image_url.default.arg or user.image_url,
+                        or User.image_url.default.arg or current_user.image_url,
                     header_image_url=form.header_image_url.data 
-                        or User.header_image_url.default.arg or user.header_image_url,
+                        or User.header_image_url.default.arg or current_user.header_image_url,
                     bio=form.bio.data 
-                        or user.bio,
+                        or current_user.bio,
                     location=form.location.data 
-                        or user.location
+                        or current_user.location
                     )
 
                 flash("Profile updated!", "success")
@@ -279,13 +277,12 @@ def homepage():
     """
 
     if current_user.is_authenticated:
-        user = User.query.get_or_404(current_user.id)
         collections = []
 
-        for collection in user.collections:
+        for collection in current_user.collections:
                 collection = (Collection
                             .query
-                            .filter_by(user.id)
+                            .filter_by(current_user.id)
                             .order_by(Collection.createdDate.desc())
                             .limit(100)
                             .first())

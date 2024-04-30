@@ -52,6 +52,11 @@ class User(UserMixin, db.Model):
 
 
     @classmethod
+    def get_id(self):
+        return str(self.id)
+
+
+    @classmethod
     def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
         """Edits and updates user profile."""
 
