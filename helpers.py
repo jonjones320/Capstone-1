@@ -24,8 +24,8 @@ def all_launches():
             'date': launch['net'],
             'name' : launch['name'],
             'status' : launch['status']['name'],
-            # 'image_url': launch['launch_service_provider']['image_url'],
-            'description' : launch['mission']['description']
+            'description' : launch['mission']['description'],
+            'ordering' : 'net'
         }
         launches.append(launch_info)
     return launches

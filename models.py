@@ -36,8 +36,7 @@ class User(UserMixin, db.Model):
     created_on = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime.now()
-    )
+        default=datetime.now())
 
     img_url = db.Column(
         db.Text,

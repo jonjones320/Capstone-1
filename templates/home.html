@@ -8,15 +8,15 @@
           <div class="image-wrapper">
             <img src="{{ current_user.header_image_url }}" alt="" class="card-hero">
           </div>
-          <a href="/users/{{ current_user.id }}" class="card-link">
+          <a href="/users/{{ current_user.username }}" class="card-link">
             <img src="{{ current_user.image_url }}"
                  alt="Image for {{ current_user.username }}"
                  class="card-image">
-            <p>@{{ current_user.username }}</p>
+            <p>{{ current_user.username }}</p>
           </a>
           <ul class="user-stats nav nav-pills">
             <li class="stat">
-              <p class="small">Collections</p>
+              <p class="small">Profile</p>
               <h4>
                 <a href="/users/{{ current_user.id }}">{{ current_user.collections | length }}</a>
               </h4>
@@ -28,25 +28,17 @@
 
     <div class="col-lg-6 col-md-8 col-sm-12">
       <ul class="list-group" id="collections">
-        {% for collection in collections %}
+        {% for launch in launches %}
           <li class="list-group-item">
-            <a href="/collection/{{ collection.id }}" class="collection-link">
-            <a href="/collection/{{ collection.user.id }}">
-              <img src="{{ collection.user.image_url }}" alt="" class="home-feed-image">
+            <a href="/launch/{{ launch.id }}" class="launch-link">
+            <a href="/launch/{{ launch.date }}">
+              <img src="{{ launch.image_url }}" alt="" class="home-feed-image">
             </a>
-            <div class="collection-area">
-              <a href="/collection/{{ collection.user.id }}">@{{ collection.user.username }}</a>
-              <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>
-              <p>{{ collection.description }}</p>
+            <div class="launch-area">
+              <a href="/launch/{{ launch.id }}">{{ launch.name }}</a>
+              <span class="text-muted">{{ launch.date }}</span>
+              <p>{{ launch.description }}</p>
             </div>
-            <!-- <form method="POST" action="/users/add_like/{{ msg.id }}" id="collection-form">
-              <button class="
-                btn 
-                btn-sm 
-                {{'btn-primary' if msg.id in likes else 'btn-secondary'}}">
-                <i class="fa fa-thumbs-up"></i> 
-              </button>
-            </form> -->
           </li>
         {% endfor %}
       </ul>
