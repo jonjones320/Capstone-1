@@ -26,7 +26,7 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
-######################################## Flask Login Manager Setup ###################################################
+######################################## Login Manager Setup ###################################################
 
 login_manager.init_app(app)
 
@@ -90,7 +90,7 @@ def register():
     else: return render_template('/user/register.html', form=form)
     
 @app.route('/logout')
-# @login_required
+@login_required
 def logout():
     # user = User.is_authenticated(current_user.username,
     #                                  current_user.password)
@@ -271,17 +271,17 @@ def collections_destroy(collection_id):
 
     return redirect(f"/users/{current_user.id}")
 
-#################################### Homepage ##########################################
+#################################### Launch ##########################################
 
-@app.route('/launches')
+@app.route('/launch/search')
 def show_launches():
-    """Displays all launches"""
+    """Searches launches"""
     search = request.args.get('q')
 
-    db_launches = all_launches()
+    allLaunches = all_launches()
 
     searched_launches = [
-        launch for launch in db_launches if search.lower() in launch['name'].lower()]
+        launch for launch in allLaunches if search.lower() in launch['name'].lower()]
 
     return render_template('launch/index.html', launches=searched_launches)
     
@@ -293,15 +293,15 @@ def show_launches():
 @app.route('/')
 def homepage():
     """Show homepage:
-        If a user is not logged in, they will not see user collections.
-        If a user is logged in, they get the 100 most recent collections
+        Displays all launches.
+        If logged in, displays additional user information.
     """
 
     launches = all_launches()
 
     # Display all launches. 
     # Future addition: customize launches/favorites/collections if authenticated.
-    if current_user.is_authenticated:
+    if current_user.id is not None:
 
         return render_template('home.html', launches=launches, current_user=current_user)
     

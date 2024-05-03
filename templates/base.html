@@ -29,7 +29,7 @@
     <ul class="nav navbar-nav navbar-right">
       {% if request.endpoint != None %}
       <li>
-        <form class="navbar-form navbar-right" action="/launches">
+        <form class="navbar-form navbar-right" action="/launch/search">
           <input name="q" class="form-control" placeholder="Search Launch Tracker" id="search">
           <button class="btn btn-default">
             <span class="fa fa-search"></span>
@@ -37,17 +37,17 @@
         </form>
       </li>
       {% endif %}
-      {% if not current_user %}
-      <li><a href="/register">Sign up</a></li>
-      <li><a href="/login">Log in</a></li>
-      {% else %}
+      {% if current_user.id != None %}
       <li>
         <a href="/users/{{ current_user.id }}">
           <img src="{{ current_user.img_url }}" alt="{{ current_user.username }}">
         </a>
       </li>
       <li><a href="/collection/new">New Collection</a></li>
-      <li><a href="/logout">Log out</a></li>
+      <li><a href="/logout">{{ current_user.id }}</a></li>
+      {% else %}
+      <li><a href="/register">Sign up</a></li>
+      <li><a href="/login">Log in</a></li>
       {% endif %}
     </ul>
   </div>

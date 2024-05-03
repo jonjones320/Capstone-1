@@ -1,4 +1,3 @@
-from app import jsonify
 import requests
 from datetime import datetime, timedelta
 
