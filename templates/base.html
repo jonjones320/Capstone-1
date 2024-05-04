@@ -37,14 +37,14 @@
         </form>
       </li>
       {% endif %}
-      {% if current_user.id != None %}
+      {% if g.user.id %}
       <li>
-        <a href="/users/{{ current_user.id }}">
-          <img src="{{ current_user.img_url }}" alt="{{ current_user.username }}">
+        <a href="/users/{{ g.user.id }}">
+          <img src="{{ g.user.img_url }}" alt="{{ g.user.username }}">
         </a>
       </li>
       <li><a href="/collection/new">New Collection</a></li>
-      <li><a href="/logout">{{ current_user.id }}</a></li>
+      <li><a href="/logout">Logout</a></li>
       {% else %}
       <li><a href="/register">Sign up</a></li>
       <li><a href="/login">Log in</a></li>

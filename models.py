@@ -1,7 +1,6 @@
 """SQLAlchemy models for the Launch Tracker."""
 
 from flask_bcrypt import Bcrypt
-from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -10,7 +9,7 @@ bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     """User details"""
 
     __tablename__ = 'users'
@@ -51,9 +50,36 @@ class User(UserMixin, db.Model):
 
 
     @classmethod
-    def get_id(self):
-        return str(self.id)
+    def register(cls, username, email, password, bio, location, img_url, header_img_url):
+        """Sign up user. Hashes password and adds user to database"""
 
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        user = User(
+            username=username,
+            email=email,
+            password=hashed_pwd,
+            bio=bio,
+            location=location,
+            img_url=img_url,
+            header_img_url=header_img_url
+        )
+
+        db.session.add(user)
+        return user
+
+    @classmethod
+    def authenticate(cls, username, password):
+        """Find user with `username` and `password`."""
+
+        user = cls.query.filter_by(username=username).first()
+
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+
+        return False
 
     @classmethod
     def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
@@ -67,15 +93,6 @@ class User(UserMixin, db.Model):
         user.location=location
 
         db.session.commit()
-
-    def __init__(self, email, username, password, bio, location, img_url, header_img_url):
-        self.email = email
-        self.username = username
-        self.password = bcrypt.generate_password_hash(password)
-        self.bio = bio 
-        self.location = location 
-        self.img_url = img_url
-        self.header_img_url = header_img_url
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}>"

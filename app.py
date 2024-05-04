@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, session, flash, url_for, request, jsonify
-from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
+from flask import Flask, render_template, redirect, session, g, flash, url_for, request
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import bcrypt, check_password_hash
 from flask_migrate import Migrate
@@ -10,6 +9,8 @@ from sqlalchemy.exc import IntegrityError
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
 from helpers import previous_launches, all_launches
+
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 migrate = Migrate(app, db)
@@ -20,7 +21,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "It's a secret")
-login_manager = LoginManager()
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
@@ -28,42 +28,51 @@ connect_db(app)
 
 ######################################## Login Manager Setup ###################################################
 
-login_manager.init_app(app)
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
 
-class User(UserMixin):
-    pass
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
 
-@login_manager.user_loader
-def load_user(email):
-    user = User()
-    user.id = email
-    return user
+    else:
+        g.user = None
 
-@login_manager.request_loader
-def request_loader(request):
-    email = request.form.get('email')
-    user = User()
-    user.id = email
-    return user
+
+def do_login(user):
+    """Log in user."""
+
+    session[CURR_USER_KEY] = user.id
+
+
+def do_logout():
+    """Logout user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    
+    flash("You have been logged out.", "success")
 
 
 #################################  Register/login/logout routes ############################################# 
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    """Logs in user"""
+
     form = LoginForm()
-    users = User.query.get().all()
+
     if form.validate_on_submit():
-        email = request.form['email']
-        if email in users and request.form['password'] == users[email]['password']:
-            login_user()
-            flash(f"Hello, {current_user.username}!", "success")
+        user = User.authenticate(form.username.data,
+                                 form.password.data)
+        if user:
+            do_login(user)
+            flash(f"Hello, {g.user.username}!", "success")
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')
-        return redirect(url_for('login'), form=form)
     
-    return render_template('/user/login.html', form=form)
+    return render_template('/user/login.html', form=form, current_user=g.user)
 
 
 @app.route('/register', methods=["GET","POST"])
@@ -71,31 +80,40 @@ def register():
 
     form = RegisterUserForm()
     if form.validate_on_submit():
-        user = User(
-            username=form.username.data,
-            email=form.email.data, 
-            password=form.password.data,
-            bio=form.bio.data,
-            location=form.location.data,
-            img_url=form.img_url.data,
-            header_img_url=form.header_img_url.data
+        try:
+            user = User.register(
+                username=form.username.data,
+                email=form.email.data, 
+                password=form.password.data,
+                bio=form.bio.data,
+                location=form.location.data,
+                img_url=form.img_url.data or User.img_url.default.arg,
+                header_img_url=form.header_img_url.data or User.header_img_url.default.arg
             )
-        db.session.add(user)
-        db.session.commit()
+            db.session.commit()
+        except IntegrityError:
+            print(str(IntegrityError.orig))
+            flash(f'{str(IntegrityError.orig)}', 'danger')
+            return render_template('user/register.html', form=form)
+        
+        do_login(user)
 
-        login_user(user)
         flash("Account created succesfully. Welcome!")
+        return redirect(url_for('homepage'))
 
-        return redirect(url_for('/'))
     else: return render_template('/user/register.html', form=form)
     
 @app.route('/logout')
-@login_required
 def logout():
-    # user = User.is_authenticated(current_user.username,
-    #                                  current_user.password)
-    logout_user()
-    flash("You have been logged out.", "success")
+    """Log out user"""
+
+    try:
+        do_logout()
+
+    except IntegrityError:
+        flash("You have been logged out.", "success")
+        return redirect("/user")
+    
     return redirect(url_for("homepage"))
 
 
@@ -103,7 +121,7 @@ def logout():
 
 
 
-@app.route('/users')
+@app.route('/user/index')
 def list_users():
     """Lists all users.
 
@@ -120,7 +138,7 @@ def list_users():
     return render_template('user/index.html', users=users)
 
 
-@app.route('/users/<int:user_id>')
+@app.route('/user/<int:user_id>')
 def view_user(user_id):
     """View a user's profile."""
 
@@ -143,42 +161,40 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('user/collections.html', user=current_user, collections=collections)
+    return render_template('user/collections.html', user=g.user, collections=collections)
 
 
-@app.route('/users/profile', methods=["GET", "POST"])
-@login_required
+@app.route('/user/profile', methods=["GET", "POST"])
 def profile():
     """Handle profile editing."""
 
     form = ProfileForm()
     
-    user_id = current_user.id
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
-# validates the edit form
+    user_id = g.user.id
+    user = User.query.get_or_404(user_id)
+            
     if form.validate_on_submit():
         try:
-            
-# ensures the user entered correct password to edit that specific profile 
-            if User.is_authenticated(form.username.data,
-                                     form.password.data):
+            if User.authenticate(user.username, form.password.data):
 
-# uses @classmethod 'edit_profile' to update profile
-# or uses previous user data
                 User.edit_profile(
-                    current_user,
+                    user,
                     username=form.username.data 
-                        or current_user.username,
+                        or user.username,
                     email=form.email.data 
-                        or current_user.email,
+                        or user.email,
                     image_url=form.image_url.data 
-                        or User.image_url.default.arg or current_user.image_url,
+                        or User.image_url.default.arg or user.image_url,
                     header_image_url=form.header_image_url.data 
-                        or User.header_image_url.default.arg or current_user.header_image_url,
+                        or User.header_image_url.default.arg or user.header_image_url,
                     bio=form.bio.data 
-                        or current_user.bio,
+                        or user.bio,
                     location=form.location.data 
-                        or current_user.location
+                        or user.location
                     )
 
                 flash("Profile updated!", "success")
@@ -189,23 +205,22 @@ def profile():
 
         except IntegrityError:
             flash("Username already taken", 'danger')
-            return render_template('users/edit.html', form=form)
+            return render_template('user/edit.html', form=form)
     else:
         return render_template('user/edit.html', form=form)
 
 
-@app.route('/users/delete', methods=["POST"])
-@login_required
+@app.route('/user/delete', methods=["POST"])
 def delete_user():
     """Delete user."""
 
-    if not current_user:
+    if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    logout_user()
+    do_logout()
 
-    db.session.delete(current_user)
+    db.session.delete(g.user)
     db.session.commit()
 
     return redirect("/signup")
@@ -213,11 +228,11 @@ def delete_user():
 #################################### Collection Routes ####################################
 
 @app.route('/collections/new', methods=["GET", "POST"])
-@login_required
+
 def collections_add():
     """Create a new collection"""
 
-    if not current_user:
+    if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
@@ -225,10 +240,9 @@ def collections_add():
 
     if form.validate_on_submit():
         description = Collection(description=form.description.data)
-        current_user.append(description)
         db.session.commit()
 
-        return redirect(f"/users/{current_user.id}")
+        return redirect(f"/user/{g.user.id}")
 
     return render_template('collection/new.html', form=form)
 
@@ -245,7 +259,7 @@ def collection_show(collection_id):
 def favorite_collection_show(user_id):
     """Show a users favorite collection."""
 
-    user_id = current_user.id
+    user_id = g.user.id
     fave_collection = []
     fave_collection_id = [favorite.collection_id for favorite in Collection.query.filter_by(user_id=user_id).all()]
 
@@ -257,11 +271,10 @@ def favorite_collection_show(user_id):
 
 
 @app.route('/collections/<int:collections_id>/delete', methods=["POST"])
-@login_required
 def collections_destroy(collection_id):
     """Delete a collection."""
 
-    if not current_user:
+    if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
@@ -269,7 +282,7 @@ def collections_destroy(collection_id):
     db.session.delete(collection)
     db.session.commit()
 
-    return redirect(f"/users/{current_user.id}")
+    return redirect(f"/user/{g.user.id}")
 
 #################################### Launch ##########################################
 
@@ -301,10 +314,10 @@ def homepage():
 
     # Display all launches. 
     # Future addition: customize launches/favorites/collections if authenticated.
-    if current_user.id is not None:
+    if g.user:
 
-        return render_template('home.html', launches=launches, current_user=current_user)
+        return render_template('home.html', launches=launches, current_user=g.user)
     
     # Display all launches, without future logged-in user personalization.
     else:
-        return render_template('home-anon.html', launches=launches, current_user=current_user)
+        return render_template('home-anon.html', launches=launches, current_user=g.user)

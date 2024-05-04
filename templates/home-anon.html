@@ -5,12 +5,6 @@
     <h4>New here?</h4>
     <p>Sign up now to blast off into a world of space exploration!</p>
     <a href="/register" class="btn btn-primary">Sign up</a>
-    {% if current_user.is_authenticated %}
-    <p>Current_user {{ current_user }}</p>
-    {% endif %}
-    {% if not current_user.is_authenticated %}
-    <p>Current_user is not authenticated</p>
-    {% endif %}
-    <p></p>
+    <a href="/login" class="btn btn-primary">Login</a>
   </div>
 {% endblock %}
