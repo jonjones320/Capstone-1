@@ -39,7 +39,7 @@ class User(db.Model):
 
     img_url = db.Column(
         db.Text,
-        default="/static/images/default_img.avif")
+        default="/static/images/default-pic.png")
     
     header_img_url = db.Column(
         db.Text,
@@ -91,8 +91,10 @@ class User(db.Model):
         user.header_image_url=header_image_url,
         user.bio=bio,
         user.location=location
-
+        print("---Before user commit---")
         db.session.commit()
+        print("--- User committed ---")
+        return User()
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}>"

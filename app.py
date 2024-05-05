@@ -26,7 +26,7 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
-######################################## Login Manager Setup ###################################################
+######################################## Login Setup ###################################################
 
 @app.before_request
 def add_user_to_g():
@@ -52,6 +52,10 @@ def do_logout():
         del session[CURR_USER_KEY]
     
     flash("You have been logged out.", "success")
+
+@app.context_processor
+def inject_getattr():
+    return dict(getattr=getattr)
 
 
 #################################  Register/login/logout routes ############################################# 
@@ -92,8 +96,7 @@ def register():
             )
             db.session.commit()
         except IntegrityError:
-            print(str(IntegrityError.orig))
-            flash(f'{str(IntegrityError.orig)}', 'danger')
+            flash('Username is already taken', 'danger')
             return render_template('user/register.html', form=form)
         
         do_login(user)
@@ -138,22 +141,10 @@ def list_users():
     return render_template('user/index.html', users=users)
 
 
-@app.route('/user/<int:user_id>')
+@app.route('/user/profile/<int:user_id>')
 def view_user(user_id):
     """View a user's profile."""
 
-        # collections = []
-
-        # for collection in collections:
-        #         collection = (Collection
-        #                     .query
-        #                     .filter_by(current_user.id)
-        #                     .order_by(Collection.createdDate.desc())
-        #                     .limit(100)
-        #                     .first())
-        #         collections.append(collection)
-
-    # retrieving a user's collections, sorted by when it was made
     collections = (Collection
                 .query
                 .filter(Collection.createdBy == user_id)
@@ -161,10 +152,10 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('user/collections.html', user=g.user, collections=collections)
+    return render_template('user/profile.html', user=g.user, collections=collections)
 
 
-@app.route('/user/profile', methods=["GET", "POST"])
+@app.route('/user/profile/edit', methods=["GET", "POST"])
 def profile():
     """Handle profile editing."""
 
@@ -178,36 +169,36 @@ def profile():
     user = User.query.get_or_404(user_id)
             
     if form.validate_on_submit():
+        print("---1:valid on submit ---")
         try:
             if User.authenticate(user.username, form.password.data):
-
+                print("---2:user authenticated ---")
                 User.edit_profile(
                     user,
-                    username=form.username.data 
-                        or user.username,
-                    email=form.email.data 
-                        or user.email,
-                    image_url=form.image_url.data 
-                        or User.image_url.default.arg or user.image_url,
-                    header_image_url=form.header_image_url.data 
-                        or User.header_image_url.default.arg or user.header_image_url,
+                    username=user.username or form.username.data,
+                    email=user.email or form.email.data,
+                    image_url=form.img_url.data or user.img_url,
+                    header_image_url=form.header_img_url.data or user.header_img_url,
                     bio=form.bio.data 
                         or user.bio,
                     location=form.location.data 
                         or user.location
                     )
-
+                print("---3:edit_profile ran ---")
                 flash("Profile updated!", "success")
                 return redirect(f'{user_id}')
             else:
+                print("---4: Not authenticated ---")
                 flash("Incorrect password", "danger")
-                return render_template('user/edit.html', form=form)
+                return render_template('user/edit.html', form=form, user=user)
 
         except IntegrityError:
+            print("---5: Integrity Error ---")
             flash("Username already taken", 'danger')
-            return render_template('user/edit.html', form=form)
+            return render_template('user/edit.html', form=form, user=user)
     else:
-        return render_template('user/edit.html', form=form)
+        print("---6: Not valid on submit ---")
+        return render_template('user/edit.html', form=form, user=user)
 
 
 @app.route('/user/delete', methods=["POST"])
@@ -227,8 +218,7 @@ def delete_user():
 
 #################################### Collection Routes ####################################
 
-@app.route('/collections/new', methods=["GET", "POST"])
-
+@app.route('/collection/new', methods=["GET", "POST"])
 def collections_add():
     """Create a new collection"""
 
@@ -247,7 +237,7 @@ def collections_add():
     return render_template('collection/new.html', form=form)
 
 
-@app.route('/collections/<int:collection_id>', methods=["GET", "POST"])
+@app.route('/collection/<int:collection_id>', methods=["GET", "POST"])
 def collection_show(collection_id):
     """Show or edit a collection."""
 
@@ -255,22 +245,7 @@ def collection_show(collection_id):
     return render_template('collections/show.html', collection=collection)
 
 
-@app.route('/messages/<int:user_id>/liked')
-def favorite_collection_show(user_id):
-    """Show a users favorite collection."""
-
-    user_id = g.user.id
-    fave_collection = []
-    fave_collection_id = [favorite.collection_id for favorite in Collection.query.filter_by(user_id=user_id).all()]
-
-    for collection_id in fave_collection_id:
-        new_collection = Collection.query.get(collection_id)
-        fave_collection.append(new_collection)
-
-    return render_template('messages/liked.html', fave_collection=fave_collection)
-
-
-@app.route('/collections/<int:collections_id>/delete', methods=["POST"])
+@app.route('/collection/<int:collections_id>/delete', methods=["POST"])
 def collections_destroy(collection_id):
     """Delete a collection."""
 

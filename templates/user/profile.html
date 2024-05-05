@@ -18,7 +18,7 @@
             </h4>
           </li>
           <div class="ml-auto">
-            <a href="/users/profile" class="btn btn-outline-secondary">Edit Profile</a>
+            <a href="/user/profile/edit" class="btn btn-outline-secondary">Edit Profile</a>
             <form method="POST" action="/users/delete" class="form-inline">
               <button class="btn btn-outline-danger ml-2">Delete Profile</button>
             </form>
@@ -31,14 +31,26 @@
 
 <div class="row">
   <div class="col-sm-3">
-    <h4 id="sidebar-username">@{{ user.username }}</h4>
+    <h4 id="sidebar-username">{{ user.username }}</h4>
     <p>{{ user.bio }}</p>
     <p class="user-location"><span class="fa fa-map-marker"></span>{{ user.location }}</p>
   </div>
 
-  {% block user_details %}
-  {% endblock %}
-
+  <li class="list-group-item">
+    {% if collection | length > 0 %}
+    <a href="/collection/{{ collection.id }}" class="message-link">
+      
+    <div class="message-area">
+      <a href="/user/{{ user.id }}">@{{ user.username }}</a>
+      <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
+      <p>{{ collection.description }}</p>
+    </div>
+    {% endif %}
+    <a href="/user/{{ user.id }}">
+      <img src="{{ user.img_url }}" alt="user image" class="timeline-image">
+    </a>
+      
+  </li>
 </div>
 
 {% endblock %}

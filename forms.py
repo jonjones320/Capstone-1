@@ -68,15 +68,15 @@ class ProfileForm(ModelForm):
     """Form for creating and editing a user profile"""
 
     username = StringField(
-            'Username', validators=[DataRequired()])
-    image_url = StringField( 
-            'Image URL')
-    header_image_url = StringField( 
-            'Header Image URL')
+            'username', validators=[DataRequired()])
+    img_url = StringField( 
+            'img_url')
+    header_img_url = StringField( 
+            'header_img_url')
     bio = StringField(
-            "Bio")
+            "bio")
     location = StringField(
-            "Location")
+            "location")
     password = PasswordField(
-            'Password', validators=[DataRequired()])
+            'password', validators=[DataRequired()])
     
