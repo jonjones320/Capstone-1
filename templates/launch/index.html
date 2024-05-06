@@ -15,17 +15,26 @@
               <div class="card user-card">
                 <div class="card-inner">
                   <div class="image-wrapper">
-
                   </div>
                   <div class="card-contents">
                     <a href="/launch/{{ launch.id }}" class="card-link">
-
                       <p>{{ launch.name }}</p>
                     </a>
-
-
+                    {% if g.user %}
+                      {% if g.user.is_collected(launch) %}
+                        <form method="POST"
+                              action="/collection/uncollect/{{ launch.id }}">
+                          <button class="btn btn-primary btn-sm">Uncollect</button>
+                        </form>
+                      {% else %}
+                        <form method="POST"
+                              action="/collection/collect/{{ launch.id }}">
+                          <button class="btn btn-outline-primary btn-sm">Collect</button>
+                        </form>
+                      {% endif %}
+                    {% endif %}
+                    <p class="card-description">{{ launch.description }}</p>
                   </div>
-                  <p class="card-description">{{ launch.description }}</p>
                 </div>
               </div>
             </div>

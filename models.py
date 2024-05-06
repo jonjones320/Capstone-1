@@ -47,6 +47,24 @@ class User(db.Model):
     
     active = db.Column(
         db.Boolean, nullable=False, default=True)
+    
+
+    def is_collected(user_id, launch_id):
+        """Checks if a user has a launch in their collections"""
+        try: 
+            user = User.query.get_or_404(user_id)
+            launch = Launch.query.get_or_404(launch_id)
+        except:
+            print("User or Launch not found")
+            return False
+        
+        for collection in user.collections:
+            if launch in collection.launches:
+                return True
+        return False
+    
+    def __repr__(self):
+        return f"<User #{self.id}: {self.username}>"
 
 
     @classmethod
@@ -95,9 +113,6 @@ class User(db.Model):
         db.session.commit()
         print("--- User committed ---")
         return User()
-
-    def __repr__(self):
-        return f"<User #{self.id}: {self.username}>"
 
 
 

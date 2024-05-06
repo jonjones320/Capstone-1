@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 launch_base_url = "https://lldev.thespacedevs.com/2.2.0/launch"
 launch_upcoming_url = "https://lldev.thespacedevs.com/2.2.0/launch/upcoming/"
 
-start_time = datetime(1969, 4, 26)
-end_time = datetime(1970, 4, 1)
+# start_time = datetime(1969, 4, 26)
+# end_time = datetime(1970, 4, 1)
 
 
 def all_launches():

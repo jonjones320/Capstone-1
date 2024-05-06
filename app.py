@@ -232,7 +232,7 @@ def collections_add():
         description = Collection(description=form.description.data)
         db.session.commit()
 
-        return redirect(f"/user/{g.user.id}")
+        return redirect(f"/launch/index")
 
     return render_template('collection/new.html', form=form)
 
@@ -242,7 +242,7 @@ def collection_show(collection_id):
     """Show or edit a collection."""
 
     collection = Collection.query.get(collection_id)
-    return render_template('collections/show.html', collection=collection)
+    return render_template('collection/show.html', collection=collection)
 
 
 @app.route('/collection/<int:collections_id>/delete', methods=["POST"])
@@ -259,6 +259,21 @@ def collections_destroy(collection_id):
 
     return redirect(f"/user/{g.user.id}")
 
+
+@app.route('/users/uncollect/<int:launch_id>', methods=['POST'])
+def uncollect(launch_id):
+    """Removes selected launch from current user's collection."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    collected_launch = Launch.query.get(launch_id)
+    g.user.collection.remove(collected_launch)
+    db.session.commit()
+
+    return redirect(f"/launch/index")
+
 #################################### Launch ##########################################
 
 @app.route('/launch/search')
@@ -273,7 +288,16 @@ def show_launches():
 
     return render_template('launch/index.html', launches=searched_launches)
     
+@app.route('/launch/index')
+def show_all_launches():
+    """Displays all launches"""
+    
+    launches = all_launches()
 
+    if g.user:
+        user = User.query.get(g.user.id)
+
+    return render_template('launch/index.html', launches=launches)
 
 
 #################################### Homepage ##########################################
