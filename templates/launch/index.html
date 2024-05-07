@@ -23,12 +23,12 @@
                     {% if g.user %}
                       {% if g.user.is_collected(launch) %}
                         <form method="POST"
-                              action="/collection/uncollect/{{ launch.id }}">
+                              action="/user/collect/{{ launch.id }}">
                           <button class="btn btn-primary btn-sm">Uncollect</button>
                         </form>
                       {% else %}
                         <form method="POST"
-                              action="/collection/collect/{{ launch.id }}">
+                              action="/user/collect/{{ launch.id }}">
                           <button class="btn btn-outline-primary btn-sm">Collect</button>
                         </form>
                       {% endif %}

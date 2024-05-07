@@ -254,17 +254,21 @@ def collection_show(collection_id):
     return render_template('collection/show.html', collection=collection)
 
 
-@app.route('collection/collect/<int:launch_id>', methods=["POST"])
-def collect_launch(launch_id):
-    """Add a launch to a collection."""
+# @app.route('/collection/collect/<int:launch_id>', methods=["POST"])
+# def collect_launch(launch_id):
+#     """Add a launch to collection."""
 
-    if not g.user:
-        flash("You must be logged in to use that feature.", "danger")
-        return redirect("/login")
+#     if not g.user:
+#         flash("You must be logged in to use that feature.", "danger")
+#         return redirect("/login")
     
-    user = User.query.get(g.user.id)
+#     collection = User.query.get(g.user.collections)
+#     launch = get_launch(launch_id)
 
-    return redirect('collection/all.html', user=g.user)
+#     g.user.collections.append(launch)
+#     db.session.commit()
+
+#     return redirect('collection/all.html', user=g.user)
 
 
 @app.route('/collection/<int:collections_id>/delete', methods=["POST"])
@@ -307,6 +311,15 @@ def show_all_launches():
         user = User.query.get(g.user.id)
 
     return render_template('launch/index.html', launches=launches)
+
+
+@app.route('/launch/<int:launch_id>')
+def view_launch(launch_id):
+    """View a launch"""
+
+    launch = get_launch(launch_id)
+
+    return render_template('launch/view', launch=launch)
 
 
 @app.route('/user/collect/<int:launch_id>', methods=['POST'])

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="bg"></div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <ul class="list-group no-hover" id="launch">
+        <li class="list-group-item">
+            {% for data in launch %}
+              <li class="list-group-item">
+                <div class="message-area">
+                  <span class="text-muted">{{ data }}</span>
+                </div>
+              </li>
+            {% endfor %}
+            </div>
+            <p class="single-message">{{ message.text }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}
