@@ -5,7 +5,7 @@
     <div class="col-md-6">
       <form method="POST">
         {{ form.csrf_token }}
-        <h3>This is where you can collect your favorite space missions! </h3>
+        <h3>Initialize a collection to store your favorite space missions!</h3>
         <div>
           {% if form.description.errors %}
             {% for error in form.description.errors %}
@@ -14,7 +14,9 @@
           </span>
             {% endfor %}
           {% endif %}
-          <p>Description of collection:</p>
+          <p>Collection name: </p>
+          {{ form.name(placeholder="Name", class="form-control", rows="1")}}
+          <p>Description of collection: </p>
           {{ form.description(placeholder="What's the mission briefing on this collection?", class="form-control", rows="3") }}
         </div>
         <button class="btn btn-outline-success btn-block">Initiate Launch Sequence</button>

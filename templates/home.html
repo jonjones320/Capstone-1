@@ -30,6 +30,21 @@
       <ul class="list-group" id="collections">
         {% for launch in launches %}
           <li class="list-group-item">
+
+            {% if g.user %}
+            {% if g.user.is_collected(launch) %}
+              <form method="POST"
+                    action="/collection/uncollect/{{ launch.id }}">
+                <button class="btn btn-primary btn-sm">Uncollect</button>
+              </form>
+            {% else %}
+              <form method="POST"
+                    action="/collection/collect/{{ launch.id }}">
+                <button class="btn btn-outline-primary btn-sm">Collect</button>
+              </form>
+            {% endif %}
+            {% endif %}
+            
             <a href="/launch/{{ launch.id }}" class="launch-link">
             <a href="/launch/{{ launch.date }}">
               <img src="{{ launch.image_url }}" alt="" class="home-feed-image">

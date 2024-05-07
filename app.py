@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
-from helpers import previous_launches, all_launches
+from helpers import previous_launches, all_launches, get_launch
 
 CURR_USER_KEY = "curr_user"
 
@@ -71,7 +71,7 @@ def login():
                                  form.password.data)
         if user:
             do_login(user)
-            flash(f"Hello, {g.user.username}!", "success")
+            flash(f"Hello, {form.username.data}!", "success")
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')
@@ -214,12 +214,12 @@ def delete_user():
     db.session.delete(g.user)
     db.session.commit()
 
-    return redirect("/signup")
+    return redirect("/register")
 
 #################################### Collection Routes ####################################
 
 @app.route('/collection/new', methods=["GET", "POST"])
-def collections_add():
+def collections_new():
     """Create a new collection"""
 
     if not g.user:
@@ -237,16 +237,38 @@ def collections_add():
     return render_template('collection/new.html', form=form)
 
 
+@app.route('/collection/<int:user_id>')
+def all_collections(user_id):
+    """Shows all of a user's collections"""
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template('collection/all.html', user=user)
+
+
 @app.route('/collection/<int:collection_id>', methods=["GET", "POST"])
 def collection_show(collection_id):
-    """Show or edit a collection."""
+    """Show or edit a specific collection."""
 
     collection = Collection.query.get(collection_id)
     return render_template('collection/show.html', collection=collection)
 
 
+@app.route('collection/collect/<int:launch_id>', methods=["POST"])
+def collect_launch(launch_id):
+    """Add a launch to a collection."""
+
+    if not g.user:
+        flash("You must be logged in to use that feature.", "danger")
+        return redirect("/login")
+    
+    user = User.query.get(g.user.id)
+
+    return redirect('collection/all.html', user=g.user)
+
+
 @app.route('/collection/<int:collections_id>/delete', methods=["POST"])
-def collections_destroy(collection_id):
+def collection_delete(collection_id):
     """Delete a collection."""
 
     if not g.user:
@@ -260,7 +282,50 @@ def collections_destroy(collection_id):
     return redirect(f"/user/{g.user.id}")
 
 
-@app.route('/users/uncollect/<int:launch_id>', methods=['POST'])
+#################################### Launch ##########################################
+
+@app.route('/launch/search')
+def search_launches():
+    """Searches launches"""
+    search = request.args.get('q')
+
+    allLaunches = all_launches()
+
+    searched_launches = [
+        launch for launch in allLaunches if search.lower() in launch['name'].lower()]
+
+    return render_template('launch/index.html', launches=searched_launches)
+    
+
+@app.route('/launch/index')
+def show_all_launches():
+    """Displays all launches"""
+    
+    launches = all_launches()
+
+    if g.user:
+        user = User.query.get(g.user.id)
+
+    return render_template('launch/index.html', launches=launches)
+
+
+@app.route('/user/collect/<int:launch_id>', methods=['POST'])
+def collect_launch(launch_id, collection_id):
+    """Adds a launch to the collection"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    
+    launch = get_launch(launch_id)
+    collection = Collection.query.get_or_404(collection_id)
+    collection.launches.append(launch)
+    db.session.commit()
+
+    return redirect("launch/index")
+
+
+@app.route('/user/uncollect/<int:launch_id>', methods=['POST'])
 def uncollect(launch_id):
     """Removes selected launch from current user's collection."""
 
@@ -274,30 +339,6 @@ def uncollect(launch_id):
 
     return redirect(f"/launch/index")
 
-#################################### Launch ##########################################
-
-@app.route('/launch/search')
-def show_launches():
-    """Searches launches"""
-    search = request.args.get('q')
-
-    allLaunches = all_launches()
-
-    searched_launches = [
-        launch for launch in allLaunches if search.lower() in launch['name'].lower()]
-
-    return render_template('launch/index.html', launches=searched_launches)
-    
-@app.route('/launch/index')
-def show_all_launches():
-    """Displays all launches"""
-    
-    launches = all_launches()
-
-    if g.user:
-        user = User.query.get(g.user.id)
-
-    return render_template('launch/index.html', launches=launches)
 
 
 #################################### Homepage ##########################################

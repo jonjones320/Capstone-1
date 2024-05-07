@@ -8,6 +8,7 @@ launch_upcoming_url = "https://lldev.thespacedevs.com/2.2.0/launch/upcoming/"
 # end_time = datetime(1970, 4, 1)
 
 
+
 def all_launches():
     res = requests.get(
         launch_base_url,
@@ -28,6 +29,21 @@ def all_launches():
         }
         launches.append(launch_info)
     return launches
+
+
+
+def get_launch(launch_id):
+    res = requests.get(
+        launch_base_url,
+        params={
+            'launch' : '/2.2.0/launch/',
+            'id' : launch_id
+        }
+    )
+    launch = res.json()
+
+    return launch
+
 
 
 def previous_launches(start_time, end_time, next_url=None):
