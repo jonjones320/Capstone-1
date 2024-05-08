@@ -103,6 +103,8 @@ class User(db.Model):
     def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
         """Edits and updates user profile."""
 
+        print(username)
+        print(bio)
         user.username=username,
         user.email=email,
         user.image_url=image_url,

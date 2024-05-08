@@ -175,7 +175,7 @@ def profile():
                 print("---2:user authenticated ---")
                 User.edit_profile(
                     user,
-                    username=user.username or form.username.data,
+                    username=form.username.data or user.username,
                     email=user.email or form.email.data,
                     image_url=form.img_url.data or user.img_url,
                     header_image_url=form.header_img_url.data or user.header_img_url,
