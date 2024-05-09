@@ -20,19 +20,6 @@
                     <a href="/launch/{{ launch.id }}" class="card-link">
                       <p>{{ launch.name }}</p>
                     </a>
-                    {% if g.user %}
-                      {% if g.user.is_collected(launch) %}
-                        <form method="POST"
-                              action="/user/collect/{{ launch.id }}">
-                          <button class="btn btn-primary btn-sm">Uncollect</button>
-                        </form>
-                      {% else %}
-                        <form method="POST"
-                              action="/user/collect/{{ launch.id }}">
-                          <button class="btn btn-outline-primary btn-sm">Collect</button>
-                        </form>
-                      {% endif %}
-                    {% endif %}
                     <p class="card-description">{{ launch.description }}</p>
                   </div>
                 </div>

@@ -196,7 +196,7 @@ body {
     margin-left: 10px;
   }
   
-  #warbler-hero {
+  #rocket-hero {
     height: 360px;
     margin-top: -16px;
     opacity: 0.7;
@@ -301,7 +301,7 @@ body {
     color: #657786;
   }
   
-  /* ==================== User cards on follower/following pages */
+  /* ==================== User cards ==================== */
   
   .user-card {
     width: 100%;
@@ -382,6 +382,10 @@ body {
   p.card-bio {
     margin: 2em 10px 0;
   }
+
+  .collect-btn {
+    padding-top: 5%
+  }
   
   /* ============================ Signed out home */
   
@@ -461,6 +465,14 @@ body {
   
   #home-aside .stat h4 {
     text-align: left;
+  }
+
+  .home-image-wrapper {
+    width: 100%;
+    padding-top: 3%;
+    padding-bottom: 5%;
+    position: relative;
+    overflow: hidden;
   }
   
   /* ========================== Signup/Login */

@@ -32,6 +32,7 @@
           <li class="list-group-item">
 
             {% if g.user %}
+            <div class="collect-btn">
             {% if g.user.is_collected(launch) %}
               <form method="POST"
                     action="/collection/uncollect/{{ launch.id }}">
@@ -43,16 +44,16 @@
                 <button class="btn btn-outline-primary btn-sm">Collect</button>
               </form>
             {% endif %}
+            </div>
             {% endif %}
-            
-            <a href="/launch/{{ launch.id }}" class="launch-link">
-            <a href="/launch/{{ launch.date }}">
-              <img src="{{ launch.image_url }}" alt="" class="home-feed-image">
+
+            <a href="/launch/{{ launch.id }}">
+              <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
             </a>
             <div class="launch-area">
-              <a href="/launch/{{ launch.id }}">{{ launch.name }}</a>
-              <span class="text-muted">{{ launch.date }}</span>
-              <p>{{ launch.description }}</p>
+              <p>Name: <a href="/launch/{{ launch.id }}">{{ launch.name }}</a></p>
+              <p><span class="text-muted">Date: {{ launch.date }}</span></p>
+              <p>Debrief: {{ launch.description }}</p>
             </div>
           </li>
         {% endfor %}

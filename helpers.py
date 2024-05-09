@@ -21,10 +21,12 @@ def all_launches():
     launches = []
     for launch in data['results']:
         launch_info = {
-            'date': launch['net'],
+            'id' : launch['id'],
+            'date' : launch['net'],
             'name' : launch['name'],
             'status' : launch['status']['name'],
             'description' : launch['mission']['description'],
+            'img_url' : launch['image'],
             'ordering' : 'net'
         }
         launches.append(launch_info)
