@@ -47,11 +47,11 @@
             </div>
             {% endif %}
 
-            <a href="/launch/{{ launch.id }}">
+            <a href="/launch/{{ launch.name }}">
               <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
             </a>
             <div class="launch-area">
-              <p>Name: <a href="/launch/{{ launch.id }}">{{ launch.name }}</a></p>
+              <p>Name: <a href="/launch/{{ launch.name }}">{{ launch.name }}</a></p>
               <p><span class="text-muted">Date: {{ launch.date }}</span></p>
               <p>Debrief: {{ launch.description }}</p>
             </div>

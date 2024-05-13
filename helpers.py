@@ -34,17 +34,48 @@ def all_launches():
 
 
 
-def get_launch(launch_id):
+def get_launch(launch_name):
     res = requests.get(
         launch_base_url,
         params={
             'launch' : '/2.2.0/launch/',
-            'id' : launch_id
+            'mode' : 'normal',
+            'name' : launch_name
         }
     )
-    launch = res.json()
+    data = res.json()
+    launch_data = []
+    for launch in data['results']:
+        launch_info = {
+            'name': launch['name'],
+            'last_updated' : launch['last_updated'],
+            'launch_date': launch['net'],
+            'image_url': launch['image'],
+            'status' : launch['status']['name']
+        }
+        rocket_info = {
+            'rocket_name' : launch['rocket']['configuration']['name'],
+            'rocket_variant' : launch['rocket']['configuration']['variant']
+        }
+        mission_info = {
+            'mission_name' : launch['mission']['name'],
+            'mission_description' : launch['mission']['description'],
+            'mission_type' : launch['mission']['type'],
+            'mission_orbit' : launch['mission']['orbit']['name']
+        }
+        pad_info = {
+            'pad_name' : launch['pad']['name'],
+            'pad_wiki_url' : launch['pad']['wiki_url'],
+            'pad_map_url' : launch['pad']['map_url'],
+            'pad_location_name' : launch['pad']['location']['name'],
+            'pad_map_img' : launch['pad']['map_image'],
+        }
+        launch_data.append(launch_info)
+        launch_data.append(rocket_info)
+        launch_data.append(mission_info)
+        launch_data.append(pad_info)
 
-    return launch
+    return launch_data
 
 
 

@@ -313,13 +313,14 @@ def show_all_launches():
     return render_template('launch/index.html', launches=launches)
 
 
-@app.route('/launch/<int:launch_id>')
-def view_launch(launch_id):
+@app.route('/launch/<launch_name>')
+def view_launch(launch_name):
     """View a launch"""
 
-    launch = get_launch(launch_id)
-
-    return render_template('launch/view', launch=launch)
+    launch_data = get_launch(launch_name)
+    print("***LAUNCH***: ", launch_data)
+    # print("***LAUNCH-STATUS-NAME***: ", launch['status']['name'])
+    return render_template('launch/view.html', launch_data=launch_data)
 
 
 @app.route('/user/collect/<int:launch_id>', methods=['POST'])
