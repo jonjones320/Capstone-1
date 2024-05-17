@@ -5,32 +5,37 @@
   <div class="bg"></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <ul class="list-group no-hover" id="collections">
-        <li class="list-group-item">
           <a href="{{ url_for('view_user', user_id=user.id) }}">
-            <img src="{{ user.image_url }}" alt="" class="timeline-image">
+            <img src="{{ collection.img_url }}" alt="" class="timeline-image">
           </a>
-          <div class="message-area">
-            <div class="message-heading">
-              <a href="{{ url_for('view_user', user_id=user.id) }}">{{ collection.name }}</a>
+          <div class="collection-area">
+            <div class="collection-heading">
+              <h1 class="collection-name">{{ collection.name }}</h1>
+              <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
+              <p class="single-message">{{ collection.description }}</p>
+
+              <ul class="list-group" id="collection">
+              {% for launch in launches %}
+              <li class="list-group-item">{{ launch.name }}</li>
+              <li class="list-group-item">{{ launch.description }}</li>
+              <li class="list-group-item">{{ launch.img }}</li>
+              {% endfor %}
+              </ul>
+
               {% if g.user %}
-                {% if g.user.id == user.id %}
                   <form method="POST"
                         action="url_for('collection_delete', collection_id=collection.id)">
                     <button class="btn btn-outline-danger">Delete</button>
                   </form>
-                {% else %}
-                  <form method="POST" action="url_for('collection_show', collection_id=collection.id)">
-                    <button class="btn btn-outline-primary btn-sm">Explore</button>
-                  </form>
-                {% endif %}
               {% endif %}
+
+              <form method="POST" 
+                    action="url_for('all_collections', user_id={{ g.user.id }})">
+                <button class="btn btn-outline-primary btn-sm">Back</button>
+              </form>
+
             </div>
-            <p class="single-message">{{ collection.description }}</p>
-            <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
           </div>
-        </li>
-      </ul>
     </div>
   </div>
 

@@ -77,6 +77,24 @@ def login():
         flash("Invalid credentials.", 'danger')
     
     return render_template('/user/login.html', form=form, current_user=g.user)
+    
+
+@app.route('/logout')
+def logout():
+    """Log out user"""
+
+    try:
+        do_logout()
+
+    except IntegrityError:
+        flash("You have been logged out.", "success")
+        return redirect("/user")
+    
+    return redirect(url_for("homepage"))
+
+
+
+#################################  General User routes #############################################
 
 
 @app.route('/register', methods=["GET","POST"])
@@ -105,23 +123,6 @@ def register():
         return redirect(url_for('homepage'))
 
     else: return render_template('/user/register.html', form=form)
-    
-@app.route('/logout')
-def logout():
-    """Log out user"""
-
-    try:
-        do_logout()
-
-    except IntegrityError:
-        flash("You have been logged out.", "success")
-        return redirect("/user")
-    
-    return redirect(url_for("homepage"))
-
-
-#################################  General User routes #############################################
-
 
 
 @app.route('/user/index')
@@ -169,10 +170,8 @@ def profile():
     user = User.query.get_or_404(user_id)
             
     if form.validate_on_submit():
-        print("---1:valid on submit ---")
         try:
             if User.authenticate(user.username, form.password.data):
-                print("---2:user authenticated ---")
                 User.edit_profile(
                     user,
                     username=form.username.data or user.username,
@@ -184,20 +183,16 @@ def profile():
                     location=form.location.data 
                         or user.location
                     )
-                print("---3:edit_profile ran ---")
                 flash("Profile updated!", "success")
                 return redirect(f'{user_id}')
             else:
-                print("---4: Not authenticated ---")
                 flash("Incorrect password", "danger")
                 return render_template('user/edit.html', form=form, user=user)
 
         except IntegrityError:
-            print("---5: Integrity Error ---")
             flash("Username already taken", 'danger')
             return render_template('user/edit.html', form=form, user=user)
     else:
-        print("---6: Not valid on submit ---")
         return render_template('user/edit.html', form=form, user=user)
 
 
@@ -229,15 +224,25 @@ def collections_new():
     form = CollectionForm()
 
     if form.validate_on_submit():
-        description = Collection(description=form.description.data)
-        db.session.commit()
+        try:
+            collection = Collection.create(
+                name=form.name.data,
+                description=form.description.data,
+                createdBy=g.user.id
+                )
+            db.session.commit()
 
-        return redirect(f"/launch/index")
+        except IntegrityError:
+            flash('Name is already taken', 'danger')
+            return render_template('collection/new.html', form=form)
+        
+        flash(f"{collection.name} created succesfully. Start collecting now!")
+        return redirect(url_for('show_all_launches'))
 
     return render_template('collection/new.html', form=form)
 
 
-@app.route('/collection/<int:user_id>')
+@app.route('/collection/user/<int:user_id>')
 def all_collections(user_id):
     """Shows all of a user's collections"""
 
@@ -251,24 +256,11 @@ def collection_show(collection_id):
     """Show or edit a specific collection."""
 
     collection = Collection.query.get(collection_id)
-    return render_template('collection/show.html', collection=collection)
-
-
-# @app.route('/collection/collect/<int:launch_id>', methods=["POST"])
-# def collect_launch(launch_id):
-#     """Add a launch to collection."""
-
-#     if not g.user:
-#         flash("You must be logged in to use that feature.", "danger")
-#         return redirect("/login")
+    user = User.query.get(collection.createdBy)
+    launch_collections = Launch_Collection.query.filter_by(collectionID=collection_id).all()
+    launches = [each.launch for each in launch_collections]
     
-#     collection = User.query.get(g.user.collections)
-#     launch = get_launch(launch_id)
-
-#     g.user.collections.append(launch)
-#     db.session.commit()
-
-#     return redirect('collection/all.html', user=g.user)
+    return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
 @app.route('/collection/<int:collections_id>/delete', methods=["POST"])

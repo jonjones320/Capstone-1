@@ -123,22 +123,43 @@ class Launch(db.Model):
 
     __tablename__ = 'launches' 
 
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-        )
-    name = db.Column(
-        db.Text, 
-        nullable=False, 
-        unique=True
-        )
-    date = db.Column(db.Text)
-    location = db.Column(db.Text)
-    pad = db.Column(db.Text)
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.Text, nullable=False, unique=True)
+
+    last_updated = db.Column(db.DateTime, default=datetime.now())
+
+    launch_date = db.Column(db.Text)
+
+    img_url = db.Column(db.Text)
+
+    status = db.Column(db.Text)
+
+    rocket_name = db.Column(db.Text)
+
+    rocket_variant = db.Column(db.Text)
+
+    mission_name = db.Column(db.Text)
+
+    mission_description = db.Column(db.Text)
+
+    mission_type = db.Column(db.Text)
+
+    mission_orbit = db.Column(db.Text)
+
+    pad_name = db.Column(db.Text)
+
+    pad_wiki_url = db.Column(db.Text)
+
+    pad_map_url = db.Column(db.Text)
+
+    pad_location_name = db.Column(db.Text)
+
+    pad_map_img = db.Column(db.Text)
+
 
     def __repr__(self):
-        return f"<Launch #{self.id}: {self.name}, on {self.date}, at {self.location}, {self.pad}>"
-
+        return f"<Launch #{self.id}: {self.name}, on {self.launch_date}, at {self.pad_name}, {self.status}>"
 
 
 
@@ -173,11 +194,16 @@ class Collection(db.Model):
     )
     name = db.Column(
         db.String,
-        nullable=False
+        nullable=False,
+        unique=True
     )
     description = db.Column(
         db.String,
         nullable=True,
+    )
+    img_url = db.Column(
+        db.Text,
+        nullable=True
     )
     createdDate = db.Column(
         db.DateTime,
@@ -200,6 +226,19 @@ class Collection(db.Model):
         secondaryjoin=("Launch.id == Launch_Collection.launchID"),
         lazy="dynamic"
     )
+    
+    @classmethod
+    def create(cls, name, description, createdBy):
+        """Creates new collection and adds it to DB"""
+
+        collection = Collection(
+            name=name,
+            description=description,
+            createdBy=createdBy
+        )
+
+        db.session.add(collection)
+        return collection
 
 
 def connect_db(app):

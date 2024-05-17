@@ -9,27 +9,15 @@
 
         {% for collection in user.collections %}
         <li class="list-group-item">
-          <a href="{{ url_for('view_user', user_id=user.id) }}">
-            <img src="{{ user.image_url }}" alt="" class="timeline-image">
+          <a href="{{ url_for('collection_show', collection_id=collection.id) }}">
+            <img src="{{ collection.img_url }}" alt="" class="timeline-image">
           </a>
-          <div class="message-area">
-            <div class="message-heading">
-              <a href="{{ url_for('view_user', user_id=user.id) }}">{{ collection.name }}</a>
-              {% if g.user %}
-                {% if g.user.id == user.id %}
-                  <form method="POST"
-                        action="url_for('collection_delete', collection_id=collection.id)">
-                    <button class="btn btn-outline-danger">Delete</button>
-                  </form>
-                {% else %}
-                  <form method="POST" action="url_for('collection_show', collection_id=collection.id)">
-                    <button class="btn btn-outline-primary btn-sm">Explore</button>
-                  </form>
-                {% endif %}
-              {% endif %}
+          <div class="collection-area">
+            <div class="collection-heading">
+              <a href="{{ url_for('collection_show', collection_id=collection.id) }}">{{ collection.name }}</a>
             </div>
             <p class="single-message">{{ collection.description }}</p>
-            <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
+            <span class="text-muted">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</span>
           </div>
         </li>
         {% endfor %}

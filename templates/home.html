@@ -16,10 +16,9 @@
           </a>
           <ul class="user-stats nav nav-pills">
             <li class="stat">
-              <p class="small">Profile</p>
-              <h4>
-                <a href="/user/profile/{{ current_user.id }}">{{ current_user.collections | length }}</a>
-              </h4>
+              <p class="medium"> Collections: 
+                <a href="/collection/user/{{ current_user.id}}">{{ current_user.collections | length }}</a>
+              </p>
             </li>
           </ul>
         </div>
