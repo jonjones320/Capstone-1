@@ -47,28 +47,28 @@ def get_launch(launch_name):
     launch_data = []
     for launch in data['results']:
         launch_info = {
-            'name': launch['name'],
-            'last_updated' : launch['last_updated'],
-            'launch_date': launch['net'],
-            'image_url': launch['image'],
-            'status' : launch['status']['name']
+            'Name': launch['name'],
+            'Last_Updated' : launch['last_updated'],
+            'Launch_Date': launch['net'],
+            'Img_URL': launch['image'],
+            'Status' : launch['status']['name']
         }
         rocket_info = {
-            'rocket_name' : launch['rocket']['configuration']['name'],
-            'rocket_variant' : launch['rocket']['configuration']['variant']
+            'Rocket_Name' : launch['rocket']['configuration']['name'],
+            'Rocket_Variant' : launch['rocket']['configuration']['variant']
         }
         mission_info = {
-            'mission_name' : launch['mission']['name'],
-            'mission_description' : launch['mission']['description'],
-            'mission_type' : launch['mission']['type'],
-            'mission_orbit' : launch['mission']['orbit']['name']
+            'Mission_Name' : launch['mission']['name'],
+            'Mission_Description' : launch['mission']['description'],
+            'Mission_Type' : launch['mission']['type'],
+            'Mission_Orbit' : launch['mission']['orbit']['name']
         }
         pad_info = {
-            'pad_name' : launch['pad']['name'],
-            'pad_wiki_url' : launch['pad']['wiki_url'],
-            'pad_map_url' : launch['pad']['map_url'],
-            'pad_location_name' : launch['pad']['location']['name'],
-            'pad_map_img' : launch['pad']['map_image'],
+            'Pad_Name' : launch['pad']['name'],
+            'Pad_Wiki_URL' : launch['pad']['wiki_url'],
+            'Pad_Map_URL' : launch['pad']['map_url'],
+            'Pad_Location_Name' : launch['pad']['location']['name'],
+            'Pad_Map_Img' : launch['pad']['map_image'],
         }
         launch_data.append(launch_info)
         launch_data.append(rocket_info)

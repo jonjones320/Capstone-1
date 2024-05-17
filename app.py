@@ -318,8 +318,11 @@ def view_launch(launch_name):
     """View a launch"""
 
     launch_data = get_launch(launch_name)
-    print("***LAUNCH***: ", launch_data)
-    # print("***LAUNCH-STATUS-NAME***: ", launch['status']['name'])
+    print("***LAUNCH***: ", launch_data[0])
+    print("***ROCKET***: ", launch_data[1])
+    print("***MISSION***: ", launch_data[2])
+    print("***PAD***: ", launch_data[3])
+
     return render_template('launch/view.html', launch_data=launch_data)
 
 

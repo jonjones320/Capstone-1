@@ -2,19 +2,24 @@
 
 {% block content %}
 
-  <div class="bg">
-    <img src="{{ launch_data['image_url'] }}" alt="">
-  </div>
-    {% if launch_data %}
-        <div class="container">
+{% if launch_data %}
+<div class="container">
+    <div class="bg-image shadow-2-strong">
+        <img class="img-fluid" src="static/images/spaceX_falcon9_launch.avif" alt="">
+    
             <div class="row justify-content-center">
               <div class="col-md-6">
-                <h2>Main Section</h2>
+                <h2>Launch Section</h2>
                 <ul class="list-group" id="main-list">
-                    {% for key, value in launch_data[launch_info] %}
+                    {% for key, value in launch_data[0].items() %}
 
                         <li class="list-group-item">
-                            <strong>{{ key }}</strong> {{ value }}
+                            {% if 'URL' in key %}
+                                <strong> {{ key }} </strong> 
+                                <a href="{{ value }}"> {{ value }} </a>
+                            {% else %}
+                            <strong> {{ key }} </strong> {{ value }}
+                            {% endif %}
                         </li>
 
                     {% endfor %}
@@ -23,11 +28,16 @@
               <div class="col-md-6">
                 <h2>Mission Section</h2>
                 <ul class="list-group" id="mission-list">
-                    {% for key, value in launch_data[rocket_info] %}
+                    {% for key, value in launch_data[1].items() %}
 
-                        <li class="list-group-item">
-                            <strong>{{ key }}</strong> {{ value }}
-                        </li>
+                    <li class="list-group-item">
+                        {% if 'URL' in key %}
+                            <strong> {{ key }} </strong> 
+                            <a href="{{ value }}"> {{ value }} </a>
+                        {% else %}
+                        <strong> {{ key }} </strong> {{ value }}
+                        {% endif %}
+                    </li>
 
                     {% endfor %}
                 </ul>
@@ -37,11 +47,16 @@
               <div class="col-md-6">
                 <h2>Mission Section</h2>
                 <ul class="list-group" id="rocket-list">
-                    {% for key, value in launch_data[mission_info] %}
+                    {% for key, value in launch_data[2].items() %}
 
-                        <li class="list-group-item">
-                            <strong>{{ key }}</strong> {{ value }}
-                        </li>
+                    <li class="list-group-item">
+                        {% if 'URL' in key %}
+                            <strong> {{ key }} </strong> 
+                            <a href="{{ value }}"> {{ value }} </a>
+                        {% else %}
+                        <strong> {{ key }} </strong> {{ value }}
+                        {% endif %}
+                    </li>
 
                     {% endfor %}
                 </ul>
@@ -49,35 +64,36 @@
               <div class="col-md-6">
                 <h2>Pad Section</h2>
                 <ul class="list-group" id="pad-list">
-                    {% for key, value in launch_data[pad_info] %}
+                    {% for key, value in launch_data[3].items() %}
 
-                        <li class="list-group-item">
-                            <strong>{{ key }}</strong> {{ value }}
-                        </li>
+                    <li class="list-group-item">
+                        {% if 'URL' in key %}
+                            <strong> {{ key }} </strong> 
+                            <a href="{{ value }}"> {{ value }} </a>
+                        {% else %}
+                        <strong> {{ key }} </strong> {{ value }}
+                        {% endif %}
+                    </li>
 
                     {% endfor %}
                 </ul>
               </div>
             </div>
-          </div>
-    {% endif %}
-        {% if g.user %}
-                    {% if g.user.is_collected(launch_data) %}
-                        <form method="POST"
-                              action="/user/uncollect/{{ launch_data.id }}">
-                          <button class="btn btn-primary btn-sm">Uncollect</button>
-                        </form>
-                    {% else %}
-                        <form method="POST"
-                              action="/user/collect/{{ launch_data.id }}">
-                          <button class="btn btn-outline-primary btn-sm">Collect</button>
-                        </form>
-            {% endif %}
-        {% endif %}
-            </div>
-          </div>
-      </ul>
+        </div>
     </div>
-  </div>
+    {% endif %}
+    {% if g.user %}
+        {% if g.user.is_collected(launch_data) %}
+            <form method="POST"
+                    action="/user/uncollect/{{ launch_data.id }}">
+                <button class="btn btn-primary btn-sm">Uncollect</button>
+            </form>
+        {% else %}
+            <form method="POST"
+                    action="/user/collect/{{ launch_data.id }}">
+                <button class="btn btn-outline-primary btn-sm">Collect</button>
+            </form>
+        {% endif %}
+    {% endif %}
 
 {% endblock %}
