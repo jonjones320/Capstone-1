@@ -200,6 +200,7 @@ body {
     height: 360px;
     margin-top: -16px;
     opacity: 0.7;
+    background-color: #e6ecf0;
     background-size: cover;
     background-position: top center;
   }
@@ -420,7 +421,7 @@ body {
     margin-bottom: 4rem;
   }
   
-  .home-hero:before {
+  /* .home-hero:before {
     content: "";
     position: absolute;
     top: 0;
@@ -428,7 +429,7 @@ body {
     right: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 0.3);
-  }
+  } */
   
   /* ============================== Signed in Home */
   
@@ -505,18 +506,18 @@ body {
     /* background-color: #62676c; */
   }
   
-  #messages.no-hover .message-area {
+  #launches.no-hover .launch-area {
     width: 100%;
   }
   
-  #messages.no-hover .message-heading {
+  #launches.no-hover .launch-heading {
     display: flex;
     justify-content: space-between;
     height: 47px;
     margin-top: 3px;
   }
   
-  #messages.no-hover .message-heading .btn {
+  #launches.no-hover .launch-heading .btn {
     min-width: 105px;
   }
   

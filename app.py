@@ -263,7 +263,7 @@ def collection_show(collection_id):
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
-@app.route('/collection/<int:collections_id>/delete', methods=["POST"])
+@app.route('/collection/<int:collection_id>/delete', methods=["POST"])
 def collection_delete(collection_id):
     """Delete a collection."""
 
@@ -275,7 +275,7 @@ def collection_delete(collection_id):
     db.session.delete(collection)
     db.session.commit()
 
-    return redirect(f"/user/{g.user.id}")
+    return redirect(url_for("all_collections", user_id=g.user.id))
 
 
 #################################### Launch ##########################################
@@ -299,9 +299,6 @@ def show_all_launches():
     
     launches = all_launches()
 
-    if g.user:
-        user = User.query.get(g.user.id)
-
     return render_template('launch/index.html', launches=launches)
 
 
@@ -310,15 +307,12 @@ def view_launch(launch_name):
     """View a launch"""
 
     launch_data = get_launch(launch_name)
-    print("***LAUNCH***: ", launch_data[0])
-    print("***ROCKET***: ", launch_data[1])
-    print("***MISSION***: ", launch_data[2])
-    print("***PAD***: ", launch_data[3])
+    collections = Collection.query.filter_by(createdBy=g.user.id).all()
 
-    return render_template('launch/view.html', launch_data=launch_data)
+    return render_template('launch/view.html', launch_data=launch_data, collections=collections)
 
 
-@app.route('/user/collect/<int:launch_id>', methods=['POST'])
+@app.route('/launch/collect/<int:launch_id>/<int:collection_id>', methods=['POST'])
 def collect_launch(launch_id, collection_id):
     """Adds a launch to the collection"""
 
@@ -331,10 +325,10 @@ def collect_launch(launch_id, collection_id):
     collection.launches.append(launch)
     db.session.commit()
 
-    return redirect("launch/index")
+    return redirect(url_for('view_launch', launch_name=launch.name))
 
 
-@app.route('/user/uncollect/<int:launch_id>', methods=['POST'])
+@app.route('/launch/uncollect/<int:launch_id>', methods=['POST'])
 def uncollect(launch_id):
     """Removes selected launch from current user's collection."""
 
@@ -342,11 +336,12 @@ def uncollect(launch_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
+    launch = get_launch(launch_id)
     collected_launch = Launch.query.get(launch_id)
     g.user.collection.remove(collected_launch)
     db.session.commit()
 
-    return redirect(f"/launch/index")
+    return redirect(url_for('view_launch', launch_name=launch.name))
 
 
 

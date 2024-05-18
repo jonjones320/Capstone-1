@@ -5,7 +5,7 @@
   <div class="bg"></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
-          <a href="{{ url_for('view_user', user_id=user.id) }}">
+          <a href="{{ img_url }}">
             <img src="{{ collection.img_url }}" alt="" class="timeline-image">
           </a>
           <div class="collection-area">
@@ -13,27 +13,22 @@
               <h1 class="collection-name">{{ collection.name }}</h1>
               <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
               <p class="single-message">{{ collection.description }}</p>
-
-              <ul class="list-group" id="collection">
+            </div>
+            <div class="collection-body">
+              <ul class="list-group-item" id="collection">
               {% for launch in launches %}
-              <li class="list-group-item">{{ launch.name }}</li>
-              <li class="list-group-item">{{ launch.description }}</li>
-              <li class="list-group-item">{{ launch.img }}</li>
+                  <li class="list-group-item">{{ launch.name }}</li>
+                  <li class="list-group-item">{{ launch.description }}</li>
+                  <li class="list-group-item">{{ launch.img }}</li>
               {% endfor %}
               </ul>
 
               {% if g.user %}
-                  <form method="POST"
-                        action="url_for('collection_delete', collection_id=collection.id)">
-                    <button class="btn btn-outline-danger">Delete</button>
+                  <form method="POST" action="/collection/{{ collection.id }}/delete">
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
                   </form>
               {% endif %}
-
-              <form method="POST" 
-                    action="url_for('all_collections', user_id={{ g.user.id }})">
-                <button class="btn btn-outline-primary btn-sm">Back</button>
-              </form>
-
+              <a href="/collection/user/{{ user.id }}" class="btn btn-outline-primary btn-sm">Back</a>
             </div>
           </div>
     </div>
