@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
-from helpers import previous_launches, all_launches, get_launch
+from helpers import previous_launches, all_launches, get_launch, store_launch
 
 CURR_USER_KEY = "curr_user"
 
@@ -312,20 +312,29 @@ def view_launch(launch_name):
     return render_template('launch/view.html', launch_data=launch_data, collections=collections)
 
 
-@app.route('/launch/collect/<int:launch_id>/<int:collection_id>', methods=['POST'])
-def collect_launch(launch_id, collection_id):
+@app.route('/launch/collect/<launch_name>/<int:collection_id>', methods=['POST'])
+def collect_launch(launch_name, collection_id):
     """Adds a launch to the collection"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    
-    launch = get_launch(launch_id)
-    collection = Collection.query.get_or_404(collection_id)
-    collection.launches.append(launch)
-    db.session.commit()
+    try:
+        launch = get_launch(launch_name)
+        new_launch = store_launch(launch)
+        db.session.add(new_launch)
+        db.session.commit()
 
-    return redirect(url_for('view_launch', launch_name=launch.name))
+        collection = Collection.query.filter_by(id=collection_id).first()
+        if collection:
+            launch_collection = Launch_Collection(collectionID=collection_id, launch_id=new_launch.id)
+            db.session.add(launch_collection)
+            db.session.commit()
+    except IntegrityError:
+        flash("Launch already exists")
+        return redirect(url_for('view_launch', launch_name=launch_name))
+
+    return redirect(url_for('view_launch', launch_name=launch_name))
 
 
 @app.route('/launch/uncollect/<int:launch_id>', methods=['POST'])

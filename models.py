@@ -157,6 +157,26 @@ class Launch(db.Model):
 
     pad_map_img = db.Column(db.Text)
 
+    def __init__(self, name, last_updated, launch_date, img_url, status, rocket_name, 
+                 rocket_variant, mission_name, mission_description, mission_type, mission_orbit,
+                 pad_name, pad_wiki_url, pad_map_url, pad_location_name, pad_map_img):
+        self.name = name
+        self.last_updated = last_updated
+        self.launch_date = launch_date
+        self.img_url = img_url
+        self.status = status
+        self.rocket_name = rocket_name
+        self.rocket_variant = rocket_variant
+        self.mission_name = mission_name
+        self.mission_description = mission_description
+        self.mission_type = mission_type
+        self.mission_orbit = mission_orbit
+        self.pad_name = pad_name
+        self.pad_wiki_url = pad_wiki_url
+        self.pad_map_url = pad_map_url
+        self.pad_location_name = pad_location_name
+        self.pad_map_img = pad_map_img
+
 
     def __repr__(self):
         return f"<Launch #{self.id}: {self.name}, on {self.launch_date}, at {self.pad_name}, {self.status}>"
@@ -219,8 +239,8 @@ class Collection(db.Model):
     user = db.relationship('User', backref='collections')
 
     launches = db.relationship(
-        "Launch",
-        secondary="launch_collections",
+        "Launch_Collection",
+        secondary="launches",
         backref="collections",
         primaryjoin=("Collection.id == Launch_Collection.collectionID"),
         secondaryjoin=("Launch.id == Launch_Collection.launchID"),

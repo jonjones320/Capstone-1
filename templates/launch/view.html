@@ -15,10 +15,13 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     {% for collection in collections %}
-                    <li><a class="dropdown-item" 
-                        href="/launch/collect/{{ launch_data.id }}/{{ collection.id }}">
-                        {{ collection.name }}
-                    </a></li>
+                    <li>
+                        <form method="POST" action="collect/{{ launch_data[0]['Name'] }}/{{ collection.id }}">
+                            <button type="submit" class="dropdown-item">
+                            {{ collection.name }}
+                            </button>
+                        </form>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
