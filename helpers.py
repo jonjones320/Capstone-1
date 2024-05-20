@@ -107,27 +107,3 @@ def previous_launches(start_time, end_time, next_url=None):
 
     next_url = f"next: {data.get('next')}"
     return launches, next_url
-
-
-
-def store_launch(launch):
-    print("***LAUNCH***", launch, "******")
-    new_launch = Launch(
-        name = launch[0]['Name'],
-        last_updated = launch[0]['Last_Updated'],
-        launch_date = launch[0]['Launch_Date'],
-        img_url = launch[0]['Img_URL'],
-        status = launch[0]['Status'],
-        rocket_name = launch[1]['Rocket_Name'],
-        rocket_variant = launch[1]['Rocket_Variant'],
-        mission_name = launch[2]['Mission_Name'],
-        mission_description = launch[2]['Mission_Description'],
-        mission_type = launch[2]['Mission_Type'],
-        mission_orbit = launch[2]['Mission_Orbit'],
-        pad_name = launch[3]['Pad_Name'],
-        pad_wiki_url = launch[3]['Pad_Wiki_URL'],
-        pad_map_url = launch[3]['Pad_Map_URL'],
-        pad_location_name = launch[3]['Pad_Location_Name'],
-        pad_map_img = launch[3]['Pad_Map_Img']
-    )
-    return new_launch

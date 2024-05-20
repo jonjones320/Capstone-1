@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
-from helpers import previous_launches, all_launches, get_launch, store_launch
+from helpers import previous_launches, all_launches, get_launch
 
 CURR_USER_KEY = "curr_user"
 
@@ -236,7 +236,7 @@ def collections_new():
             flash('Name is already taken', 'danger')
             return render_template('collection/new.html', form=form)
         
-        flash(f"{collection.name} created succesfully. Start collecting now!")
+        flash(f"{collection.name} created succesfully. Start collecting now!", 'success')
         return redirect(url_for('show_all_launches'))
 
     return render_template('collection/new.html', form=form)
@@ -314,26 +314,31 @@ def view_launch(launch_name):
 
 @app.route('/launch/collect/<launch_name>/<int:collection_id>', methods=['POST'])
 def collect_launch(launch_name, collection_id):
-    """Adds a launch to the collection"""
+    """Adds a launch to a collection"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
     try:
         launch = get_launch(launch_name)
-        new_launch = store_launch(launch)
-        db.session.add(new_launch)
-        db.session.commit()
+        new_launch = Launch(launch)
+
+        if new_launch:
+            db.session.add(new_launch)
+            db.session.commit()
 
         collection = Collection.query.filter_by(id=collection_id).first()
+
         if collection:
-            launch_collection = Launch_Collection(collectionID=collection_id, launch_id=new_launch.id)
+            launch_collection = Launch_Collection(collectionID=collection_id, launchID=new_launch.id)
             db.session.add(launch_collection)
             db.session.commit()
+
     except IntegrityError:
-        flash("Launch already exists")
+        flash("Launch already exists in this collection", "danger")
         return redirect(url_for('view_launch', launch_name=launch_name))
 
+    flash("Launch collection successful!", "success")
     return redirect(url_for('view_launch', launch_name=launch_name))
 
 

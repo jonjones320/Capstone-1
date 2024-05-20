@@ -103,17 +103,14 @@ class User(db.Model):
     def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
         """Edits and updates user profile."""
 
-        print(username)
-        print(bio)
         user.username=username,
         user.email=email,
         user.image_url=image_url,
         user.header_image_url=header_image_url,
         user.bio=bio,
         user.location=location
-        print("---Before user commit---")
         db.session.commit()
-        print("--- User committed ---")
+
         return User()
 
 
@@ -157,25 +154,30 @@ class Launch(db.Model):
 
     pad_map_img = db.Column(db.Text)
 
-    def __init__(self, name, last_updated, launch_date, img_url, status, rocket_name, 
-                 rocket_variant, mission_name, mission_description, mission_type, mission_orbit,
-                 pad_name, pad_wiki_url, pad_map_url, pad_location_name, pad_map_img):
-        self.name = name
-        self.last_updated = last_updated
-        self.launch_date = launch_date
-        self.img_url = img_url
-        self.status = status
-        self.rocket_name = rocket_name
-        self.rocket_variant = rocket_variant
-        self.mission_name = mission_name
-        self.mission_description = mission_description
-        self.mission_type = mission_type
-        self.mission_orbit = mission_orbit
-        self.pad_name = pad_name
-        self.pad_wiki_url = pad_wiki_url
-        self.pad_map_url = pad_map_url
-        self.pad_location_name = pad_location_name
-        self.pad_map_img = pad_map_img
+    def __init__(self, launch):
+        """Check if launch already exists in Db. If not, initialize new launch object"""
+
+        existing_launch = Launch.query.filter_by(name=launch[0]['Name']).first()
+        if existing_launch:
+            # raise ValueError(f"Launch with the name {launch[0]['Name']} is already stored")
+            return
+        else:
+            self.name = launch[0]['Name']
+            self.last_updated = launch[0]['Last_Updated']
+            self.launch_date = launch[0]['Launch_Date']
+            self.img_url = launch[0]['Img_URL']
+            self.status = launch[0]['Status']
+            self.rocket_name = launch[1]['Rocket_Name']
+            self.rocket_variant = launch[1]['Rocket_Variant']
+            self.mission_name = launch[2]['Mission_Name']
+            self.mission_description = launch[2]['Mission_Description']
+            self.mission_type = launch[2]['Mission_Type']
+            self.mission_orbit = launch[2]['Mission_Orbit']
+            self.pad_name = launch[3]['Pad_Name']
+            self.pad_wiki_url = launch[3]['Pad_Wiki_URL']
+            self.pad_map_url = launch[3]['Pad_Map_URL']
+            self.pad_location_name = launch[3]['Pad_Location_Name']
+            self.pad_map_img = launch[3]['Pad_Map_Img']
 
 
     def __repr__(self):
