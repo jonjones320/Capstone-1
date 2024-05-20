@@ -17,9 +17,17 @@
             <div class="collection-body">
               <ul class="list-group-item" id="collection">
               {% for launch in launches %}
-                  <li class="list-group-item">{{ launch.name }}</li>
-                  <li class="list-group-item">{{ launch.description }}</li>
-                  <li class="list-group-item">{{ launch.img }}</li>
+                <div id="messages">
+                  <div class="border">
+                    <a href="/launch/{{ launch.name }}">
+                      <li class="list-group-item">Launch ID: {{ launch.id }}</li>
+                      <li class="list-group-item">Name: {{ launch.name }}</li>
+                      <li class="list-group-item">Launch Date: {{ launch.launch_date }}</li>
+                      <li class="list-group-item">Pad: {{ launch.pad_name }}</li>
+                      <li class="list-group-item">Status: {{ launch.status }}</li>
+                    </a>
+                  </div>
+                </div>
               {% endfor %}
               </ul>
 

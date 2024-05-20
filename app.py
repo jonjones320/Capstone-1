@@ -258,8 +258,13 @@ def collection_show(collection_id):
     collection = Collection.query.get(collection_id)
     user = User.query.get(collection.createdBy)
     launch_collections = Launch_Collection.query.filter_by(collectionID=collection_id).all()
-    launches = [each.launch for each in launch_collections]
-    
+    launch_ids = [each.launchID for each in launch_collections]
+
+    launches = []
+    for launch_id in launch_ids:
+        launch = Launch.query.filter_by(id=launch_id).first()
+        launches.append(launch)
+    print("***LAUNCHES*** ", launches)
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
