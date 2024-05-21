@@ -295,7 +295,7 @@ def search_launches():
     searched_launches = [
         launch for launch in allLaunches if search.lower() in launch['name'].lower()]
 
-    return render_template('launch/index.html', launches=searched_launches)
+    return render_template('launch/index.html', launches=searched_launches, current_user=g.user)
     
 
 @app.route('/launch/index')
@@ -303,8 +303,9 @@ def show_all_launches():
     """Displays all launches"""
     
     launches = all_launches()
+    collections = Collection.query.filter_by(createdBy=g.user.id).all()
 
-    return render_template('launch/index.html', launches=launches)
+    return render_template('launch/index.html', launches=launches, current_user=g.user, collections=collections)
 
 
 @app.route('/launch/<launch_name>')

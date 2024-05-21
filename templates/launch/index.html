@@ -1,36 +1,66 @@
 {% extends 'base.html' %}
-
 {% block content %}
+  <div class="row">
 
-{% if launches|length == 0 %}
-    <h3>Sorry, no launches found</h3>
-  {% else %}
-    <div class="row justify-content-end">
-      <div class="col-sm-9">
-        <div class="row">
-
-          {% for launch in launches %}
-
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="card user-card">
-                <div class="card-inner">
-                  <div class="image-wrapper">
-                  </div>
-                  <div class="card-contents">
-                    <a href="/launch/{{ launch.id }}" class="card-link">
-                      <p>{{ launch.name }}</p>
-                    </a>
-                    <p class="card-description">{{ launch.description }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          {% endfor %}
-
+    <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
+      <div class="card user-card">
+        <div>
+          <div class="image-wrapper">
+            <img src="{{ current_user.header_img_url }}" alt="" class="card-hero">
+          </div>
+          <a href="/user/profile/{{ current_user.id }}" class="card-link">
+            <img src="{{ current_user.img_url }}"
+                 alt="Image for {{ current_user.username }}"
+                 class="card-image">
+            <p>{{ current_user.username }}</p>
+          </a>
+          <ul class="user-stats nav nav-pills">
+            <li class="stat">
+              <p class="medium"> 
+                <a href="/collection/user/{{ current_user.id}}">Collections: {{ current_user.collections | length }}</a>
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  {% endif %}
+    </aside>
 
+    <div class="col-lg-6 col-md-8 col-sm-12">
+      <ul class="list-group">
+        {% for launch in launches %}
+          <li class="list-group-item">
+            <div class="launch-area">
+              <h5>Name: <a href="/launch/{{ launch.name }}">{{ launch.name }}</a></h5>
+              <a href="/launch/{{ launch.name }}">
+                <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
+              </a>
+              <p><span class="text-muted">Date: {{ launch.date }}</span></p>
+              <p>Debrief: {{ launch.description }}</p>
+            </div>
+            {% if g.user %}
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <div class="btn-group-vertical" role="group">
+                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                      {% for collection in collections %}
+                      <li>
+                        <form method="POST" action="collect/{{ launch.name }}/{{ collection.id }}">
+                          <button type="submit" class="dropdown-item">
+                            {{ collection.name }}
+                          </button>
+                        </form>
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Collect
+                  </button>
+              </div>
+            </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
 {% endblock %}
