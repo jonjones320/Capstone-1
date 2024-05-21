@@ -42,11 +42,20 @@
           <img src="{{ g.user.img_url }}" alt="{{ g.user.username }}">
         </a>
       </li>
-      <li><a href="/collection/new">New Collection</a></li>
-      <li><a href="/logout">Logout</a></li>
-      {% else %}
-      <li><a href="/register">Sign up</a></li>
-      <li><a href="/login">Log in</a></li>
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ g.user.username }}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a href="/collection/user/{{ g.user.id }}">Collections</a></li>
+          <li><a href="/collection/new">New Collection</a></li>
+          <li><a href="/user/profile/{{ g.user.id }}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+          {% else %}
+          <li><a href="/register">Sign up</a></li>
+          <li><a href="/login">Log in</a></li>
+        </ul>
+      </div>
       {% endif %}
     </ul>
   </div>

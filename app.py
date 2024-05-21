@@ -72,7 +72,7 @@ def login():
         if user:
             do_login(user)
             flash(f"Hello, {form.username.data}!", "success")
-            return redirect("/")
+            return redirect("/launch/index")
 
         flash("Invalid credentials.", 'danger')
     

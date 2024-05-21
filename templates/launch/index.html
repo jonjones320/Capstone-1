@@ -30,7 +30,27 @@
         {% for launch in launches %}
           <li class="list-group-item">
             <div class="launch-area">
-              <h5>Name: <a href="/launch/{{ launch.name }}">{{ launch.name }}</a></h5>
+              <div class="row text-center">
+                <h4><a href="/launch/{{ launch.name }}">{{ launch.name }}</a></h4>
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                  <div class="btn-group-vertical" role="group">
+                      <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          {% for collection in collections %}
+                          <li>
+                            <form method="POST" action="collect/{{ launch.name }}/{{ collection.id }}">
+                              <button type="submit" class="dropdown-item">
+                                {{ collection.name }}
+                              </button>
+                            </form>
+                          </li>
+                          {% endfor %}
+                      </ul>
+                      <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Collect
+                      </button>
+                  </div>
+                </div>
+              </div>
               <a href="/launch/{{ launch.name }}">
                 <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
               </a>
@@ -38,24 +58,6 @@
               <p>Debrief: {{ launch.description }}</p>
             </div>
             {% if g.user %}
-            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-              <div class="btn-group-vertical" role="group">
-                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                      {% for collection in collections %}
-                      <li>
-                        <form method="POST" action="collect/{{ launch.name }}/{{ collection.id }}">
-                          <button type="submit" class="dropdown-item">
-                            {{ collection.name }}
-                          </button>
-                        </form>
-                      </li>
-                      {% endfor %}
-                  </ul>
-                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Collect
-                  </button>
-              </div>
-            </div>
             {% endif %}
           </li>
         {% endfor %}
