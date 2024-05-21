@@ -5,69 +5,84 @@
   <meta charset="UTF-8">
   <title>The Launch Tracker</title>
 
-  <link rel="stylesheet"
-        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
   <script src="https://unpkg.com/jquery"></script>
   <script src="https://unpkg.com/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-  <link rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
   <link rel="stylesheet" href="/static/stylesheets/style.css">
   <link rel="shortcut icon" href="/static/images/favicon.ico">
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-<nav class="navbar navbar-expand">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="/" class="navbar-brand">
-        <img src="/static/images/favicon.ico" alt="logo">
-        <span>Launch Tracker</span>
-      </a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-      {% if request.endpoint != None %}
-      <li>
-        <form class="navbar-form navbar-right" action="/launch/search">
-          <input name="q" class="form-control" placeholder="Search Launch Tracker" id="search">
-          <button class="btn btn-default">
-            <span class="fa fa-search"></span>
-          </button>
-        </form>
-      </li>
-      {% endif %}
-      {% if g.user.id %}
-      <li>
-        <a href="/user/profile/{{ g.user.id }}">
-          <img src="{{ g.user.img_url }}" alt="{{ g.user.username }}">
+  <nav class="navbar navbar-expand-lg navbar-light py-3 shadow-sm">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a href="/" class="navbar-brand">
+          <img src="/static/images/favicon.ico" alt="logo">
+          <span>Launch Tracker</span>
         </a>
-      </li>
-      <div class="dropdown">
-        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ g.user.username }}
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a href="/collection/user/{{ g.user.id }}">Collections</a></li>
-          <li><a href="/collection/new">New Collection</a></li>
-          <li><a href="/user/profile/{{ g.user.id }}">Profile</a></li>
-          <li><a href="/logout">Logout</a></li>
-          {% else %}
-          <li><a href="/register">Sign up</a></li>
-          <li><a href="/login">Log in</a></li>
-        </ul>
       </div>
-      {% endif %}
-    </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.endpoint != None %}
+        <li>
+          <form class="navbar-form navbar-right" action="/launch/search">
+            <input name="q" class="form-control" placeholder="Search Launch Tracker" id="search">
+            <button class="btn btn-default">
+              <span class="fa fa-search"></span>
+            </button>
+          </form>
+        </li>
+        {% endif %}
+        {% if g.user.id %}
+          <li>
+            <a href="/user/profile/{{ g.user.id }}">
+              <img src="{{ g.user.img_url }}" alt="{{ g.user.username }}">
+            </a>
+          </li>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a href="/launch/index">Launches</a></li>
+              <li><a href="/collection/user/{{ g.user.id }}">Collections</a></li>
+              <li><a href="/collection/new">New Collection</a></li>
+              <li><a href="/user/profile/{{ g.user.id }}">Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Log in</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="video-background-holder">
+    <div class="video-background-overlay"></div>
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <source src="static/images/space-shuttle-launch.mp4" type="video/mp4">
+    </video>
   </div>
-</nav>
-<div class="container">
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}
+  <div class="video-background-content container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
 
-  {% block content %}
-  {% endblock %}
+        {% block content %}
+        {% endblock %}
 
-</div>
+        {% block video_overlay %}
+        {% endblock %}
+    </div>
+  </div>
+
 </body>
 </html>

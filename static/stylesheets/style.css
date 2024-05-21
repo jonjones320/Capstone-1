@@ -1,7 +1,7 @@
-/* ====================== General */
+  /* ====================== General */
 
-body {
-    background-color: #e6ecf0;
+  body {
+    background-color: #565353;
   }
   
   body.error-404 {
@@ -23,7 +23,7 @@ body {
   /* ======================= Nav */
   
   .navbar {
-    background-color: #fff;
+    background-color: #ece9e9;
     height: 46px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     margin-bottom: 1rem;
@@ -32,13 +32,13 @@ body {
   }
   
   .navbar a {
-    color: #66757f;
+    color: #000000;
     font-size: 13px;
     font-weight: bold;
   }
   
   .navbar a:hover {
-    color: #1c94e0;
+    color: #fd0000;
   }
   
   .navbar-brand {
@@ -101,6 +101,10 @@ body {
   #search:focus {
     box-shadow: none;
     border: 2px solid #007bff;
+  }
+
+  .dropdown-menu {
+    min-width: 270px;
   }
   
   /* on "onboarding" pages (signup & login), the navbar is
@@ -388,8 +392,40 @@ body {
     padding-top: 5%
   }
   
-  /* ============================ Signed out home */
+  /* ============================ HOME ============================*/
+
+  .video-background-holder video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   
+  .video-background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .video-background-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  #blast_off {
+    padding: 1rem;
+    text-decoration: none;
+  }
+
+  /* ============================ Signed out home */
+
   .home-hero {
     height: 100vh;
     display: flex;

@@ -1,63 +1,10 @@
 {% extends 'base.html' %}
-{% block content %}
-  <div class="row">
-
-    <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
-      <div class="card user-card">
-        <div>
-          <div class="image-wrapper">
-            <img src="{{ current_user.header_img_url }}" alt="" class="card-hero">
-          </div>
-          <a href="/user/profile/{{ current_user.id }}" class="card-link">
-            <img src="{{ current_user.img_url }}"
-                 alt="Image for {{ current_user.username }}"
-                 class="card-image">
-            <p>{{ current_user.username }}</p>
-          </a>
-          <ul class="user-stats nav nav-pills">
-            <li class="stat">
-              <p class="medium"> Collections: 
-                <a href="/collection/user/{{ current_user.id}}">{{ current_user.collections | length }}</a>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </aside>
-
-    <div class="col-lg-6 col-md-8 col-sm-12">
-      <ul class="list-group" id="collections">
-        {% for launch in launches %}
-          <li class="list-group-item">
-
-            {% if g.user %}
-            <div class="collect-btn">
-            {% if g.user.is_collected(launch) %}
-              <form method="POST"
-                    action="/collection/uncollect/{{ launch.id }}">
-                <button class="btn btn-primary btn-sm">Uncollect</button>
-              </form>
-            {% else %}
-              <form method="POST"
-                    action="/collection/collect/{{ launch.id }}">
-                <button class="btn btn-outline-primary btn-sm">Collect</button>
-              </form>
-            {% endif %}
-            </div>
-            {% endif %}
-
-            <a href="/launch/{{ launch.name }}">
-              <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
-            </a>
-            <div class="launch-area">
-              <p>Name: <a href="/launch/{{ launch.name }}">{{ launch.name }}</a></p>
-              <p><span class="text-muted">Date: {{ launch.date }}</span></p>
-              <p>Debrief: {{ launch.description }}</p>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
+{% block video_overlay %}
+    <div class="w-100 text-white">
+      <h1 class="display-4">The Launch Tracker</h1>
+      <p class="lead mb-0">Discover launches and beyond</p>
+      <p class="lead" id="blast_off">
+        <a href="launch/index" class="btn btn-danger ">Blast Off</a>
+      </p>
     </div>
-
-  </div>
 {% endblock %}
