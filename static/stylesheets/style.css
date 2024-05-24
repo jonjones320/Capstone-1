@@ -280,15 +280,27 @@
     z-index: 1;
   }
   
-  #messages .list-group-item a:not(.message-link) {
+  .header {
+    background-color: rgba(255, 255, 255, 0.53);
+    border-radius: 9px;
+    text-align: center;
+  }
+
+  #collect-button {
     position: relative;
-    z-index: 2;
+    padding: 7px 20px 12px;
+  }
+
+  .list-group {
+    position: relative;
+    padding: 7px 20px 12px;
   }
   
   #launches .list-group-item {
     display: flex;
     align-items: flex-start;
     padding: 7px 20px 12px;
+    word-wrap: break-word;
   }
   
   #messages:not(.no-hover) .list-group-item:hover {

@@ -3,48 +3,44 @@
 {% block content %}
 
 {% if launch_data %}
-<img class="bg" src="https://www.teslarati.com/wp-content/uploads/2021/04/Crew-2-Crew-Dragon-C206-Falcon-9-B1061-39A-042321-Richard-Angle-streak-1-crop-c.jpg" alt="">
-<div class="row">
-    <div class="col-lg-6 col-md-8 col-sm-12">
-        <div class="card user-card">
-        {% if g.user %}
-        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <div class="btn-group-vertical" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  Collect Launch
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    {% for collection in collections %}
-                    <li>
-                        <form method="POST" action="collect/{{ launch_data[0]['Name'] }}/{{ collection.id }}">
-                            <button type="submit" class="dropdown-item">
-                            {{ collection.name }}
-                            </button>
-                        </form>
-                    </li>
-                    {% endfor %}
-                </ul>
+<img class="bg" src="{{ launch_data[0].Img_URL }}" alt="">
+<div class="container">
+    <div class="header">
+        <h1 class="launch-name">{{ launch_data[0].Name }}</h1>
+        <div class="container" id="collect-button">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group-vertical" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Collect Launch
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        {% for collection in collections %}
+                        <li>
+                            <form method="POST" action="collect/{{ launch_data[0]['Name'] }}/{{ collection.id }}">
+                                <button type="submit" class="dropdown-item">
+                                    {{ collection.name }}
+                                </button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
-        {% endif %}
-        </div>
     </div>
-    
-            <div class="col-lg-6 col-md-8 col-sm-12">
-
-                <ul class="list-group" id="main-list">
-                    <li class="list-group-item list-group-item-dark">Launch Section</li>
-                    {% for key, value in launch_data[0].items() %}
-                        <li class="list-group-item">
-                            {% if 'URL' in key %}
-                                <strong> {{ key }} </strong> 
-                                <a href="{{ value }}"> {{ value }} </a>
-                            {% else %}
-                            <strong> {{ key }} </strong> {{ value }}
-                            {% endif %}
-                        </li>
+    <ul class="list-group" id="main-list">
+    <li class="list-group-item list-group-item-dark">Launch Section</li>
+        {% for key, value in launch_data[0].items() %}
+            <li class="list-group-item">
+                {% if 'URL' in key %}
+                    <strong> {{ key }} </strong> 
+                    <a href="{{ value }}"> {{ value }} </a>
+                {% else %}
+                    <strong> {{ key }} </strong> {{ value }}
+                {% endif %}
+            </li>
                     {% endfor %}
-                </ul>
+    </ul>
 
                 <ul class="list-group" id="mission-list">
                     <li class="list-group-item list-group-item-dark">Rocket Section</li>
@@ -87,7 +83,8 @@
                     </li>
                     {% endfor %}
                 </ul>
-            </div>
+    </div>
+</div>
 {% endif %}
 
 {% endblock %}
