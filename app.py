@@ -119,8 +119,8 @@ def register():
         
         do_login(user)
 
-        flash("Account created succesfully. Welcome!")
-        return redirect(url_for('homepage'))
+        flash("Account created succesfully. Welcome!", "success")
+        return redirect(url_for('show_all_launches'))
 
     else: return render_template('/user/register.html', form=form)
 
@@ -238,7 +238,8 @@ def collections_new():
         
         flash(f"{collection.name} created succesfully. Start collecting now!", 'success')
         return redirect(url_for('show_all_launches'))
-
+    
+    print("***RENDERING NEW FORM***")
     return render_template('collection/new.html', form=form)
 
 

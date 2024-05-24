@@ -2,7 +2,7 @@
 {% block content %}
 
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-6" id="new-collection-form">
       <form method="POST">
         {{ form.csrf_token }}
         <h3>Initialize a collection to store your favorite space missions!</h3>
@@ -21,7 +21,7 @@
           <p>Image for the collection: </p>
           {{ form.img_url(class="form-control", rows="1")}}
         </div>
-        <button class="btn btn-outline-success btn-block">Initiate Launch Sequence</button>
+        <button class="btn btn-danger btn-block">Initiate Launch Sequence</button>
       </form>
     </div>
   </div>
