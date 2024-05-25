@@ -1,37 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="row">
-
-    <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
-      <div class="card user-card">
-        <div>
-          <div class="image-wrapper">
-            <img src="{{ current_user.header_img_url }}" alt="" class="card-hero">
-          </div>
-          <a href="/user/profile/{{ current_user.id }}" class="card-link">
-            <img src="{{ current_user.img_url }}"
-                 alt="Image for {{ current_user.username }}"
-                 class="card-image">
-            <p>{{ current_user.username }}</p>
-          </a>
-          <ul class="user-stats nav nav-pills">
-            <li class="stat">
-              <p class="medium"> 
-                <a href="/collection/user/{{ current_user.id}}">Collections: {{ current_user.collections | length }}</a>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </aside>
-
-    <div class="col-lg-6 col-md-8 col-sm-12">
+  <div class="container">
       <ul class="list-group">
         {% for launch in launches %}
           <li class="list-group-item">
             <div class="launch-area">
               <div class="row text-center">
-                <h4><a href="/launch/{{ launch.name }}">{{ launch.name }}</a></h4>
+                <h4><a class="launch-name" href="/launch/{{ launch.name }}">{{ launch.name }}</a></h4>
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                   <div class="btn-group-vertical" role="group">
                       <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -52,9 +27,9 @@
                 </div>
               </div>
               <a href="/launch/{{ launch.name }}">
-                <img src="{{ launch.img_url }}" alt="" class="home-image-wrapper">
+                <img class="home-image-wrapper" src="{{ launch.img_url }}" alt="" >
               </a>
-              <p><span class="text-muted">Date: {{ launch.date }}</span></p>
+              <p><span class="launch-date">Date: {{ launch.date }}</span></p>
               <p>Debrief: {{ launch.description }}</p>
             </div>
             {% if g.user %}
@@ -62,7 +37,5 @@
           </li>
         {% endfor %}
       </ul>
-    </div>
-
   </div>
 {% endblock %}

@@ -1,6 +1,7 @@
   /* ====================== General */
 
   body {
+    background-image: url("/static/images/spaceX_launch_streak_20160307.avif");
     background-color: #565353;
   }
   
@@ -10,6 +11,10 @@
   
   .form-control {
     margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: #ffffff;
+    background-color: #0000004d;
+    border: none;
   }
   
   .btn {
@@ -23,8 +28,9 @@
   /* ======================= Nav */
   
   .navbar {
-    background-color: #ece9e9;
-    height: 46px;
+    background-color: #ffffff;
+    color: #000000;
+    height: 57px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     margin-bottom: 1rem;
     position: relative;
@@ -33,7 +39,7 @@
   
   .navbar a {
     color: #000000;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: bold;
   }
   
@@ -50,8 +56,8 @@
     display: inline-block;
     margin-bottom: 2px;
     margin-right: 5px;
-    width: 20px;
-    border-radius: 2px;
+    width: 45px;
+    border-radius: 5px;
   }
   
   .nav > li > a > img {
@@ -162,11 +168,6 @@
     margin-top: 100px;
     color: white;
     text-shadow: 8px #000000;
-  }
-
-  #new-collection-form {
-    color: white;
-    background-color: rgba(136, 153, 166, 0.15); 
   }
   
   #profile-image,
@@ -294,6 +295,18 @@
   .list-group {
     position: relative;
     padding: 7px 20px 12px;
+    border: none;
+    border-radius: 5px;
+    background: #212529b8;
+  }
+
+  .list-group-item {
+    color: #ffffff;
+    font-size: larger;
+    background: #212529b8;
+    border: none;
+    margin: 7px 1px 33px 1px;
+    border-radius: 7px;
   }
   
   #launches .list-group-item {
@@ -434,13 +447,19 @@
   }
   
   .video-background-content {
-    position: relative;
+    position: absolute;
     z-index: 1;
   }
 
   #blast_off {
     padding: 1rem;
     text-decoration: none;
+  }
+
+  #home-headlines {
+    background-color: #0000004a;
+    color: white;
+    width: 100 
   }
 
   /* ============================ Signed out home */
@@ -561,7 +580,26 @@
     z-index: -1;
     /* background-color: #62676c; */
   }
+
+  .new-form {
+    position: absolute;
+    justify-content: center;
+  }
+
+  #new-collection-form {
+    color: white;
+    background-color: rgba(136, 153, 166, 0.15); 
+  }
   
+  .collect-btn {
+    align-self: center;
+  }
+
+  .launch-name {
+    color: #f8f9fa;
+    text-decoration: none;
+  }
+
   #launches.no-hover .launch-area {
     width: 100%;
   }
