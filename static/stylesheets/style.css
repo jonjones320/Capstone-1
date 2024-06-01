@@ -325,7 +325,7 @@
   .list-group-item {
     color: #ffffff;
     font-size: larger;
-    background: #212529b8;
+    background: #525353b8;
     border: none;
     margin: 7px 1px 33px 1px;
     border-radius: 7px;
@@ -643,19 +643,44 @@
     min-width: 105px;
   }
   
-  #messages-form {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    z-index: 1;
+  /* ================================ Show Launch Details ================================  */
+
+  .launch-body {
+    padding: 9px;
+    margin: 9px;
   }
-  
-  .single-message {
-    font-size: 27px;
-    line-height: 32px;
-    letter-spacing: 0.01em;
-    margin-bottom: 10px;
+
+  .launch-header {
+    background-color: rgba(255, 255, 255, 0.53);
+    border-radius: 9px;
+    text-align: center;
   }
+
+  .launch-detail-list {
+    background-color: rgb(39 38 38 / 75%);
+    border-radius: 11px;
+    margin-top: 33px;
+  }
+
+  .list-group .launch-detail-list {
+    position: relative;
+    padding: 7px 20px 12px;
+  }
+
+  #section-title {
+    background: #929191b8;
+    text-align: center;
+  }
+
+  .list-group-item .section-details{
+    color: #ffffff;
+    font-size: larger;
+    background: #525353b8;
+    border: none;
+    margin: 7px 1px 33px 1px;
+    border-radius: 7px;
+  }
+
   
   /* ================================ 404 page */
   

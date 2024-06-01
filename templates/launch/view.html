@@ -5,12 +5,12 @@
 {% if launch_data %}
 <img class="bg" src="{{ launch_data[0].Img_URL }}" alt="">
 <div class="container">
-    <div class="header">
+    <div class="launch-header">
         <h1 class="launch-name">{{ launch_data[0].Name }}</h1>
         <div class="container" id="collect-button">
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                 <div class="btn-group-vertical" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Collect Launch
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -28,57 +28,62 @@
             </div>
         </div>
     </div>
-    <ul class="list-group" id="main-list">
-    <li class="list-group-item list-group-item-dark">Launch Section</li>
-        {% for key, value in launch_data[0].items() %}
-            <li class="list-group-item">
-                {% if 'URL' in key %}
-                    <strong> {{ key }} </strong> 
-                    <a href="{{ value }}"> {{ value }} </a>
-                {% else %}
-                    <strong> {{ key }} </strong> {{ value }}
-                {% endif %}
-            </li>
-                    {% endfor %}
-    </ul>
+    <div class="launch-body">
+        <ul class="list-group launch-detail-list" id="main-list">
+            <li class="list-group-item" id="section-title">Launch Section</li>
+            {% for key, value in launch_data[0].items() %}
+                <li class="list-group-item" id="section-details">
+                    {% if 'URL' in key %}
+                        <strong><u>{{ key }}</u></strong> 
+                        <a href="{{ value }}">{{ value }}</a>
+                    {% else %}
+                        <strong><u>{{ key }}</u></strong>
+                        <div>{{ value }}</div>
+                    {% endif %}
+                </li>
+                        {% endfor %}
+        </ul>
 
-                <ul class="list-group" id="mission-list">
-                    <li class="list-group-item list-group-item-dark">Rocket Section</li>
+                <ul class="list-group launch-detail-list" id="mission-list">
+                    <li class="list-group-item" id="section-title">Rocket Section</li>
                     {% for key, value in launch_data[1].items() %}
-                    <li class="list-group-item">
+                    <li class="list-group-item section-details">
                         {% if 'URL' in key %}
-                            <strong> {{ key }} </strong> 
-                            <a href="{{ value }}"> {{ value }} </a>
+                            <strong><u>{{ key }}</u></strong> 
+                            <a href="{{ value }}">{{ value }}</a>
                         {% else %}
-                        <strong> {{ key }} </strong> {{ value }}
+                        <strong><u>{{ key }}</u></strong>
+                        <div>{{ value }}</div>
                         {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
 
-                <ul class="list-group" id="rocket-list">
-                    <li class="list-group-item list-group-item-dark">Mission Section</li>
+                <ul class="list-group launch-detail-list" id="rocket-list">
+                    <li class="list-group-item" id="section-title">Mission Section</li>
                     {% for key, value in launch_data[2].items() %}
-                    <li class="list-group-item">
+                    <li class="list-group-item section-details">
                         {% if 'URL' in key %}
-                            <strong> {{ key }} </strong> 
-                            <a href="{{ value }}"> {{ value }} </a>
+                            <strong><u>{{ key }}</u></strong> 
+                            <a href="{{ value }}">{{ value }}</a>
                         {% else %}
-                        <strong> {{ key }} </strong> {{ value }}
+                        <strong><u>{{ key }}</u></strong>
+                        <div>{{ value }}</div>
                         {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
 
-                <ul class="list-group" id="pad-list">
-                    <li class="list-group-item list-group-item-dark">Pad Section</li>
+                <ul class="list-group launch-detail-list" id="pad-list">
+                    <li class="list-group-item" id="section-title">Pad Section</li>
                     {% for key, value in launch_data[3].items() %}
-                    <li class="list-group-item">
+                    <li class="list-group-item section-details">
                         {% if 'URL' in key %}
-                            <strong> {{ key }} </strong> 
-                            <a href="{{ value }}"> {{ value }} </a>
+                            <strong><u>{{ key }}</u></strong> 
+                            <a href="{{ value }}">{{ value }}</a>
                         {% else %}
-                        <strong> {{ key }} </strong> {{ value }}
+                        <strong><u>{{ key }}</u></strong>
+                        <div>{{ value }}</div>
                         {% endif %}
                     </li>
                     {% endfor %}
