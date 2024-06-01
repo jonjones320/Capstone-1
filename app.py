@@ -146,6 +146,8 @@ def list_users():
 def view_user(user_id):
     """View a user's profile."""
 
+    user = User.query.get_or_404(user_id)
+
     collections = (Collection
                 .query
                 .filter(Collection.createdBy == user_id)
@@ -153,7 +155,7 @@ def view_user(user_id):
                 .limit(100)
                 .all())
     
-    return render_template('user/profile.html', user=g.user, collections=collections)
+    return render_template('user/profile.html', user=user, collections=collections)
 
 
 @app.route('/user/profile/edit', methods=["GET", "POST"])
