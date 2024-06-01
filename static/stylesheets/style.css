@@ -38,6 +38,11 @@
     padding: 0;
     margin: 0;
   }
+
+  ul li a {
+    display: block;
+    padding: 6px;
+  }
   
   /* ======================= Nav */
   

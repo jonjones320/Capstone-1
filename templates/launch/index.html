@@ -3,8 +3,8 @@
   <div class="container">
       <ul class="list-group">
         {% for launch in launches %}
-          <li class="list-group-item">
-            <div class="launch-area">
+        <li class="list-group-item">
+            <a class="launch-area">
               <div class="row text-center">
                 <h4><a class="launch-name" href="/launch/{{ launch.name }}">{{ launch.name }}</a></h4>
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -31,7 +31,7 @@
               </a>
               <p><span class="launch-date">Date: {{ launch.date }}</span></p>
               <p>Debrief: {{ launch.description }}</p>
-            </div>
+            </a>
             {% if g.user %}
             {% endif %}
           </li>
