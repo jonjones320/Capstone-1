@@ -107,3 +107,18 @@ def previous_launches(start_time, end_time, next_url=None):
 
     next_url = f"next: {data.get('next')}"
     return launches, next_url
+
+
+
+def search_launches(search_term):
+
+    if not search_term:
+        return
+    else:
+        res = requests.get(
+            launch_base_url,
+            params={
+                'mode' : 'list',
+                'search' : search_term
+            }
+        )

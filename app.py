@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
-from helpers import previous_launches, all_launches, get_launch
+from helpers import previous_launches, all_launches, get_launch, search_launches
 
 CURR_USER_KEY = "curr_user"
 
@@ -291,12 +291,15 @@ def collection_delete(collection_id):
 @app.route('/launch/search')
 def search_launches():
     """Searches launches"""
-    search = request.args.get('q')
+    search_term = request.args.get('q')
 
-    allLaunches = all_launches()
+    searched_launches = search_launches(search_term)
 
-    searched_launches = [
-        launch for launch in allLaunches if search.lower() in launch['name'].lower()]
+    # allLaunches = all_launches()
+
+    # searched_launches = [
+    #     launch for launch in allLaunches if search in launch['name'].lower()]
+    # print("***SEARCHED_LAUNCHES***: ", searched_launches)
 
     return render_template('launch/index.html', launches=searched_launches, current_user=g.user)
     
