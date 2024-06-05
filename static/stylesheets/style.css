@@ -39,6 +39,10 @@
     margin: 0;
   }
 
+  .container {
+    padding-top: calc(var(--bs-gutter-x));
+  }
+
   ul li a {
     display: block;
     padding: 6px;
@@ -646,9 +650,10 @@
   }
 
   .launch-header {
-    background-color: rgba(255, 255, 255, 0.53);
+    background-color: rgba(0, 0, 0, 0.857);
     border-radius: 9px;
     text-align: center;
+    padding: 11px;
   }
 
   .launch-detail-list {

@@ -131,7 +131,7 @@ def launch_search(search_term):
                 'date' : launch['net'],
                 'name' : launch['name'],
                 'status' : launch['status']['name'],
-                'description' : launch['mission']['description'],
+                'description' : launch['status']['description'],
                 'img_url' : launch['image'],
                 'ordering' : 'net'
             }
