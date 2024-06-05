@@ -14,7 +14,6 @@ def all_launches():
     res = requests.get(
         launch_base_url,
         params={
-            'launch' : '/2.2.0/launch/',
             'ordering' : 'net'
         }
     )
@@ -110,15 +109,32 @@ def previous_launches(start_time, end_time, next_url=None):
 
 
 
-def search_launches(search_term):
+def launch_search(search_term):
 
-    if not search_term:
-        return
+    res = requests.get(
+        launch_base_url,
+        params={
+            'mode' : 'list',
+            'search' : search_term
+        }
+    )
+    print("---RES---: ", res)
+    data = res.json()
+    print("---DATA---: ", data)
+    if data['count'] == 0:
+        return None
     else:
-        res = requests.get(
-            launch_base_url,
-            params={
-                'mode' : 'list',
-                'search' : search_term
+        searched_launches = []
+        for launch in data['results']:
+            launch_info = {
+                'id' : launch['id'],
+                'date' : launch['net'],
+                'name' : launch['name'],
+                'status' : launch['status']['name'],
+                'description' : launch['mission']['description'],
+                'img_url' : launch['image'],
+                'ordering' : 'net'
             }
-        )
+            searched_launches.append(launch_info)
+        print("---SEARCHED_LAUNCHES---: ", searched_launches)
+        return searched_launches

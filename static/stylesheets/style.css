@@ -51,6 +51,7 @@
     color: #000000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     margin-bottom: 1rem;
+    padding: 0 15px;
     position: relative;
     z-index: 9999;
   }
@@ -173,12 +174,6 @@
   @media (max-width: 468px) {
     nav form.navbar-form {
       display: none;
-    }
-  }
-
-  @media (max-width: 1350px) {
-    .navbar .container-fluid {
-      padding: 0 15px; /* Adjust padding as needed */
     }
   }
   

@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import db, connect_db, User, Launch, Collection, Launch_Collection, SQLAlchemy
 from forms import RegisterUserForm, CollectionForm, LaunchForm, ProfileForm, LoginForm
-from helpers import previous_launches, all_launches, get_launch, search_launches
+from helpers import previous_launches, all_launches, get_launch, launch_search
 
 CURR_USER_KEY = "curr_user"
 
@@ -291,17 +291,22 @@ def collection_delete(collection_id):
 @app.route('/launch/search')
 def search_launches():
     """Searches launches"""
+
     search_term = request.args.get('q')
+    print("@@@ SEARCH_TERM @@@: ", search_term)
+    
+    if not search_term:
+        flash("")
+        return redirect('/launch/index')
+    else:
+        searched_launches = launch_search(search_term)
+        print("@@@ SEARCHED_LAUNCHES @@@: ", searched_launches)
 
-    searched_launches = search_launches(search_term)
-
-    # allLaunches = all_launches()
-
-    # searched_launches = [
-    #     launch for launch in allLaunches if search in launch['name'].lower()]
-    # print("***SEARCHED_LAUNCHES***: ", searched_launches)
-
-    return render_template('launch/index.html', launches=searched_launches, current_user=g.user)
+    if searched_launches is None:
+        flash("No results found. Try again, or browse the launches below", "danger")
+        return redirect('/launch/index')
+    else:
+        return render_template('launch/index.html', launches=searched_launches, current_user=g.user)
     
 
 @app.route('/launch/index')
