@@ -8,16 +8,20 @@
       <ul class="list-group no-hover" id="collections">
 
         {% for collection in user.collections %}
-        <li class="list-group-item">
+        <li class="list-group-item" id="collection-list-item">
           <a href="{{ url_for('collection_show', collection_id=collection.id) }}">
             <img src="{{ collection.img_url }}" alt="" class="timeline-image">
           </a>
           <div class="collection-area">
             <div class="collection-heading">
-              <a href="{{ url_for('collection_show', collection_id=collection.id) }}">{{ collection.name }}</a>
+              <a  class="btn btn-danger btn-lg"
+                  id="collection-name" 
+                  href="{{ url_for('collection_show', collection_id=collection.id) }}">
+                  {{ collection.name }}
+              </a>
             </div>
-            <p class="single-message">{{ collection.description }}</p>
-            <span class="text-muted">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</span>
+            <div class="collection-description">{{ collection.description }}</div>
+            <div class="text-muted">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</div>
           </div>
         </li>
         {% endfor %}

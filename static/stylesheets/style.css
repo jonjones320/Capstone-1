@@ -238,6 +238,22 @@
   .collection-area {
     margin-left: 10px;
   }
+
+  #collection-name {
+    text-decoration: none;
+    color: rgb(132, 1, 1)
+  }
+
+  #collection-list-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .collection-description {
+    padding: 9px;
+    margin: 9px;
+  }
   
   #rocket-hero {
     height: 360px;
@@ -371,6 +387,15 @@
   .user-location {
     color: #bac2c9;
   }
+
+  /* ==================== Collections =================== */
+
+  #collection-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   
   /* ==================== User cards ==================== */
   
