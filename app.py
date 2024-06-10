@@ -266,7 +266,7 @@ def collection_show(collection_id):
     for launch_id in launch_ids:
         launch = Launch.query.filter_by(id=launch_id).first()
         launches.append(launch)
-    print("***Collection*** ", collection)
+
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
@@ -278,8 +278,8 @@ def collection_delete(collection_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    collection = Collection.query.get(collection_id)
-    db.session.delete(collection)
+    Collection.query.filter_by(id=collection_id).delete()
+
     db.session.commit()
 
     return redirect(url_for("all_collections", user_id=g.user.id))
