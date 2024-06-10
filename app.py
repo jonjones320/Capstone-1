@@ -148,14 +148,14 @@ def view_user(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    collections = (Collection
+    collection = (Collection
                 .query
                 .filter(Collection.createdBy == user_id)
                 .order_by(Collection.createdDate.desc())
                 .limit(100)
                 .all())
-    
-    return render_template('user/profile.html', user=user, collections=collections)
+    print("### COLLECTIONS ###: ", collection)
+    return render_template('user/profile.html', user=user, collections=collection)
 
 
 @app.route('/user/profile/edit', methods=["GET", "POST"])
@@ -241,7 +241,6 @@ def collections_new():
         flash(f"{collection.name} created succesfully. Start collecting now!", 'success')
         return redirect(url_for('show_all_launches'))
     
-    print("***RENDERING NEW FORM***")
     return render_template('collection/new.html', form=form)
 
 

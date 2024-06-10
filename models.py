@@ -216,8 +216,7 @@ class Collection(db.Model):
     )
     name = db.Column(
         db.String,
-        nullable=False,
-        unique=True
+        nullable=False
     )
     description = db.Column(
         db.String,
@@ -229,8 +228,8 @@ class Collection(db.Model):
     )
     createdDate = db.Column(
         db.DateTime,
-        nullable=False,
-        default=datetime.now()
+        default=datetime.now(),
+        nullable=False
     )
     createdBy = db.Column(
         db.Integer,

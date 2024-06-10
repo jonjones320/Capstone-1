@@ -6,22 +6,23 @@
 
 <img src="{{ user.img_url }}" alt="Image for {{ user.username }}" id="profile-avatar">
 <div class="row full-width">
-  <div class="container">
+  <div class="container-fluid" id="user-nav">
     <div class="row justify-content-end">
       <div class="col-9">
         <ul class="user-stats nav nav-pills">
-          <li class="stat">
-            <p class="small">Collections</p>
-            <h4>
-              <a href="/collection/user/{{ user.id }}">{{ user.collections | length }}</a>
+          <div class="stat">
+            <h4>Collections:
+              <a href="/collection/user/{{ user.id }}" class="btn btn-danger">{{ user.collections | length }}</a>
             </h4>
-          </li>
+          </div>
+          {% if user == g.user %}
           <div class="ml-auto">
-            <a href="/user/profile/edit" class="btn btn-outline-secondary">Edit Profile</a>
+            <a href="/user/profile/edit" class="btn btn-secondary">Edit Profile</a>
             <form method="POST" action="/user/delete" class="form-inline">
               <button class="btn btn-outline-danger ml-2">Delete Profile</button>
             </form>
           </div>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -29,27 +30,27 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-3">
-    <h4 id="sidebar-username">{{ user.username }}</h4>
-    <p>{{ user.bio }}</p>
-    <p class="user-location"><span class="fa fa-map-marker"></span>{{ user.location }}</p>
-  </div>
-
-  <li class="list-group-item">
-    {% if collection | length > 0 %}
-    <a href="/collection/{{ collection.id }}" class="message-link">
-      
-    <div class="message-area">
-      <a href="/user/{{ user.id }}">@{{ user.username }}</a>
-      <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
-      <p>{{ collection.description }}</p>
+  <div class="container-fluid" id="profile-box">
+    <div class="col-sm-3 user-card">
+      <h4 id="sidebar-username">{{ user.username }}</h4>
+      <p>{{ user.bio }}</p>
+      <p class="user-location"><span class="fa fa-map-marker"></span>{{ user.location }}</p>
     </div>
-    {% endif %}
-    <a href="/user/{{ user.id }}">
-      <img src="{{ user.img_url }}" alt="user image" class="timeline-image">
-    </a>
-      
-  </li>
+    <div class="col-9">
+      <li class="list-group-item">
+        {% if collection | length > 0 %}
+        <a href="/collection/{{ collection.id }}" class="collection-link">
+        <div class="collection-area">
+          {% for collection in collections %}
+            <a href="/collection/{{ collection.id }}">{{ collection.name }}</a>
+            <span class="text-muted">{{ collection.createdDate.strftime('%d %B %Y') }}</span>
+            <p>{{ collection.description }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </li>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
