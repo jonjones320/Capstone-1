@@ -266,7 +266,7 @@ def collection_show(collection_id):
     for launch_id in launch_ids:
         launch = Launch.query.filter_by(id=launch_id).first()
         launches.append(launch)
-    print("***LAUNCHES*** ", launches)
+    print("***Collection*** ", collection)
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 

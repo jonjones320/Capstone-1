@@ -235,26 +235,6 @@
     display: inline-block;
   }
   
-  .collection-area {
-    margin-left: 10px;
-  }
-
-  #collection-name {
-    text-decoration: none;
-    color: rgb(132, 1, 1)
-  }
-
-  #collection-list-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .collection-description {
-    padding: 9px;
-    margin: 9px;
-  }
-  
   #rocket-hero {
     height: 360px;
     margin-top: -16px;
@@ -386,14 +366,6 @@
   
   .user-location {
     color: #bac2c9;
-  }
-
-  /* ==================== Collections =================== */
-
-  #collection-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   
@@ -652,37 +624,94 @@
     position: absolute;
     justify-content: center;
   }
+  
+  /* ================================ Collection Pages ================================  */
+
+  #collection-image-row {
+    display: flex;
+    justify-content: center;
+    padding: 11px;
+  }
+  
+  #collection-image {
+    text-decoration: none;
+    font-size: small;
+    color: rgb(159, 154, 154)
+  }
+
+  .collection-header {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.71);
+    border-radius: 9px;
+    text-align: center;
+    padding: 11px;
+  }
+
+  .collection-name {
+    color: #f8f9fa;
+    text-decoration: none;
+  }
 
   #new-collection-form {
     color: white;
     background-color: rgba(136, 153, 166, 0.15); 
   }
   
+  #collection-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #collection-detail-list {
+    text-decoration: none;
+    background-color: rgb(39 38 38 / 75%);
+    border-radius: 11px;
+  }
+
+  #collection-details {
+    text-decoration: none;
+    padding: 9px;
+    margin: 9px;
+  }
+
+  #collection-detail-row {
+    border: 9px black;
+  }
+
+  .collection-footer {
+    display: flex;
+    padding: 19px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .collection-area {
+    margin-left: 10px;
+  }
+
+  #collection-name {
+    text-decoration: none;
+    color: rgb(132, 1, 1)
+  }
+
+  #collection-list-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .collection-description {
+    padding: 9px;
+    margin: 9px;
+  }
+
+
+  /* ================================ Launch Pages ================================  */
+
   .collect-btn {
     align-self: center;
   }
-
-  .launch-name {
-    color: #f8f9fa;
-    text-decoration: none;
-  }
-
-  #launches.no-hover .launch-area {
-    width: 100%;
-  }
-  
-  #launches.no-hover .launch-heading {
-    display: flex;
-    justify-content: space-between;
-    height: 47px;
-    margin-top: 3px;
-  }
-  
-  #launches.no-hover .launch-heading .btn {
-    min-width: 105px;
-  }
-  
-  /* ================================ Show Launch Details ================================  */
 
   .launch-body {
     padding: 9px;
@@ -721,6 +750,25 @@
     border-radius: 7px;
   }
 
+  .launch-name {
+    color: #f8f9fa;
+    text-decoration: none;
+  }
+
+  #launches.no-hover .launch-area {
+    width: 100%;
+  }
+  
+  #launches.no-hover .launch-heading {
+    display: flex;
+    justify-content: space-between;
+    height: 47px;
+    margin-top: 3px;
+  }
+  
+  #launches.no-hover .launch-heading .btn {
+    min-width: 105px;
+  }
   
   /* ================================ 404 page */
   
