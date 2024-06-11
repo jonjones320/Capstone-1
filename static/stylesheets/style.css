@@ -627,6 +627,17 @@
   
   /* ================================ Collection Pages ================================  */
 
+  #all-collections-column {
+    background-color: #00000063;
+  }
+
+  #all-collections-title {
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 21px;
+  }
+
   #collection-image-row {
     display: flex;
     justify-content: center;

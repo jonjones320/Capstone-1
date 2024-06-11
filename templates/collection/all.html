@@ -4,13 +4,14 @@
 
   <div class="bg"></div>
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-6" id="all-collections-column">
+      <h1 id="all-collections-title">{{ user.username }}'s Collections</h1>
       <ul class="list-group no-hover" id="collections">
 
         {% for collection in user.collections %}
         <li class="list-group-item" id="collection-list-item">
           <a href="{{ url_for('collection_show', collection_id=collection.id) }}">
-            <img src="{{ collection.img_url }}" alt="" class="timeline-image">
+            <img src="{{ collection.img_url }}" alt="" id="collection-image">
           </a>
           <div class="collection-area">
             <div class="collection-heading">
@@ -21,7 +22,7 @@
               </a>
             </div>
             <div class="collection-description">{{ collection.description }}</div>
-            <div class="text-muted">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</div>
+            <div class="fs-6">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</div>
           </div>
         </li>
         {% endfor %}
