@@ -676,7 +676,6 @@
 
   #collection-detail-list {
     text-decoration: none;
-    background-color: rgb(39 38 38 / 75%);
     border-radius: 11px;
   }
 
@@ -687,7 +686,11 @@
   }
 
   #collection-detail-row {
-    border: 9px black;
+    border-radius: 11px;
+    background-color: rgb(39 38 38 / 75%);
+    margin: 9px;
+    padding: 9px;
+    justify-content: center;
   }
 
   .collection-footer {
@@ -715,6 +718,12 @@
   .collection-description {
     padding: 9px;
     margin: 9px;
+  }
+
+  #section-title {
+    background: #929191b8;
+    text-align: center;
+    border-radius: 9px;
   }
 
 
@@ -745,11 +754,6 @@
   .list-group .launch-detail-list {
     position: relative;
     padding: 7px 20px 12px;
-  }
-
-  #section-title {
-    background: #929191b8;
-    text-align: center;
   }
 
   .list-group-item .section-details{

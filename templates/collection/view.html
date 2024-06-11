@@ -24,11 +24,11 @@
               <div class="row" id="collection-detail-row">
                 <div class="bg"></div>
                 <a href="/launch/{{ launch.name }}" id="collection-details">
-                  <li class="list-group-item" id="section-title">Launch ID: {{ launch.id }}</li>
-                  <li class="list-group-item">Name: {{ launch.name }}</li>
-                  <li class="list-group-item">Launch Date: {{ launch.launch_date }}</li>
-                  <li class="list-group-item">Pad: {{ launch.pad_name }}</li>
-                  <li class="list-group-item">Status: {{ launch.status }}</li>
+                  <li class="list-group-item" id="section-title">{{ launch.name }}</li>
+                  <li class="list-group-item"><b>Launch ID:</b> {{ launch.id }}</li>
+                  <li class="list-group-item"><b>Launch Date:</b> {{ launch.launch_date }}</li>
+                  <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
+                  <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
                 </a>
               </div>
             {% endfor %}
