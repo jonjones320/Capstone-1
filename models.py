@@ -249,12 +249,13 @@ class Collection(db.Model):
     )
     
     @classmethod
-    def create(cls, name, description, createdBy):
+    def create(cls, name, description, img_url, createdBy):
         """Creates new collection and adds it to DB"""
 
         collection = Collection(
             name=name,
             description=description,
+            img_url=img_url,
             createdBy=createdBy
         )
 

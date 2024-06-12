@@ -230,6 +230,7 @@ def collections_new():
             collection = Collection.create(
                 name=form.name.data,
                 description=form.description.data,
+                img_url=form.img_url.data,
                 createdBy=g.user.id
                 )
             db.session.commit()
