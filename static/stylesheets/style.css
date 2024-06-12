@@ -726,6 +726,12 @@
     border-radius: 9px;
   }
 
+  #collection-form input::placeholder,
+  #collection-form textarea::placeholder {
+    color:    rgb(255, 255, 255);
+    font-size: .9rem;
+    font-style: italic;
+  }
 
   /* ================================ Launch Pages ================================  */
 

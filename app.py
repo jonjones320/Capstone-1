@@ -239,7 +239,7 @@ def collections_new():
             return render_template('collection/new.html', form=form)
         
         flash(f"{collection.name} created succesfully. Start collecting now!", 'success')
-        return redirect(url_for('show_all_launches'))
+        return redirect(url_for('collection_show', collection_id=collection.id))
     
     return render_template('collection/new.html', form=form)
 
