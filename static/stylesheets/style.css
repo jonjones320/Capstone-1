@@ -26,7 +26,7 @@
   }
   
   .btn {
-    border-radius: 50px;
+    border-radius: 9px;
   }
   
   .btn:hover {
@@ -196,7 +196,8 @@
   }
 
   .join-message {
-    margin-top: 100px;
+    margin-top: 33px;
+    margin-bottom: 33px;
     color: white;
     text-shadow: 8px #000000;
   }
@@ -513,7 +514,6 @@
     top: 0;
     width: 100vw;
     left: 0;
-    z-index: -1;
     background-image: url("/static/images/signed-out-home.jpg");
     background-size: cover;
     background-position: center center;
@@ -531,18 +531,26 @@
   }
   
   .home-hero h1 {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
   
-  /* .home-hero:before {
+  .home-hero:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.3);
-  } */
+  }
+
+  #btn-sign-up {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #btn-login {
+    margin: 0.5rem;
+  }
   
   /* ============================== Signed in Home */
   
@@ -592,10 +600,43 @@
   /* ========================== Signup/Login */
   
   #user_form input.form-control {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 13px;
     padding: 12px;
   }
+  
+  #user_form input::placeholder
+  {
+    color:    rgb(165, 165, 165);
+    font-size: .9rem;
+  }
+
+  #login-row {
+    background-color: #00000063;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-label {
+    color: white;
+    font-size: 19px;
+  }
+
+  #btn-cancel {
+    margin: 0.5rem;
+  }
+  
+  #join-column {
+    display: flex;
+    justify-content: center;
+  }
+
+  #login-column {
+    display: flex;
+    justify-content: center;
+    background-color: #00000063;
+  }
+
   
   /* =========================== Edit Page */
   

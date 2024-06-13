@@ -34,11 +34,9 @@ class RegisterUserForm(FlaskForm):
         password = PasswordField(
             'Password', validators=[DataRequired(), Length(min=6)])
         confirmPassword = PasswordField(
-            'Confirm Password', validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")])
+            'Confirm Password', validators=[DataRequired(), 
+            EqualTo("password", message="Passwords do not match.")])
 
-    # VS Code provided validation. Checks the form entries vs. the validators:
-        def validate(self, extra_validators: Mapping[str, Sequence[Any]] | None = None) -> bool:
-                return super().validate(extra_validators)
 
 
 class CollectionForm(ModelForm):
@@ -59,9 +57,12 @@ class LaunchForm(ModelForm):
 class LoginForm(FlaskForm):
     """Login user form"""
 
-    username = StringField('Username', validators=[DataRequired()])
-    email = EmailField('Email', validators=[Email()])
-    password = StringField('Password', validators=[DataRequired()])
+    username = StringField(
+        'Username', validators=[DataRequired()])
+    email = EmailField(
+        'Email', validators=[Email()])
+    password = PasswordField(
+        'Password', validators=[DataRequired()])
 
 
 class ProfileForm(ModelForm):
