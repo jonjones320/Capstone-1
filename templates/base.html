@@ -24,16 +24,6 @@
         </a>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        {% if request.endpoint != None %}
-        <li>
-          <form class="navbar-form navbar-right" action="/launch/search">
-            <input name="q" class="form-control" placeholder="Search Launch Tracker" id="search">
-            <button class="btn btn-default">
-              <span class="fa fa-search"></span>
-            </button>
-          </form>
-        </li>
-        {% endif %}
         {% if g.user.id %}
           <li>
             <a href="/user/profile/{{ g.user.id }}">

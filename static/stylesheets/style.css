@@ -815,6 +815,7 @@
   .launch-name {
     color: #f8f9fa;
     text-decoration: none;
+    background-color: #00000063;
   }
 
   #launches.no-hover .launch-area {
