@@ -154,7 +154,7 @@ def view_user(user_id):
                 .order_by(Collection.createdDate.desc())
                 .limit(100)
                 .all())
-    print("### COLLECTIONS ###: ", collection)
+    
     return render_template('user/profile.html', user=user, collections=collection)
 
 
@@ -178,8 +178,8 @@ def profile():
                     user,
                     username=form.username.data or user.username,
                     email=user.email or form.email.data,
-                    image_url=form.img_url.data or user.img_url,
-                    header_image_url=form.header_img_url.data or user.header_img_url,
+                    img_url=form.img_url.data or user.img_url,
+                    header_img_url=form.header_img_url.data or user.header_img_url,
                     bio=form.bio.data 
                         or user.bio,
                     location=form.location.data 

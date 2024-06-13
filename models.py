@@ -100,18 +100,25 @@ class User(db.Model):
         return False
 
     @classmethod
-    def edit_profile(cls, user, username, email, image_url, header_image_url, bio, location):
+    def edit_profile(cls, user, username, email, img_url, header_img_url, bio, location):
         """Edits and updates user profile."""
+        print("MODELS_EDIT_USER_NOT_COMMITTED")
+        print(f"Before update: {user.username}, {user.email}, {user.img_url}, {user.header_img_url}, {user.bio}, {user.location}")
 
-        user.username=username,
-        user.email=email,
-        user.image_url=image_url,
-        user.header_image_url=header_image_url,
-        user.bio=bio,
+        user.username=username
+        user.email=email
+        user.img_url=img_url
+        user.header_img_url=header_img_url
+        user.bio=bio
         user.location=location
-        db.session.commit()
 
-        return User()
+        print(f"After update: {user.username}, {user.email}, {user.img_url}, {user.header_img_url}, {user.bio}, {user.location}")
+
+        db.session.commit()
+        print("MODELS_EDIT_USER_COMMITTED")
+        print("MODELS USER: ", user)
+
+        return user
 
 
 

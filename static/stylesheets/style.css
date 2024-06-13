@@ -54,7 +54,7 @@
     background-color: #ffffff;
     color: #000000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     padding: 0 15px;
     position: relative;
     z-index: 9999;
@@ -334,7 +334,7 @@
   .list-group-item {
     color: #ffffff;
     font-size: larger;
-    background: #525353b8;
+    background: #00000063;
     border: none;
     margin: 7px 1px 33px 1px;
     border-radius: 7px;
