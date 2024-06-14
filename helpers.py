@@ -121,7 +121,7 @@ def launch_search(search_term):
     res = requests.get(
         launch_base_url,
         params={
-            'mode' : 'list',
+            'ordering' : 'net',
             'search' : search_term
         }
     )
@@ -138,9 +138,11 @@ def launch_search(search_term):
                 'date' : launch['net'],
                 'name' : launch['name'],
                 'status' : launch['status']['name'],
-                'description' : launch['status']['description'],
+                'description' : launch['mission']['description'],
                 'img_url' : launch['image'],
-                'ordering' : 'net'
+                'organization' : launch['launch_service_provider']['name'],
+                'organization_type' : launch['launch_service_provider']['type'],
+                'location' : launch['pad']['location']['name']
             }
             searched_launches.append(launch_info)
         print("---SEARCHED_LAUNCHES---: ", searched_launches)

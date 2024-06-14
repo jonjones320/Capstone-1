@@ -7,11 +7,8 @@
     <div class="row">
       {% if request.endpoint != None %}
       <li>
-        <form class="navbar-form navbar-right" action="/launch/search">
+        <form action="/launch/search">
           <input name="q" class="form-control" placeholder="Search Launches" id="search">
-          <button class="btn btn-default">
-            <span class="fa fa-search"></span>
-          </button>
         </form>
       </li>
       {% endif %}
