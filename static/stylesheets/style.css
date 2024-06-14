@@ -706,17 +706,6 @@
     text-decoration: none;
   }
 
-  #new-collection-form {
-    color: white;
-    background-color: rgba(136, 153, 166, 0.15); 
-  }
-  
-  #collection-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   #collection-detail-list {
     text-decoration: none;
     border-radius: 11px;
@@ -769,12 +758,26 @@
     border-radius: 9px;
   }
 
-  #collection-form input::placeholder,
-  #collection-form textarea::placeholder {
+  #new-collection-form input::placeholder,
+  #new-collection-form textarea::placeholder {
     color:    rgb(255, 255, 255);
     font-size: .9rem;
     font-style: italic;
   }
+
+  #new-collection-headline {
+    margin: 21px;
+    padding: 21px;
+    background-color: #00000075;
+  }
+
+  #new-collection-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 31px;
+  }
+
 
   /* ================================ Launch Pages ================================  */
 
