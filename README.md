@@ -61,9 +61,9 @@ Include screenshots or GIFs that show your application in action. Use tools like
 
 ## Future Work
 
-
-- The Launch Tracker will be incorporated with more user interaction i.e. sharing collections with other users, adding friendship connections, sending launches or other data to other users. 
-- Currently, the quantity of the data collected and stored could be improved. Right now the main details for each launch are retrieved and stored, but the API has a wealth of information about every detail of every launch. In the future, all of it may be accessed, for the ultra-curious space pioneer.
+- The Launch Tracker will get more focused and compartmentalized with its data. Launches will be sorted more clearly into categories, such as, "upcoming", "previous", "between this and that date", etc.
+- A social element will be added, i.e. sharing collections with other users, adding friendship connections, sending launches or other data to other users. Perhaps a forum-style discussion area will be added, too.
+- Currently, the main details for each launch are retrieved and stored, but the API has a wealth of information about every detail of every launch. In the future, all of it may be accessed, for the ultra-curious space pioneer.
 
 ## Resources
 

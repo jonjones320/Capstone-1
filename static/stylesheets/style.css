@@ -336,17 +336,10 @@
   .list-group-item {
     color: #ffffff;
     font-size: larger;
-    background: #00000063;
+    background: #000000a3;
     border: none;
     margin: 7px 1px 33px 1px;
     border-radius: 7px;
-  }
-  
-  #launches .list-group-item {
-    display: flex;
-    align-items: flex-start;
-    padding: 7px 20px 12px;
-    word-wrap: break-word;
   }
   
   #messages:not(.no-hover) .list-group-item:hover {
@@ -790,7 +783,9 @@
     color: #ffffffdb;
     background-color: #00000079;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 11px;
+    height: 90px;
+    margin-bottom: 21px;
   }
 
   .collect-btn {
@@ -815,6 +810,25 @@
     margin-top: 33px;
   }
 
+  .launch-detail-topic {
+    background-color: #ffffff95;
+    color: black;
+    border-radius: 2px;
+  }
+
+  #index-launch-detail-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  #launches .list-group-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 7px 20px 12px;
+    word-wrap: break-word;
+  }
+
   .list-group .launch-detail-list {
     position: relative;
     padding: 7px 20px 12px;
@@ -832,7 +846,7 @@
   .launch-name {
     color: #f8f9fa;
     text-decoration: none;
-    background-color: #00000063;
+    background-color: #000000a7;
   }
 
   #launches.no-hover .launch-area {

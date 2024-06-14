@@ -5,10 +5,6 @@ from models import Launch
 launch_base_url = "https://lldev.thespacedevs.com/2.2.0/launch"
 launch_upcoming_url = "https://lldev.thespacedevs.com/2.2.0/launch/upcoming/"
 
-# start_time = datetime(1969, 4, 26)
-# end_time = datetime(1970, 4, 1)
-
-
 
 def all_launches():
     res = requests.get(
@@ -18,6 +14,7 @@ def all_launches():
         }
     )
     data = res.json()
+
     launches = []
     for launch in data['results']:
         launch_info = {
@@ -27,9 +24,19 @@ def all_launches():
             'status' : launch['status']['name'],
             'description' : launch['mission']['description'],
             'img_url' : launch['image'],
-            'ordering' : 'net'
+            'organization' : launch['launch_service_provider']['name'],
+            'organization_type' : launch['launch_service_provider']['type'],
+            'location' : launch['pad']['location']['name']
         }
         launches.append(launch_info)
+    
+    launches.append({
+        'count' : data['count'],
+        'next' : data['next'],
+        'previous' : data['previous']
+    })
+    print("!!!DATA!!!: ", data)
+    print("!!!LAUNCHES!!!: ", launches)
     return launches
 
 

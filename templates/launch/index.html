@@ -54,8 +54,14 @@
               </a>
             </div>
             <div class="col" id="index-launch-detail-col">
-              <p><span class="launch-date">Date: {{ launch.date }}</span></p>
-              <p>Debrief: {{ launch.description }}</p>
+              <p><span class="launch-detail-topic">
+                Date:</span> {{ launch.date }}</p>
+              <p><span class="launch-detail-topic">
+                Organization:</span> {{ launch.organization }} ({{ launch.organization_type }})</p>
+              <p><span class="launch-detail-topic">
+                Location:</span> {{ launch.location }}</p>
+              <p><span class="launch-detail-topic">
+                Debrief:</span> {{ launch.description }}</p>
             </div>
           </div>
         </li>
