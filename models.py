@@ -102,8 +102,6 @@ class User(db.Model):
     @classmethod
     def edit_profile(cls, user, username, email, img_url, header_img_url, bio, location):
         """Edits and updates user profile."""
-        print("MODELS_EDIT_USER_NOT_COMMITTED")
-        print(f"Before update: {user.username}, {user.email}, {user.img_url}, {user.header_img_url}, {user.bio}, {user.location}")
 
         user.username=username
         user.email=email
@@ -112,11 +110,7 @@ class User(db.Model):
         user.bio=bio
         user.location=location
 
-        print(f"After update: {user.username}, {user.email}, {user.img_url}, {user.header_img_url}, {user.bio}, {user.location}")
-
         db.session.commit()
-        print("MODELS_EDIT_USER_COMMITTED")
-        print("MODELS USER: ", user)
 
         return user
 
@@ -257,7 +251,7 @@ class Collection(db.Model):
     
     @classmethod
     def create(cls, name, description, img_url, createdBy):
-        """Creates new collection and adds it to DB"""
+        """Creates new collection and adds it to Db"""
 
         collection = Collection(
             name=name,
@@ -267,6 +261,18 @@ class Collection(db.Model):
         )
 
         db.session.add(collection)
+        return collection
+    
+    @classmethod
+    def edit_collection(cls, collection, name, description, img_url):
+        """Edits and updates a collection."""
+
+        collection.name=name
+        collection.img_url=img_url
+        collection.description=description      
+
+        db.session.commit()
+
         return collection
 
 

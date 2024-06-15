@@ -4,27 +4,29 @@
 
   <div class="bg"></div>
   <div class="row justify-content-center">
-    <div class="col-md-6" id="all-collections-column">
+    <div class="col-md-6">
       <h1 id="all-collections-title">{{ user.username }}'s Collections</h1>
-      <ul class="list-group no-hover" id="collections">
+      <ul class="list-group no-hover" id="collections-list">
 
         {% for collection in user.collections %}
-        <li class="list-group-item" id="collection-list-item">
-          <a href="{{ url_for('collection_show', collection_id=collection.id) }}">
-            <img src="{{ collection.img_url }}" alt="" id="collection-image">
-          </a>
-          <div class="collection-area">
-            <div class="collection-heading">
-              <a  class="btn btn-danger btn-lg"
-                  id="collection-name" 
-                  href="{{ url_for('collection_show', collection_id=collection.id) }}">
-                  {{ collection.name }}
+        <div id="all-collections-column">
+          <li class="list-group-item" id="collection-list-item">
+            <div class="collection-area">
+              <div class="collection-header">
+                <a class="btn btn-danger btn-lg"
+                    id="collection-name" 
+                    href="{{ url_for('collection_show', collection_id=collection.id) }}">
+                    {{ collection.name }}
+                </a>
+              </div>
+              <a href="{{ url_for('collection_show', collection_id=collection.id) }}">
+                <img src="{{ collection.img_url }}" alt="" id="collection-image">
               </a>
+              <div class="collection-description">{{ collection.description }}</div>
+              <div class="fs-6 collection-description">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</div>
             </div>
-            <div class="collection-description">{{ collection.description }}</div>
-            <div class="fs-6">Created: {{ collection.createdDate.strftime('%d %B %Y') }}</div>
-          </div>
-        </li>
+          </li>
+        </div>
         {% endfor %}
         
       </ul>

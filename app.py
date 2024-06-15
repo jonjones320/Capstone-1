@@ -254,9 +254,9 @@ def all_collections(user_id):
     return render_template('collection/all.html', user=user)
 
 
-@app.route('/collection/<int:collection_id>', methods=["GET", "POST"])
+@app.route('/collection/<int:collection_id>')
 def collection_show(collection_id):
-    """Show or edit a specific collection."""
+    """Show a collection."""
 
     collection = Collection.query.get(collection_id)
     user = User.query.get(collection.createdBy)
@@ -269,6 +269,39 @@ def collection_show(collection_id):
         launches.append(launch)
 
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
+
+@app.route('/collection/edit/<int:collection_id>', methods=["GET", "POST"])
+def collection_edit(collection_id):
+    """Edit a collection."""
+
+    collection = Collection.query.get(collection_id)
+    user = User.query.get(collection.createdBy)
+    launch_collections = Launch_Collection.query.filter_by(collectionID=collection_id).all()
+    launch_ids = [each.launchID for each in launch_collections]
+
+    launches = []
+    for launch_id in launch_ids:
+        launch = Launch.query.filter_by(id=launch_id).first()
+        launches.append(launch)
+
+    form = CollectionForm()
+    
+    if user is g.user:
+        if form.validate_on_submit():
+            try:
+                Collection.edit_collection(
+                    name=form.data.name,
+                    img_url=form.data.img_url,
+                    description=form.data.description
+                    )    
+                flash("Collection updated!", "success")
+                return redirect(f'{collection.id}')
+
+            except IntegrityError:
+                flash("Username already taken", 'danger')
+                return render_template('collection/view.html', form=form, user=user, launches=launches)
+    else:
+        return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
 @app.route('/collection/<int:collection_id>/delete', methods=["POST"])

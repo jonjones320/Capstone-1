@@ -671,7 +671,9 @@
   /* ================================ Collection Pages ================================  */
 
   #all-collections-column {
-    background-color: #00000063;
+    background-color: #000000;
+    margin-bottom: 55px;
+    border: solid 11px;
   }
 
   #all-collections-title {
@@ -679,6 +681,8 @@
     display: flex;
     justify-content: center;
     padding: 21px;
+    margin: 21px;
+    background-color: #00000073;
   }
 
   #collection-image-row {
@@ -688,9 +692,8 @@
   }
   
   #collection-image {
-    text-decoration: none;
-    font-size: small;
-    color: rgb(159, 154, 154)
+    height: 100%;
+    width: 100%;
   }
 
   .collection-header {
@@ -745,6 +748,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: none;
   }
 
   .collection-description {
