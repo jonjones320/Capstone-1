@@ -326,14 +326,12 @@ def search_launches():
     """Searches launches"""
 
     search_term = request.args.get('q')
-    print("@@@ SEARCH_TERM @@@: ", search_term)
     
     if not search_term:
         flash("")
         return redirect('/launch/index')
     else:
         searched_launches = launch_search(search_term)
-        print("@@@ SEARCHED_LAUNCHES @@@: ", searched_launches)
 
     if searched_launches is None:
         flash("No results found. Try again, or browse the launches below", "danger")
@@ -369,21 +367,28 @@ def collect_launch(launch_name, collection_id):
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    try:
-        launch = get_launch(launch_name)
+    
+    launch = get_launch(launch_name)
+    print("-------get_launch: ", launch, "----------")
+    existing_launch = Launch.query.filter_by(name=launch[0]['Name']).first()
+    print("-------existing_launch: ", existing_launch, "----------")
+    if not existing_launch:
         new_launch = Launch(launch)
-
-        if new_launch:
-            db.session.add(new_launch)
-            db.session.commit()
-
+        print("-------new_launch: ", new_launch, "----------")
+        launch_id = new_launch.id
+        db.session.add(new_launch)
+        db.session.commit()
+    else:
+        launch_id = existing_launch.id
+    
+    try:
         collection = Collection.query.filter_by(id=collection_id).first()
-
+        print("---------collection: ", collection, "---------")
         if collection:
-            launch_collection = Launch_Collection(collectionID=collection_id, launchID=new_launch.id)
+            launch_collection = Launch_Collection(collectionID=collection_id, launchID=launch_id)
+            print("--------launch_collection: ", launch_collection, "--------")
             db.session.add(launch_collection)
             db.session.commit()
-
     except IntegrityError:
         flash("Launch already exists in this collection", "danger")
         return redirect(url_for('view_launch', launch_name=launch_name))

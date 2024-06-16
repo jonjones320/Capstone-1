@@ -158,27 +158,22 @@ class Launch(db.Model):
     def __init__(self, launch):
         """Check if launch already exists in Db. If not, initialize new launch object"""
 
-        existing_launch = Launch.query.filter_by(name=launch[0]['Name']).first()
-        if existing_launch:
-            # raise ValueError(f"Launch with the name {launch[0]['Name']} is already stored")
-            return
-        else:
-            self.name = launch[0]['Name']
-            self.last_updated = launch[0]['Last_Updated']
-            self.launch_date = launch[0]['Launch_Date']
-            self.img_url = launch[0]['Img_URL']
-            self.status = launch[0]['Status']
-            self.rocket_name = launch[1]['Rocket_Name']
-            self.rocket_variant = launch[1]['Rocket_Variant']
-            self.mission_name = launch[2]['Mission_Name']
-            self.mission_description = launch[2]['Mission_Description']
-            self.mission_type = launch[2]['Mission_Type']
-            self.mission_orbit = launch[2]['Mission_Orbit']
-            self.pad_name = launch[3]['Pad_Name']
-            self.pad_wiki_url = launch[3]['Pad_Wiki_URL']
-            self.pad_map_url = launch[3]['Pad_Map_URL']
-            self.pad_location_name = launch[3]['Pad_Location_Name']
-            self.pad_map_img = launch[3]['Pad_Map_Img']
+        self.name = launch[0]['Name']
+        self.last_updated = launch[0]['Last_Updated']
+        self.launch_date = launch[0]['Launch_Date']
+        self.img_url = launch[0]['Img_URL']
+        self.status = launch[0]['Status']
+        self.rocket_name = launch[1]['Rocket_Name']
+        self.rocket_variant = launch[1]['Rocket_Variant']
+        self.mission_name = launch[2]['Mission_Name']
+        self.mission_description = launch[2]['Mission_Description']
+        self.mission_type = launch[2]['Mission_Type']
+        self.mission_orbit = launch[2]['Mission_Orbit']
+        self.pad_name = launch[3]['Pad_Name']
+        self.pad_wiki_url = launch[3]['Pad_Wiki_URL']
+        self.pad_map_url = launch[3]['Pad_Map_URL']
+        self.pad_location_name = launch[3]['Pad_Location_Name']
+        self.pad_map_img = launch[3]['Pad_Map_Img']
 
 
     def __repr__(self):

@@ -35,8 +35,6 @@ def all_launches():
         'next' : data['next'],
         'previous' : data['previous']
     })
-    print("!!!DATA!!!: ", data)
-    print("!!!LAUNCHES!!!: ", launches)
     return launches
 
 
@@ -125,9 +123,8 @@ def launch_search(search_term):
             'search' : search_term
         }
     )
-    print("---RES---: ", res)
     data = res.json()
-    print("---DATA---: ", data)
+
     if data['count'] == 0:
         return None
     else:
@@ -145,5 +142,4 @@ def launch_search(search_term):
                 'location' : launch['pad']['location']['name']
             }
             searched_launches.append(launch_info)
-        print("---SEARCHED_LAUNCHES---: ", searched_launches)
         return searched_launches
