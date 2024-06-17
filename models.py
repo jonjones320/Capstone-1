@@ -211,11 +211,11 @@ class Collection(db.Model):
         primary_key=True,
     )
     name = db.Column(
-        db.String,
+        db.Text,
         nullable=False
     )
     description = db.Column(
-        db.String,
+        db.Text,
         nullable=True,
     )
     img_url = db.Column(

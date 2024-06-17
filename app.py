@@ -180,10 +180,8 @@ def profile():
                     email=user.email or form.email.data,
                     img_url=form.img_url.data or user.img_url,
                     header_img_url=form.header_img_url.data or user.header_img_url,
-                    bio=form.bio.data 
-                        or user.bio,
-                    location=form.location.data 
-                        or user.location
+                    bio=form.bio.data or user.bio,
+                    location=form.location.data or user.location
                     )
                 flash("Profile updated!", "success")
                 return redirect(f'{user_id}')
@@ -275,6 +273,7 @@ def collection_edit(collection_id):
     """Edit a collection."""
 
     collection = Collection.query.get(collection_id)
+    print("-------Collection Before submit: ", collection.name, collection.img_url, collection.description, "----------")
     user = User.query.get(collection.createdBy)
     launch_collections = Launch_Collection.query.filter_by(collectionID=collection_id).all()
     launch_ids = [each.launchID for each in launch_collections]
@@ -284,18 +283,18 @@ def collection_edit(collection_id):
         launch = Launch.query.filter_by(id=launch_id).first()
         launches.append(launch)
 
-    form = CollectionForm()
+    form = CollectionForm(obj=collection)
     
     if form.validate_on_submit():
         try:
             Collection.edit_collection(
                 collection,
                 name=form.name.data or collection.name,
-                img_url=form.img_url.data or collection.img_url,
-                description=form.description.data or collection.description
+                description=form.description.data or collection.description,
+                img_url=form.img_url.data or collection.img_url
                 )    
             flash("Collection updated!", "success")
-            print("-------Collection updated: ", "----------")
+            print("-------Collection After submit: ",collection, "----------")
             return redirect(f'/collection/{collection.id}')
         except IntegrityError:
             flash("Username already taken", 'danger')
