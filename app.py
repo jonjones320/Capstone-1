@@ -289,9 +289,10 @@ def collection_edit(collection_id):
     if form.validate_on_submit():
         try:
             Collection.edit_collection(
-                name=form.data.name,
-                img_url=form.data.img_url,
-                description=form.data.description
+                collection,
+                name=form.name.data or collection.name,
+                img_url=form.img_url.data or collection.img_url,
+                description=form.description.data or collection.description
                 )    
             flash("Collection updated!", "success")
             print("-------Collection updated: ", "----------")
@@ -300,7 +301,7 @@ def collection_edit(collection_id):
             flash("Username already taken", 'danger')
             return render_template('collection/view.html', form=form, user=user, launches=launches)
     print("-------loading edit page: ", "nothing", "----------")
-    return render_template('collection/view.html', collection=collection, user=user, launches=launches)
+    return render_template('collection/edit.html', form=form, collection=collection, user=user, launches=launches)
 
 
 @app.route('/collection/<int:collection_id>/delete', methods=["POST"])

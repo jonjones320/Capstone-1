@@ -3,7 +3,7 @@
 {% block content %}
 
   <div class="row justify-content-md-center">
-    <div class="col-md-4">
+    <div class="col-md-4" id="edit-collection-column">
       <h2 class="join-message">Edit Your Collection</h2>
       <form method="POST" id="edit_collection_form">
         {{ form.hidden_tag() }}
@@ -13,21 +13,12 @@
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
           {% set value = getattr(user, field.name, '') %}
+            <span class="edit-collection-label">{{ field.name | title }}</span>
           {{ field(class="form-control", value=value) }}
         {% endfor %}
 
-        <p>To confirm changes, enter your password:</p>
-        {% if form.password.errors %}
-          {% for error in form.password.errors %}
-            <span class="text-danger">
-            {{ error }}
-          </span>
-          {% endfor %}
-        {% endif %}
-        {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
-
         <div class="edit-btn-area">
-          <a href="/user/{{ user.id }}" class="btn btn-outline-secondary text-danger">Abort Mission</a>
+          <a href="/collection/{{ collection.id }}" class="btn btn-outline-secondary text-danger">Abort Mission</a>
           <button class="btn btn-danger">Launch!</button>
         </div>
       </form>

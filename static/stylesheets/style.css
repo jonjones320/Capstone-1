@@ -805,6 +805,19 @@
     display: inline-block;
   }
 
+  .edit-collection-label {
+    color: white;
+    text-align: center;
+  }
+
+  #edit-collection-column {
+    background-color: #00000063;
+    display: flex;
+    flex-direction: column;
+    padding: 3%;
+    margin-top: 7%;
+  }
+
   /* ================================ Launch Pages ================================  */
 
   #index-launch-title {
