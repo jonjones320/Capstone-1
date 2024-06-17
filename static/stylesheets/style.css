@@ -233,11 +233,6 @@
     margin-top: 2px;
   }
   
-  .collection-area,
-  .timeline-image {
-    display: inline-block;
-  }
-  
   #rocket-hero {
     height: 360px;
     margin-top: -16px;
@@ -671,9 +666,7 @@
   /* ================================ Collection Pages ================================  */
 
   #all-collections-column {
-    background-color: #000000;
-    margin-bottom: 55px;
-    border: solid 11px;
+    margin-bottom: 21px;
   }
 
   #all-collections-title {
@@ -685,12 +678,31 @@
     background-color: #00000073;
   }
 
+  .all-collection-header {
+    color: white;
+    text-align: center;
+    margin: 15px 0px;
+  }
+  
+  #all-collection-list-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: none;
+    text-align: center;
+  }
+
   #collection-image-row {
     display: flex;
     justify-content: center;
     padding: 11px;
   }
   
+  .collection-image {
+    margin-top: 21px;
+    box-shadow: 0 1px 5px 5px rgb(0 0 0 / 48%);
+  }
+
   #collection-image {
     height: 100%;
     width: 100%;
@@ -698,15 +710,44 @@
 
   .collection-header {
     color: white;
-    background-color: rgba(0, 0, 0, 0.71);
-    border-radius: 9px;
     text-align: center;
-    padding: 11px;
+    margin: 50px 0px;
+  }
+
+  .collection-footer {
+    display: flex;
+    padding: 19px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .collection-area {
+    margin-left: 10px;
+  }
+
+  #collection-name {
+    text-decoration: none;
+    color: rgb(132, 1, 1)
   }
 
   .collection-name {
     color: #f8f9fa;
     text-decoration: none;
+  }
+
+  .collection-row {
+    padding: 3%;
+  }
+
+  .collection-header-column {
+    background-color: #00000071;
+    border-radius: 11px;
+  }
+
+  .collection-column {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
   }
 
   #collection-detail-list {
@@ -726,29 +767,6 @@
     margin: 9px;
     padding: 9px;
     justify-content: center;
-  }
-
-  .collection-footer {
-    display: flex;
-    padding: 19px;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .collection-area {
-    margin-left: 10px;
-  }
-
-  #collection-name {
-    text-decoration: none;
-    color: rgb(132, 1, 1)
-  }
-
-  #collection-list-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: none;
   }
 
   .collection-description {
@@ -782,6 +800,10 @@
     padding-bottom: 31px;
   }
 
+  .collection-area,
+  .timeline-image {
+    display: inline-block;
+  }
 
   /* ================================ Launch Pages ================================  */
 

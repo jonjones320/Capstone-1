@@ -286,22 +286,21 @@ def collection_edit(collection_id):
 
     form = CollectionForm()
     
-    if user is g.user:
-        if form.validate_on_submit():
-            try:
-                Collection.edit_collection(
-                    name=form.data.name,
-                    img_url=form.data.img_url,
-                    description=form.data.description
-                    )    
-                flash("Collection updated!", "success")
-                return redirect(f'{collection.id}')
-
-            except IntegrityError:
-                flash("Username already taken", 'danger')
-                return render_template('collection/view.html', form=form, user=user, launches=launches)
-    else:
-        return render_template('collection/view.html', collection=collection, user=user, launches=launches)
+    if form.validate_on_submit():
+        try:
+            Collection.edit_collection(
+                name=form.data.name,
+                img_url=form.data.img_url,
+                description=form.data.description
+                )    
+            flash("Collection updated!", "success")
+            print("-------Collection updated: ", "----------")
+            return redirect(f'/collection/{collection.id}')
+        except IntegrityError:
+            flash("Username already taken", 'danger')
+            return render_template('collection/view.html', form=form, user=user, launches=launches)
+    print("-------loading edit page: ", "nothing", "----------")
+    return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
 
 @app.route('/collection/<int:collection_id>/delete', methods=["POST"])
@@ -369,12 +368,10 @@ def collect_launch(launch_name, collection_id):
         return redirect("/")
     
     launch = get_launch(launch_name)
-    print("-------get_launch: ", launch, "----------")
     existing_launch = Launch.query.filter_by(name=launch[0]['Name']).first()
-    print("-------existing_launch: ", existing_launch, "----------")
+
     if not existing_launch:
         new_launch = Launch(launch)
-        print("-------new_launch: ", new_launch, "----------")
         launch_id = new_launch.id
         db.session.add(new_launch)
         db.session.commit()
@@ -383,10 +380,8 @@ def collect_launch(launch_name, collection_id):
     
     try:
         collection = Collection.query.filter_by(id=collection_id).first()
-        print("---------collection: ", collection, "---------")
         if collection:
             launch_collection = Launch_Collection(collectionID=collection_id, launchID=launch_id)
-            print("--------launch_collection: ", launch_collection, "--------")
             db.session.add(launch_collection)
             db.session.commit()
     except IntegrityError:

@@ -10,9 +10,9 @@
 
         {% for collection in user.collections %}
         <div id="all-collections-column">
-          <li class="list-group-item" id="collection-list-item">
+          <li class="list-group-item" id="all-collection-list-item">
             <div class="collection-area">
-              <div class="collection-header">
+              <div class="all-collection-header">
                 <a class="btn btn-danger btn-lg"
                     id="collection-name" 
                     href="{{ url_for('collection_show', collection_id=collection.id) }}">

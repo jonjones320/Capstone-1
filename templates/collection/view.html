@@ -2,48 +2,49 @@
 
 {% block content %}
 
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="collection-area">
+<div class="row collection-row">
+  <div class="col-4 collection-header-column">
+    <div class="collection-header">
+      <h1 class="collection-name">{{ collection.name }}</h1>
+      <div class="timestamp">{{ collection.createdDate.strftime('%d %B %Y') }}</div>
+      <div class="single-message">{{ collection.description }}</div>
+      <div class="collection-image">
+        <a href="{{ collection.img_url }}">
+          <img src="{{ collection.img_url }}" alt="Add an image for this collection" class="img-fluid">
+        </a>
+      </div>
+    </div>
+    <div class="collection-footer">
+      <a href="/collection/user/{{ user.id }}" class="btn btn-outline-secondary">Back</a>
+      {% if g.user.id == user.id %}
+        <a href="/collection/edit/{{ collection.id }}" class="btn btn-outline-primary">Edit</a>
+        <form method="POST" action="/collection/{{ collection.id }}/delete">
+          <button type="delete" class="btn btn-outline-danger">Delete</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
 
-        <div class="collection-header">
-          <h1 class="collection-name">{{ collection.name }}</h1>
-          <div class="timestamp">{{ collection.createdDate.strftime('%d %B %Y') }}</div>
-          <div class="single-message">{{ collection.description }}</div>
-        </div>
-
-        <div id="collection-image-row">
-          <a href="{{ collection.img_url }}" id="collection-image">
-            <img src="{{ collection.img_url }}" alt="Add an image for this collection" class="img-fluid">
-          </a>
-        </div>
-
-        <div class="collection-body">
-          <ul class="list-group" id="collection-detail-list">
-            {% for launch in launches %}
-              <div class="row" id="collection-detail-row">
-                <div class="bg"></div>
-                <a href="/launch/{{ launch.name }}" id="collection-details">
-                  <li class="list-group-item" id="section-title">{{ launch.name }}</li>
-                  <li class="list-group-item"><b>Launch ID:</b> {{ launch.id }}</li>
-                  <li class="list-group-item"><b>Launch Date:</b> {{ launch.launch_date }}</li>
-                  <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
-                  <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
+  <div class="col-8 collection-column">
+    <div class="collection-area">
+      <div class="collection-body">
+        <ul class="list-group" id="collection-detail-list">
+          {% for launch in launches %}
+            <div class="row" id="collection-detail-row">
+              <a href="/launch/{{ launch.name }}" id="collection-details">
+                <li class="list-group-item" id="section-title">{{ launch.name }}</li>
+                <li class="list-group-item"><b>Launch ID:</b> {{ launch.id }}</li>
+                <li class="list-group-item"><b>Launch Date:</b> {{ launch.launch_date }}</li>
+                <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
+                <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
                 </a>
-              </div>
-            {% endfor %}
-          </ul>
-        </div>
-        <div class="collection-footer">
-          <a href="/collection/user/{{ user.id }}" class="btn btn-primary btn-lg">Back</a>
-          {% if g.user.id == user.id %}
-            <form method="POST" action="/collection/{{ collection.id }}/delete">
-              <button type="delete" class="btn btn-danger btn-lg">Delete</button>
-            </form>
-          {% endif %}
-        </div>
+              <a href="/launch/uncollect/{{ launch.id }}" class="btn btn-outline-danger btn-sm">Uncollect</a>
+            </div>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}
