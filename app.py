@@ -268,14 +268,16 @@ def collection_show(collection_id):
 
     return render_template('collection/view.html', collection=collection, user=user, launches=launches)
 
+
 @app.route('/collection/edit/<int:collection_id>', methods=["GET", "POST"])
 def collection_edit(collection_id):
     """Edit a collection."""
 
     collection = Collection.query.get(collection_id)
-    print("-------Collection Before submit: ", collection.name, collection.img_url, collection.description, "----------")
     user = User.query.get(collection.createdBy)
     launch_collections = Launch_Collection.query.filter_by(collectionID=collection_id).all()
+    form = CollectionForm(obj=collection)
+
     launch_ids = [each.launchID for each in launch_collections]
 
     launches = []
@@ -283,7 +285,6 @@ def collection_edit(collection_id):
         launch = Launch.query.filter_by(id=launch_id).first()
         launches.append(launch)
 
-    form = CollectionForm(obj=collection)
     
     if form.validate_on_submit():
         try:
@@ -294,12 +295,10 @@ def collection_edit(collection_id):
                 img_url=form.img_url.data or collection.img_url
                 )    
             flash("Collection updated!", "success")
-            print("-------Collection After submit: ",collection, "----------")
             return redirect(f'/collection/{collection.id}')
         except IntegrityError:
             flash("Username already taken", 'danger')
             return render_template('collection/view.html', form=form, user=user, launches=launches)
-    print("-------loading edit page: ", "nothing", "----------")
     return render_template('collection/edit.html', form=form, collection=collection, user=user, launches=launches)
 
 

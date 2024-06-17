@@ -29,18 +29,26 @@
     <div class="collection-area">
       <div class="collection-body">
         <ul class="list-group" id="collection-detail-list">
-          {% for launch in launches %}
+          {% if launches %}
+            {% for launch in launches %}
+              <div class="row" id="collection-detail-row">
+                <a href="/launch/{{ launch.name }}" id="collection-details">
+                  <li class="list-group-item" id="section-title">{{ launch.name }}</li>
+                  <li class="list-group-item"><b>Launch ID:</b> {{ launch.id }}</li>
+                  <li class="list-group-item"><b>Launch Date:</b> {{ launch.launch_date }}</li>
+                  <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
+                  <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
+                  </a>
+                <a href="/launch/uncollect/{{ launch.id }}" class="btn btn-outline-danger btn-sm">Uncollect</a>
+              </div>
+            {% endfor %}
+          {% else %}
             <div class="row" id="collection-detail-row">
-              <a href="/launch/{{ launch.name }}" id="collection-details">
-                <li class="list-group-item" id="section-title">{{ launch.name }}</li>
-                <li class="list-group-item"><b>Launch ID:</b> {{ launch.id }}</li>
-                <li class="list-group-item"><b>Launch Date:</b> {{ launch.launch_date }}</li>
-                <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
-                <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
-                </a>
-              <a href="/launch/uncollect/{{ launch.id }}" class="btn btn-outline-danger btn-sm">Uncollect</a>
+                <li class="list-group-item" id="section-title">Such empty...</li>
+                <li class="list-group-item">Collect launches to have them all stored here!</li>
+              <a href="/launch/index" class="btn btn-outline-danger">Start Collecting</a>
             </div>
-          {% endfor %}
+          {% endif %}
         </ul>
       </div>
     </div>
