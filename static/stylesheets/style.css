@@ -189,6 +189,11 @@
   
   /* ===================== User profile */
   
+  #edit-profile-column {
+    background-color: #00000063;
+    padding: 3%;
+  }
+
   #user-nav {
     border: 5px black;
   }
