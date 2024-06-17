@@ -325,6 +325,7 @@ def search_launches():
     """Searches launches"""
 
     search_term = request.args.get('q')
+    collections = Collection.query.filter_by(createdBy=g.user.id).all()
     
     if not search_term:
         flash("")
@@ -336,7 +337,7 @@ def search_launches():
         flash("No results found. Try again, or browse the launches below", "danger")
         return redirect('/launch/index')
     else:
-        return render_template('launch/index.html', launches=searched_launches, current_user=g.user)
+        return render_template('launch/index.html', launches=searched_launches, current_user=g.user, collections=collections)
     
 
 @app.route('/launch/index')
