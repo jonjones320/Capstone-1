@@ -869,6 +869,16 @@
     justify-content: space-around;
   }
 
+  #index-row-pagination {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 3%;
+  }
+
+  #index-btn-pagination {
+    width: 33%;
+  }
+
   #launches .list-group-item {
     display: flex;
     align-items: flex-start;

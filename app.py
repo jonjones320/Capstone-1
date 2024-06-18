@@ -299,7 +299,11 @@ def collection_edit(collection_id):
         except IntegrityError:
             flash("Username already taken", 'danger')
             return render_template('collection/view.html', form=form, user=user, launches=launches)
-    return render_template('collection/edit.html', form=form, collection=collection, user=user, launches=launches)
+    return render_template('collection/edit.html', 
+                           form=form, 
+                           collection=collection, 
+                           user=user, 
+                           launches=launches)
 
 
 @app.route('/collection/<int:collection_id>/delete', methods=["POST"])
@@ -336,17 +340,28 @@ def search_launches():
         flash("No results found. Try again, or browse the launches below", "danger")
         return redirect('/launch/index')
     else:
-        return render_template('launch/index.html', launches=searched_launches, current_user=g.user, collections=collections)
+        return render_template('launch/index.html', 
+                               launches=searched_launches, 
+                               current_user=g.user, 
+                               collections=collections)
     
 
 @app.route('/launch/index')
 def show_all_launches():
     """Displays all launches"""
     
-    launches = all_launches()
+    url = request.args.get('url')
+    launches, pagination = all_launches(url)
     collections = Collection.query.filter_by(createdBy=g.user.id).all()
 
-    return render_template('launch/index.html', launches=launches, current_user=g.user, collections=collections)
+    print("^^^launches: ", launches,"^^^")
+    print("^>^<^pagination: ", pagination,"^>^<^")
+
+    return render_template('launch/index.html', 
+                           launches=launches, 
+                           pagination=pagination, 
+                           current_user=g.user, 
+                           collections=collections)
 
 
 @app.route('/launch/<launch_name>')

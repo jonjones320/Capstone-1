@@ -6,9 +6,11 @@ launch_base_url = "https://lldev.thespacedevs.com/2.2.0/launch"
 launch_upcoming_url = "https://lldev.thespacedevs.com/2.2.0/launch/upcoming/"
 
 
-def all_launches():
+def all_launches(url=None):
+    if url is None:
+        url = launch_base_url
     res = requests.get(
-        launch_base_url,
+        url,
         params={
             'ordering' : 'net'
         }
@@ -30,12 +32,12 @@ def all_launches():
         }
         launches.append(launch_info)
     
-    launches.append({
+    pagination = {
         'count' : data['count'],
         'next' : data['next'],
         'previous' : data['previous']
-    })
-    return launches
+    }
+    return launches, pagination
 
 
 
