@@ -3,11 +3,20 @@
 {% block body_class %}onboarding{% endblock %}
 
 {% block content %}
-  <div class="home-hero">
-    <h1>Welcome to The Launch Tracker!</h1>
-    <h4>New here?</h4>
-    <p>Sign up now to blast off into a world of space exploration!</p>
-    <a href="/register" class="btn btn-primary" id="btn-sign-up">Join</a>
-    <a href="/login" class="btn btn-danger" id="btn-login">Login</a>
+<div class="video-background-holder">
+  <div class="video-background-overlay">
+    <div class="video-background-content container">
+      <div class="home-hero">
+        <h1>Welcome to The Launch Tracker!</h1>
+        <h4>New here?</h4>
+        <p>Sign up now to blast off into a world of space exploration!</p>
+        <a href="/register" class="btn btn-primary" id="btn-sign-up">Join</a>
+        <a href="/login" class="btn btn-danger" id="btn-login">Login</a>
+      </div>
+    </div>
   </div>
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="static/images/space-shuttle-launch.mp4" type="video/mp4">
+  </video>
+</div>
 {% endblock %}
