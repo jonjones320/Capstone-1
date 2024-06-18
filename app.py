@@ -386,23 +386,28 @@ def collect_launch(launch_name, collection_id):
 
     if not existing_launch:
         new_launch = Launch(launch)
-        launch_id = new_launch.id
         db.session.add(new_launch)
         db.session.commit()
+        launch_id = new_launch.id
     else:
         launch_id = existing_launch.id
     
     try:
-        collection = Collection.query.filter_by(id=collection_id).first()
-        if collection:
+        existing_launch_collection = Launch_Collection.query.filter_by(
+            collectionID=collection_id, launchID=launch_id).first()
+
+        if existing_launch_collection:
+            flash("Launch already exists in this collection", "danger")
+        else:
             launch_collection = Launch_Collection(collectionID=collection_id, launchID=launch_id)
             db.session.add(launch_collection)
             db.session.commit()
-    except IntegrityError:
-        flash("Launch already exists in this collection", "danger")
-        return redirect(url_for('view_launch', launch_name=launch_name))
+            flash("Launch successfully added to the collection", "success")
+    except IntegrityError as e:
+        db.session.rollback() 
+        flash("An error occurred. Please try again later", "danger")
+        print("IntegrityError: ", e)
 
-    flash("Launch collection successful!", "success")
     return redirect(url_for('view_launch', launch_name=launch_name))
 
 

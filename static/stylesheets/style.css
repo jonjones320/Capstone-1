@@ -100,6 +100,25 @@
     display: flex;
     position: relative;
   }
+
+  .search-form .input-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .input-group-append {
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-left: none;
+    padding: 0.375rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .input-group-append .input-group-text {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
   
   #search.form-control {
     border-radius: 20px;
