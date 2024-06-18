@@ -102,27 +102,29 @@ def register():
 
     form = RegisterUserForm()
     if form.validate_on_submit():
-        try:
-            user = User.register(
-                username=form.username.data,
-                email=form.email.data, 
-                password=form.password.data,
-                bio=form.bio.data,
-                location=form.location.data,
-                img_url=form.img_url.data or User.img_url.default.arg,
-                header_img_url=form.header_img_url.data or User.header_img_url.default.arg
-            )
-            db.session.commit()
-        except IntegrityError:
+        existing_username = User.query.get_or_404(username=form.username.data)
+        if existing_username:
             flash('Username is already taken', 'danger')
-            return render_template('user/register.html', form=form)
+        else:
+            try:
+                user = User.register(
+                    username=form.username.data,
+                    email=form.email.data, 
+                    password=form.password.data,
+                    bio=form.bio.data,
+                    location=form.location.data,
+                    img_url=form.img_url.data or User.img_url.default.arg,
+                    header_img_url=form.header_img_url.data or User.header_img_url.default.arg
+                )
+                db.session.commit()
+                do_login(user)
+            except IntegrityError:
+                flash("There was an error. Please try again later.", "danger")
         
-        do_login(user)
-
         flash("Account created succesfully. Welcome!", "success")
         return redirect(url_for('show_all_launches'))
 
-    else: return render_template('/user/register.html', form=form)
+    return render_template('/user/register.html', form=form)
 
 
 @app.route('/user/index')
