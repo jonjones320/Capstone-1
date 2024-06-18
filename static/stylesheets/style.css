@@ -871,9 +871,9 @@
   }
 
   .launch-detail-topic {
-    background-color: #ffffff95;
-    color: black;
+    color: #9c9c9c;
     border-radius: 2px;
+    font-size: 27px;
   }
 
   #index-launch-detail-col {
