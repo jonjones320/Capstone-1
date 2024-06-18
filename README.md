@@ -21,7 +21,9 @@ The Launch Tracker web application allows users to view and collect rocket launc
 ## User Stories
 
 - As an outer-space enthusiast, I want to see the who, what, when, and where of everything launching out of our atmosphere, from organizations all around the globe.
-- As a shareholder of aerospace companies, I want to be able to quickly track and anticipate what my invested money is doing.
+- When I am looking for outerspace rocket launches, I like to be able to browse multiple launches, and sometimes I want to search for specific launches.
+- I am a casual aeronautic enthusiast. I like to have a personalized profile that I can edit and make my own space. I also like to be able to store the things I like from the website within my space.
+- As a shareholder of aerospace companies, I want to be able to quickly track and anticipate what my invested money is doing by collecting relevant rocket launch information and being able to access it all in one place.
 
 ## Setup
 
@@ -63,7 +65,6 @@ Follow these steps to get your application running within VS Code:
 
 ## Demo
 
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
 
 ![Welcome Screen](/screenshots/home_welcome2.png)
 *Above is the welcome screen. The user can login or register an account.*
@@ -89,6 +90,7 @@ List resources such as tutorials, articles, or documentation that helped you dur
 
 - [Bootstrap Docs](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - [Stackoverflow (various)](https://www.stackoverflow.com)
+- [Flask Docs](https://flask.palletsprojects.com/en/3.0.x/)
 
 ## Team Members
 
