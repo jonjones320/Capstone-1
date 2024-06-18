@@ -327,6 +327,7 @@ def collection_delete(collection_id):
 def search_launches():
     """Searches launches"""
 
+    url = request.args.get('url')
     search_term = request.args.get('q')
     collections = Collection.query.filter_by(createdBy=g.user.id).all()
     
@@ -334,14 +335,15 @@ def search_launches():
         flash("")
         return redirect('/launch/index')
     else:
-        searched_launches = launch_search(search_term)
+        searched_launches, pagination = launch_search(url, search_term)
 
     if searched_launches is None:
         flash("No results found. Try again, or browse the launches below", "danger")
         return redirect('/launch/index')
     else:
         return render_template('launch/index.html', 
-                               launches=searched_launches, 
+                               launches=searched_launches,
+                               pagination=pagination, 
                                current_user=g.user, 
                                collections=collections)
     
@@ -353,9 +355,6 @@ def show_all_launches():
     url = request.args.get('url')
     launches, pagination = all_launches(url)
     collections = Collection.query.filter_by(createdBy=g.user.id).all()
-
-    print("^^^launches: ", launches,"^^^")
-    print("^>^<^pagination: ", pagination,"^>^<^")
 
     return render_template('launch/index.html', 
                            launches=launches, 

@@ -116,10 +116,11 @@ def previous_launches(start_time, end_time, next_url=None):
 
 
 
-def launch_search(search_term):
-
+def launch_search(url, search_term):
+    if url is None:
+        url = launch_base_url
     res = requests.get(
-        launch_base_url,
+        url,
         params={
             'ordering' : 'net',
             'search' : search_term
@@ -144,4 +145,10 @@ def launch_search(search_term):
                 'location' : launch['pad']['location']['name']
             }
             searched_launches.append(launch_info)
-        return searched_launches
+
+        pagination = {
+            'count' : data['count'],
+            'next' : data['next'],
+            'previous' : data['previous']
+        }   
+        return searched_launches, pagination
