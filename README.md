@@ -4,13 +4,11 @@ https://ll.thespacedevs.com/2.2.0/swagger/#/launch/launch_list
 
 ## Description of the Project
 
-The Launch Tracker web application allows users to view and collect rocket launch mission data by creating a profile and browsing launch data. It is intended for any and all rocket and outer space enthusiasts. By using the Launch Tracker, a user is able to collect together launches of any variety or specificity. This gives them a quick, user-friendly catalog of launches with consistently updating data.
+The Launch Tracker web application allows users to view and collect rocket launch mission data by creating a profile and browsing launch data. It is intended for any and all rocket and outer space enthusiasts. By using the Launch Tracker, a user is able to collect launches of a wide variety or specificity. This gives them a quick, user-friendly catalog of launches with consistently updating data.
 
 ![Class Diagram](/Planning_Files/Launch_Collection_DB_Diagram.png)
 
 ## User Stories
-
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
 
 - As an outer-space enthusiast, I want to see the who, what, when, and where of everything launching out of our atmosphere, from organizations all around the globe.
 - As a shareholder of aerospace companies, I want to be able to quickly track and anticipate what my invested money is doing.
