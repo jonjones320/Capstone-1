@@ -122,38 +122,25 @@ class Launch(db.Model):
     __tablename__ = 'launches' 
 
     id = db.Column(db.Integer, primary_key=True)
-
     name = db.Column(db.Text, nullable=False, unique=True)
-
     last_updated = db.Column(db.DateTime, default=datetime.now())
-
     launch_date = db.Column(db.Text)
-
     img_url = db.Column(db.Text)
-
     status = db.Column(db.Text)
-
     rocket_name = db.Column(db.Text)
-
     rocket_variant = db.Column(db.Text)
-
     mission_name = db.Column(db.Text)
-
     mission_description = db.Column(db.Text)
-
     mission_type = db.Column(db.Text)
-
     mission_orbit = db.Column(db.Text)
-
     pad_name = db.Column(db.Text)
-
     pad_wiki_url = db.Column(db.Text)
-
     pad_map_url = db.Column(db.Text)
-
     pad_location_name = db.Column(db.Text)
-
     pad_map_img = db.Column(db.Text)
+
+
+    collections = db.relationship('Launch_Collection', back_populates='launch')
 
     def __init__(self, launch):
         """Check if launch already exists in Db. If not, initialize new launch object"""
@@ -181,7 +168,6 @@ class Launch(db.Model):
 
 
 
-
 class Launch_Collection(db.Model):
     """Join table for Launch and Collection"""
 
@@ -191,14 +177,17 @@ class Launch_Collection(db.Model):
         db.Integer,
         primary_key=True
     )
-    collectionID = db.Column(
+    collectionID = db.Column(db.Integer,
         db.ForeignKey('collections.id', ondelete='CASCADE'),
         nullable=False
     )
-    launchID = db.Column(
+    launchID = db.Column(db.Integer,
         db.ForeignKey('launches.id', ondelete='CASCADE'),
         nullable=False
     )
+
+    collection = db.relationship('Collection', back_populates='launches')
+    launch = db.relationship('Launch', back_populates='collections')
 
 
 class Collection(db.Model):
@@ -235,14 +224,7 @@ class Collection(db.Model):
 
     user = db.relationship('User', backref='collections')
 
-    launches = db.relationship(
-        "Launch_Collection",
-        secondary="launches",
-        backref="collections",
-        primaryjoin=("Collection.id == Launch_Collection.collectionID"),
-        secondaryjoin=("Launch.id == Launch_Collection.launchID"),
-        lazy="dynamic"
-    )
+    launches = db.relationship("Launch_Collection", back_populates='collection')
     
     @classmethod
     def create(cls, name, description, img_url, createdBy):

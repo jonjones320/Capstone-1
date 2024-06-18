@@ -392,20 +392,31 @@ def collect_launch(launch_name, collection_id):
     return redirect(url_for('view_launch', launch_name=launch_name))
 
 
-@app.route('/launch/uncollect/<int:launch_id>', methods=['POST'])
-def uncollect(launch_id):
+@app.route('/launch/uncollect/<int:launch_id>/<int:collection_id>')
+def uncollect(launch_id, collection_id):
     """Removes selected launch from current user's collection."""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    launch = get_launch(launch_id)
-    collected_launch = Launch.query.get(launch_id)
-    g.user.collection.remove(collected_launch)
-    db.session.commit()
+    try:
+        launch_collection = Launch_Collection.query.filter_by(
+            launchID=launch_id, 
+            collectionID=collection_id
+            ).first()
+        
+        if launch_collection:
+            db.session.delete(launch_collection)
+            db.session.commit()
+            flash("Launch uncollection successful!", "success")
+        else:
+            flash("This launch was not found in this collection", "danger")
+    except IntegrityError:
+        db.session.rollback() #Prevents the Db being left in an inconsistent state.
+        flash("There was an error with this uncollection.", "danger")
 
-    return redirect(url_for('view_launch', launch_name=launch.name))
+    return redirect(url_for('collection_show', collection_id=collection_id))
 
 
 
