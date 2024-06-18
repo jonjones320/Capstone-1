@@ -709,8 +709,8 @@
   }
 
   #collection-image {
-    height: 100%;
-    width: 100%;
+    height: 75%;
+    width: 75%;
   }
 
   .collection-header {
@@ -893,7 +893,8 @@
   .launch-name {
     color: #f8f9fa;
     text-decoration: none;
-    background-color: #000000a7;
+    background-color: #474646b8;
+    border-radius: 5px;
   }
 
   #launches.no-hover .launch-area {

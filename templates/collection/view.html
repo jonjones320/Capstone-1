@@ -10,7 +10,7 @@
       <div class="single-message">{{ collection.description }}</div>
       <div class="collection-image">
         <a href="{{ collection.img_url }}">
-          <img src="{{ collection.img_url }}" alt="Add an image for this collection" class="img-fluid">
+          <img src="{{ collection.img_url }}" alt="Add an image for this collection" id="collection-image">
         </a>
       </div>
     </div>
@@ -39,7 +39,7 @@
                   <li class="list-group-item"><b>Pad:</b> {{ launch.pad_name }}</li>
                   <li class="list-group-item"><b>Status:</b> {{ launch.status }}</li>
                   </a>
-                <a href="/launch/uncollect/{{ launch.id }}" class="btn btn-outline-danger btn-sm">Uncollect</a>
+                <a href="/launch/uncollect/{{ launch.id }}/{{ collection.id }}" class="btn btn-outline-danger btn-sm">Uncollect</a>
               </div>
             {% endfor %}
           {% else %}
