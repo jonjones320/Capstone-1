@@ -1,12 +1,22 @@
 _The Space Devs_ Launch Library 2 API:   
 https://ll.thespacedevs.com/2.2.0/swagger/#/launch/launch_list
 # Launch Tracker
+##
+
+## Table of Contents
+- [Description](#description)
+- [Setup](#setup)
+- [Technologies](#technologies)
+- [Demo](#demo)
+- [Future Work](#future)
+- [Resources](#resources)
+- [Gratuities](##Thanks)
 
 ## Description of the Project
 
 The Launch Tracker web application allows users to view and collect rocket launch mission data by creating a profile and browsing launch data. It is intended for any and all rocket and outer space enthusiasts. By using the Launch Tracker, a user is able to collect launches of a wide variety or specificity. This gives them a quick, user-friendly catalog of launches with consistently updating data.
 
-![Class Diagram](/Planning_Files/Launch_Collection_DB_Diagram.png)
+![Class Diagram](/screenshots/Launch_Collection_DB_Diagram.png)
 
 ## User Stories
 
@@ -55,13 +65,23 @@ Follow these steps to get your application running within VS Code:
 
 Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
 
-![Application Screenshot](path/to/your/screenshot.png)
+![Welcome Screen](/screenshots/home_welcome2.png)
+*Above is the welcome screen. The user can login or register an account.*
+
+![Launch Index](/screenshots/launch_index.png)
+*The Launch Index page for browsing/searching through launches.*
+
+![View A Collection](/screenshots/collection_view2.png)
+*A collection of SpaceX missions.*
+
+![View Profile](/screenshots/profile_view.png)
+*The user's profile page has the profile picture, the header image, number of collections, username, the user's bio, and their location.*
 
 ## Future Work
 
 - The Launch Tracker will get more focused and compartmentalized with its data. Launches will be sorted more clearly into categories, such as, "upcoming", "previous", "between this and that date", etc.
 - A social element will be added, i.e. sharing collections with other users, adding friendship connections, sending launches or other data to other users. Perhaps a forum-style discussion area will be added, too.
-- Currently, the main details for each launch are retrieved and stored, but the API has a wealth of information about every detail of every launch. In the future, all of it may be accessed, for the ultra-curious space pioneer.
+- Currently, the main details for each launch are retrieved and stored, but the API has a wealth of information about every detail of every launch. In the future, all of the data may be accessed, for the ultra-curious space pioneer.
 
 ## Resources
 
