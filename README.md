@@ -69,7 +69,7 @@ Follow these steps to get your application running within VS Code:
 ![Welcome Screen](/screenshots/home_welcome2.png)
 *Above is the welcome screen. The user can login or register an account.*
 
-![Launch Index](/screenshots/launch_index.png)
+![Launch Index](/screenshots/launch_index3.png)
 *The Launch Index page for browsing/searching through launches.*
 
 ![View A Collection](/screenshots/collection_view2.png)
