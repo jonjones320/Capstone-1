@@ -35,7 +35,7 @@
                 <li class="list-group-item" id="section-details">
                     {% if 'URL' in key %}
                         <strong><u>{{ key }}</u></strong> 
-                        <a href="{{ value }}">{{ value }}</a>
+                        <a href="{{ value }}" target="_blank">{{ value }}</a>
                     {% else %}
                         <strong><u>{{ key }}</u></strong>
                         <div>{{ value }}</div>
@@ -50,7 +50,7 @@
             <li class="list-group-item section-details">
                 {% if 'URL' in key %}
                     <strong><u>{{ key }}</u></strong> 
-                    <a href="{{ value }}">{{ value }}</a>
+                    <a href="{{ value }}" target="_blank">{{ value }}</a>
                 {% else %}
                 <strong><u>{{ key }}</u></strong>
                 <div>{{ value }}</div>
@@ -65,7 +65,7 @@
             <li class="list-group-item section-details">
                 {% if 'URL' in key %}
                     <strong><u>{{ key }}</u></strong> 
-                    <a href="{{ value }}">{{ value }}</a>
+                    <a href="{{ value }}" target="_blank">{{ value }}</a>
                 {% else %}
                 <strong><u>{{ key }}</u></strong>
                 <div>{{ value }}</div>
@@ -80,7 +80,7 @@
             <li class="list-group-item section-details">
                 {% if 'URL' in key %}
                     <strong><u>{{ key }}</u></strong> 
-                    <a href="{{ value }}">{{ value }}</a>
+                    <a href="{{ value }}" target="_blank">{{ value }}</a>
                 {% else %}
                 <strong><u>{{ key }}</u></strong>
                 <div>{{ value }}</div>
@@ -91,7 +91,7 @@
 
         <ul class="list-group">
             <li>
-                <a href="{{ launch_data[0].Img_URL }}"><img src="{{ launch_data[0].Img_URL }}" alt="" id="image-list"></a>
+                <a href="{{ launch_data[0].Img_URL }}" target="_blank"><img src="{{ launch_data[0].Img_URL }}" alt="" id="image-list"></a>
             </li>
         </ul>
     </div>
